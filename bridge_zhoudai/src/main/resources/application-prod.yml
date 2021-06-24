@@ -1,0 +1,7 @@
+server:
+  port: 8888
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # 告诉Spring,如果接收到一个这种类型的json数据，自动转换为Date类型
+    time-zone: GMT+8

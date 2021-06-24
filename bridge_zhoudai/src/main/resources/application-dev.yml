@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # 告诉Spring,如果接收到一个这种类型的json数据，自动转换为Date类型
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://localhost:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+jwt:
+  secret: 1q2w3e4r5t6y    # 密钥。生产环境下不要直接写在配置文件中
+  expiration: 3600000     # 令牌有效期(毫秒)，这里配置了一小时
+  header: myJwtHeader     # HTTP请求头的key的名称
