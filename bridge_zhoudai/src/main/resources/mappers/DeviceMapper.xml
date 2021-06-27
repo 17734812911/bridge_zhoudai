@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtw.bridge.mapper.DeviceDao">
+
+    <select id="queryAllDevice" resultMap="result">
+        select line.line_id,line_name,id,name
+        from line,device
+        where device.line_id = line.line_id
+    </select>
+    <resultMap id="result" type="Line">
+        <id column="line_id" property="id"/>
+        <result column="line_name" property="name"/>
+        <collection property="device" ofType="Device">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+</mapper>

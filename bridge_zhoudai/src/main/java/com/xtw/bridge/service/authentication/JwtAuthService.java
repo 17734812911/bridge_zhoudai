@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
- * Description: No Description
+ * Description: JWT登录认证服务层
  */
 @Service
 public class JwtAuthService {

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8888
 
 spring:
   jackson:
@@ -10,6 +10,10 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:mappers/**/*.xml
+  type-aliases-package: com.xtw.bridge.model    # 实体对象的扫描包
 
 jwt:
   secret: 1q2w3e4r5t6y    # 密钥。生产环境下不要直接写在配置文件中

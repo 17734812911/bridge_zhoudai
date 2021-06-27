@@ -3,7 +3,7 @@ package com.xtw.bridge.myexception;
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
- * Description: No Description
+ * Description: 统一的JSON数据返回格式
  */
 public class ResponseFormat {
     private boolean isok;  // 请求是否处理成功
@@ -87,12 +87,12 @@ public class ResponseFormat {
     }
 
     //请求成功的响应，带有查询数据（用于数据查询接口）
-    public static ResponseFormat success(Object obj,String message){
+    public static ResponseFormat success(String message, Object data){
         ResponseFormat responseFormat = new ResponseFormat();
         responseFormat.setIsok(true);
         responseFormat.setCode(200);
         responseFormat.setMessage(message);
-        responseFormat.setData(obj);
+        responseFormat.setData(data);
         return responseFormat;
     }
 }

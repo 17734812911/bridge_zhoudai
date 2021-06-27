@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
- * Description: No Description
+ * Description: 加载用户信息
  */
 @Component
 public class MyUserDetailsService implements UserDetailsService {

@@ -5,7 +5,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
- * Description: No Description
+ * Description: JWT令牌工具类
  */
 @Data
 @Component

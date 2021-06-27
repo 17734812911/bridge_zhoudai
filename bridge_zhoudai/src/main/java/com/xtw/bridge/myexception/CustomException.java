@@ -3,7 +3,7 @@ package com.xtw.bridge.myexception;
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
- * Description: No Description
+ * Description: 自定义统一异常信息格式
  */
 public class CustomException extends RuntimeException {
     //异常错误编码
