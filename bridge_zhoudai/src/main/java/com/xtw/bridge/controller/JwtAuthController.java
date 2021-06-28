@@ -7,6 +7,7 @@ import com.xtw.bridge.service.authentication.JwtAuthService;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * User: Mr.Chen
@@ -20,9 +21,9 @@ public class JwtAuthController {
     JwtAuthService jwtAuthService;
 
     @PostMapping("/login")
-    public ResponseFormat login(@RequestParam String username, @RequestParam String password){//@RequestBody Map<String,String> map
-        // String username = map.get("username");
-        // String password = map.get("password");
+    public ResponseFormat login(@RequestBody Map<String,String> map){// @RequestParam String username, @RequestParam String password
+        String username = map.get("username");
+        String password = map.get("password");
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR,"用户名密码不能为空"));
         }
@@ -38,7 +39,7 @@ public class JwtAuthController {
 
     // 刷新令牌
     @PostMapping("/refreshtoken")
-    public ResponseFormat refresh(@RequestHeader("oldToken") String oldToken) { //${jwt.header}
+    public ResponseFormat refresh(@RequestHeader("${jwt.header}") String oldToken) { //${jwt.header}
         return ResponseFormat.success("刷新成功", jwtAuthService.refreshToken(oldToken));
     }
 

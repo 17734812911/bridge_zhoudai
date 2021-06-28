@@ -1,6 +1,7 @@
 package com.xtw.bridge.controller;
 
 import com.xtw.bridge.model.Device;
+import com.xtw.bridge.model.Line;
 import com.xtw.bridge.myexception.ResponseFormat;
 import com.xtw.bridge.service.DeviceService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,19 @@ public class DeviceController {
     public ResponseFormat queryAllDevice(){
         List<Device> deviceList = deviceService.queryAllDevice();
         return ResponseFormat.success("查询成功",deviceList);
+    }
+
+    // 查询在线设备
+    @GetMapping("/onlineDevice")
+    public ResponseFormat queryOnlineDevice(){
+        List<Line> deviceList = deviceService.queryOnlineDevice();
+        return ResponseFormat.success("查询成功",deviceList);
+    }
+
+    // 查询所有类型设备近7天最大值
+    @GetMapping("/maxvalues")
+    public ResponseFormat queryDeviceMaxValue(){
+        List<Device> maxValueList = deviceService.queryDeviceMaxValue();
+        return ResponseFormat.success("查询成功", maxValueList);
     }
 }
