@@ -1,17 +1,21 @@
 package com.xtw.bridge.myexception;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * User: Mr.Chen
  * Date: 2021/6/24
  * Description: 统一的JSON数据返回格式
  */
+@Schema(name="ResponseFormat",description ="通用返回对象" )
 public class ResponseFormat {
+    @Schema(name = "isok", description = "请求是否处理成功")
     private boolean isok;  // 请求是否处理成功
-
+    @Schema(name = "code", description = "状态码")
     private int code;   // 请求响应状态码（200、400、500）
-
+    @Schema(name = "message", description = "请求结果描述信息")
     private String message;  // 请求结果描述信息
-
+    @Schema(name = "data", description = "请求结果数据")
     private Object data;    // 请求结果数据（通常用于查询操作）
 
     private ResponseFormat(){}

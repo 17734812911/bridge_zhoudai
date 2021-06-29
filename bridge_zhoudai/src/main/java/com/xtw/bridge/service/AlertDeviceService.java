@@ -3,8 +3,8 @@ package com.xtw.bridge.service;
 import com.xtw.bridge.mapper.AlertDeviceDao;
 import com.xtw.bridge.model.AlertDevice;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,5 +21,10 @@ public class AlertDeviceService {
     // 查询报警设备
     public List<AlertDevice> queryAllAlertDevice(){
         return alertDeviceDao.queryAllAlertDevice();
+    }
+
+    // 告警查询（有条件）
+    public List<AlertDevice> queryAlertDeviceByCriteria(String lineName, String deviceName, String joint, Date beginTime, Date endTime) {
+        return alertDeviceDao.queryAlertDeviceByCriteria(lineName, deviceName, joint, beginTime, endTime);
     }
 }

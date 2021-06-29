@@ -49,12 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 在引入SpringSecurity核心包时就默认集成到项目中了，只需要针对它进行配置即可
          */
         http
-                .csrf()       // 开启csrf跨站攻击防御,关闭的话在后面加上 .disable()
-                // 用Cookie存储CSRF令牌
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                // 忽略一些请求不防御，比如登录认证请求
-                .ignoringAntMatchers("/users/login")
-             .and()
+                .csrf().disable()       // 开启csrf跨站攻击防御,关闭的话在后面加上 .disable()
+             //    // 用Cookie存储CSRF令牌
+             //    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+             //    // 忽略一些请求不防御，比如登录认证请求
+             //    .ignoringAntMatchers("/users/login")
+             // .and()
                 .cors()     // 开启CORS跨域访问配置
              .and()
                 // 让自定义的jwtAuthenticationTokenFilter在UsernamePasswordAuthenticationFilter前面执行
