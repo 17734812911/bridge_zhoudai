@@ -23,6 +23,7 @@ public class DeviceService {
         return deviceDao.queryAllDevice();
     }
 
+    // 查询在线设备
     public List<Line> queryOnlineDevice(){
         List<Line> deviceList = deviceDao.queryOnlineDevice();
         Date d = new Date();
@@ -30,12 +31,14 @@ public class DeviceService {
         if(!deviceList.isEmpty()){
             for(int i=0;i<deviceList.size();i++){
                 for(int j=0;j<deviceList.get(i).getDevice().size();j++){
-                    int days = (int)(d.getTime() - deviceList.get(i).getDevice().get(j).getDataTime().getTime()) / (1000*3600*24);
-                    if(days > 1){
-                        deviceList.get(i).getDevice().get(j).setIsOnline(false);
-                    }else{
-                        deviceList.get(i).getDevice().get(j).setIsOnline(true);
-                    }
+                    deviceList.get(i).getDevice().get(j).setIsOnline(true);
+
+                    // int days = (int)(d.getTime() - deviceList.get(i).getDevice().get(j).getDataTime().getTime()) / (1000*3600*24);
+                    // if(days > 1){
+                    //     deviceList.get(i).getDevice().get(j).setIsOnline(false);
+                    // }else{
+                    //     deviceList.get(i).getDevice().get(j).setIsOnline(true);
+                    // }
                 }
             }
         }
@@ -45,5 +48,10 @@ public class DeviceService {
     // 查询所有类型设备近7天最大值
     public List<Device> queryDeviceMaxValue(){
         return deviceDao.queryDeviceMaxValue();
+    }
+
+    // 查询所有线路
+    public List<Line> queryAllLine(){
+        return deviceDao.queryAllLine();
     }
 }

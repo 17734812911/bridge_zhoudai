@@ -20,9 +20,10 @@
 
     <!--  查询在线设备  -->
     <select id="queryOnlineDevice" resultMap="onlineDeviceMap">
-        select l.line_id,l.line_name,d.id,d.`name`,d.data_time
-        from line l,device d
-        where l.line_id = d.line_id
+        select l.line_id,l.line_name,d.id,d.`name`
+        from line l,device d,device_data dd
+        where l.line_id = d.line_id and TO_DAYS(NOW()) - TO_DAYS(dd.insert_time) &lt;= 1
+        group by d.id
     </select>
     <resultMap id="onlineDeviceMap" type="Line">
         <id column="line_id" property="id"/>
@@ -30,11 +31,10 @@
         <collection property="device" ofType="Device">
             <id column="id" property="id"/>
             <result column="name" property="name"/>
-            <result column="data_time" property="dataTime" />
         </collection>
     </resultMap>
 
-    <!--  查询所有类型设备近7天最大值  &lt;= 是小于等于  -->
+    <!--  查询所有类型设备近7天最大值  &lt;= 是小于等于  &gt;= 是大于等于 -->
     <select id="queryDeviceMaxValue" resultType="Device">
         select dt.id,d.`name`,MAX(d.device_data / dt.threshold) device_data
         from (select * from device where date_sub(curdate(), INTERVAL 7 DAY) &lt;= date(data_time)) d,device_threshold dt
@@ -42,5 +42,13 @@
         group by d.type_id
     </select>
 
+    <!--  查询所有线路  -->
+    <select id="queryAllLine" resultMap="LineMap">
+        select line_id,line_name from line
+    </select>
+    <resultMap id="LineMap" type="Line">
+        <id column="line_id" property="id" />
+        <result column="line_name" property="name" />
+    </resultMap>
 
 </mapper>

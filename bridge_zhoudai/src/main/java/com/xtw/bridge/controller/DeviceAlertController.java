@@ -1,6 +1,8 @@
 package com.xtw.bridge.controller;
 
 import com.xtw.bridge.model.AlertDevice;
+import com.xtw.bridge.myexception.CustomException;
+import com.xtw.bridge.myexception.CustomExceptionType;
 import com.xtw.bridge.myexception.ResponseFormat;
 import com.xtw.bridge.service.AlertDeviceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +32,11 @@ public class DeviceAlertController {
     @GetMapping("/devices")
     public ResponseFormat queryAllAlertDevice(){
         List<AlertDevice> alertDevices = alertDeviceService.queryAllAlertDevice();
-        return ResponseFormat.success("查询成功", alertDevices);
+        if(alertDevices != null){
+            return ResponseFormat.success("查询成功", alertDevices);
+        }else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询异常"));
+        }
     }
 
     // 条件查询告警设备
@@ -41,14 +47,23 @@ public class DeviceAlertController {
                     @Parameter(name = "map", description = "请求条件的map集合,集合中Key为linename,devicename,joint,begintime,endtime")
             }
     )
-    public List<AlertDevice> queryAlertDeviceByCriteria(@RequestBody Map<String,String> map) throws ParseException {
+    public ResponseFormat queryAlertDeviceByCriteria(@RequestBody Map<String,String> map) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date beginTime = null;
+        Date endTime = null;
         String lineName = map.get("linename");
         String deviceName = map.get("devicename");
         String joint = map.get("joint");
-        Date beginTime = map.containsKey("begintime") ? sdf.parse(map.get("begintime")) : null;
-        Date endTime = map.containsKey("endtime") ? sdf.parse(map.get("endtime")) : null;
+        if(map.containsKey("begintime") && map.get("begintime") != "" & map.containsKey("endtime") && map.get("endtime") != ""){
+            beginTime = sdf.parse(map.get("begintime"));
+            endTime = sdf.parse(map.get("endtime"));
+        }
+        List<AlertDevice> alertDeviceList = alertDeviceService.queryAlertDeviceByCriteria(lineName, deviceName, joint, beginTime, endTime);
+        if(alertDeviceList != null){
+            return ResponseFormat.success("查询成功", alertDeviceList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询异常"));
+        }
 
-        return alertDeviceService.queryAlertDeviceByCriteria(lineName, deviceName, joint, beginTime, endTime);
     }
 }

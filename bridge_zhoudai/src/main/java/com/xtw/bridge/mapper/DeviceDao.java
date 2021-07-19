@@ -20,4 +20,7 @@ public interface DeviceDao {
 
     // 查询所有类型设备近7天最大值
     public List<Device> queryDeviceMaxValue();
+
+    // 查询所有线路
+    public List<Line> queryAllLine();
 }

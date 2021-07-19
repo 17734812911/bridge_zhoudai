@@ -9,21 +9,23 @@
     <!--    where isconfirm = 0-->
     <!--</select>-->
     <select id="queryAllAlertDevice" resultMap="AlertDeviceMap">
-        select a.id aid,a.content,a.alert_data,a.alert_date, l.line_id,l.line_name,d.id,d.name
-        from line l,device d,alert a
-        where  a.line_id = l.line_id and a.terminal_id = d.terminal_id
+        select a.id aid,a.line_id,a.terminal_id,a.content,a.alert_data,a.alert_date,isconfirm,l.line_name,d.id did,d.`name`
+        from alert a,device d,line l
+        where a.terminal_id=d.terminal_id and a.line_id = l.line_id and isconfirm = 0
+        group by a.id
     </select>
     <resultMap id="AlertDeviceMap" type="AlertDevice">
         <id column="aid" property="id" />
         <result column="content" property="content" />
         <result column="alert_data" property="alertData" />
         <result column="alert_date" property="alertDate" />
+        <result column="isconfirm" property="isConfirm" />
 
         <association column="line_id" property="line" javaType="Line">
             <id column="line_id" property="id" />
             <result column="line_name" property="name" />
-            <collection column="id" property="device" ofType="Device">
-                <id column="id" property="id" />
+            <collection column="did" property="device" ofType="Device">
+                <id column="did" property="id" />
                 <result column="name" property="name" />
             </collection>
         </association>
@@ -31,7 +33,7 @@
 
 
     <select id="queryAlertDeviceByCriteria" resultMap="AlertDeviceMap">
-        select a.id,a.line_id,l.line_name,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm
+        select a.id aid,a.line_id,l.line_name,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm
         from alert a, line l, device d
         <where>
             <if test="1==1">

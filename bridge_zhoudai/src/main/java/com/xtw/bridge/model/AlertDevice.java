@@ -14,8 +14,6 @@ import java.util.Date;
 public class AlertDevice {
     @Schema(name = "id", description = "id")
     private Integer id;
-    // private Integer lineId;
-    // private String terminalId;
     @Schema(name = "content", description = "报警内容")
     private String content;         // 报警内容
     @Schema(name = "alertData", description = "报警值")
