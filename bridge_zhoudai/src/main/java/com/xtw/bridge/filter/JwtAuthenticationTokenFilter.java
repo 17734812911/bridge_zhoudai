@@ -3,13 +3,13 @@ package com.xtw.bridge.filter;
 import com.xtw.bridge.service.authentication.MyUserDetailsService;
 import com.xtw.bridge.utils.JwtTokenUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +23,10 @@ import java.io.IOException;
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-
-    @Resource
+    // tomcat服务器用这个
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
-    @Resource
+    @Autowired
     MyUserDetailsService myUserDetailsService;
 
     @Override

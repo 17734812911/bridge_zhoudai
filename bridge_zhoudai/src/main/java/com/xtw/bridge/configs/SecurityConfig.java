@@ -2,6 +2,7 @@ package com.xtw.bridge.configs;
 
 import com.xtw.bridge.filter.JwtAuthenticationTokenFilter;
 import com.xtw.bridge.service.authentication.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .authorizeRequests()
                 .antMatchers("/users/login", "/users/refreshtoken", "/druid/**", "/swagger-ui.html","/swagger-ui/**"
-                    ,"/swagger-resources/**","/v3/**"
+                    ,"/swagger-resources/**","/v3/**", "/device/fibreTemperatures"
                 ).permitAll()    //表示访问这里的资源不用经过认证
                 // 所有请求都要通过使用这个access方法里面传递的表达式的规则进行校验，如果返回true允许访问
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")

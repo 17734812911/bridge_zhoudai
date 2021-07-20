@@ -9,15 +9,35 @@
         <relativePath/>
     </parent>
     <groupId>com.xtw</groupId>
-    <artifactId>bridge</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>bridgezhoudai</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging>
-    <name>bridgeonzhoudai</name>
+    <name>bridgezhoudai</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!-- 移除嵌入式tomcat插件,tomcat发布时取消注释 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--添加servlet-api依赖-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <!--tomcat发布时取消注释3.1.0-->
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
