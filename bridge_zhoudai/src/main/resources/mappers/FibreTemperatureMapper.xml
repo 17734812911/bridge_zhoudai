@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.FibreTemperatureDao">
+
+    <!-- 插入光纤测温数据 -->
     <insert id="insertData" parameterType="FibreTemperature">
-        insert into fibre_temperature(device_ip,channel,create_time,step,datas) values(#{deviceIp},#{Channel},#{createTime},#{step},#{datas})
+        insert into fibre_temperature(device_ip,channel,partition_id,create_time,step,datas,max_value,max_value_points,offset_value) values(#{deviceIp},#{channel},#{partitionId},#{createTime},#{step},#{datas},#{maxValue},#{maxValuePoints},#{offsetValue})
     </insert>
+
+    <!-- 查询光纤测温配置 -->
+    <select id="queryFibreTemperatureConfig" resultType="FibreTemperatureConfig" >
+        select id,channel,partition_id,start_position,end_position,device_ip,offset_value from fibre_temperature_config where device_ip=#{deviceIp} and channel=#{channel}
+    </select>
+
 </mapper>

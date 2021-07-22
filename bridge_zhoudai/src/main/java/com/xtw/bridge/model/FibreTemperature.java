@@ -13,9 +13,13 @@ import java.util.Date;
 public class FibreTemperature {
     private Integer id;
     private String deviceIp;
-    private String Channel;
+    private String channel;
+    private Integer partitionId;    // 分区ID
     private Date createTime;
     private String step;
     private String datas;
+    private Double maxValue;
+    private Integer maxValuePoints;     // 最大值所在点位
+    private double offsetValue;
 
 }

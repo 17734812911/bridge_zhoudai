@@ -33,8 +33,8 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <!--tomcat发布时取消注释3.1.0-->
+            <version>4.0.1</version><!-- Spring Boot 2.1.x 使用 Tomcat 9，它使用/提供 Servlet API v4 -->
+            <!--tomcat发布时取消注释-->
             <scope>provided</scope>
         </dependency>
 
