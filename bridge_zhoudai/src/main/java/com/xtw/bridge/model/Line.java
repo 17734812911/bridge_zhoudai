@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Line {
     @Schema(name = "id", description = "id")
-    private Integer id;
+    private String id;
     @Schema(name = "name", description = "线路名称")
     private String name;
     @Schema(name = "device", description = "设备实体类")

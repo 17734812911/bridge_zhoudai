@@ -35,4 +35,12 @@ public class OpenApiConfig {
                 .pathsToMatch("/alert/**")      // 扫描以"/alert/"为前缀的API，分为一组
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi outPartialApi(){
+        return GroupedOpenApi.builder()
+                .group("OutPartial")					// 分组名
+                .pathsToMatch("/outpartial/**")      // 扫描以"/alert/"为前缀的API，分为一组
+                .build();
+    }
 }

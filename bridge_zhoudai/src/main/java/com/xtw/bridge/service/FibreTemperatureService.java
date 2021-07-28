@@ -1,14 +1,11 @@
 package com.xtw.bridge.service;
 
 import com.xtw.bridge.mapper.FibreTemperatureDao;
-import com.xtw.bridge.model.FibreTemperature;
-import com.xtw.bridge.model.FibreTemperatureConfig;
+import com.xtw.bridge.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +56,17 @@ public class FibreTemperatureService implements FibreTemperatureDao {
                 // 获取最大值
                 for(int i=doubleArr.length-1;i>=0;){    // 只执行一次,取最后一个值
                     maxValue = doubleArr[i];
+                    if(maxValue >= config.getAlarmValue()){     // 如果最大值达到预设报警值,向报警表插入信息
+                        FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
+                        fibreTemperatureAlert.setContent("光纤测温告警");
+                        fibreTemperatureAlert.setAlertData((maxValue + config.getOffsetValue())+"");
+                        fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
+                        fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
+                        fibreTemperatureAlert.setPartitionId(config.getPartitionId()+"");   // 将光纤测温的分区号设置为告警表中的设备
+
+                        insertAlertData(fibreTemperatureAlert); // 插入报警数据
+
+                    }
                     break;
                 }
                 maxValueIndex = list.indexOf(maxValue+"");     // 获取最大值的下标(即最大值点位)
@@ -79,6 +87,11 @@ public class FibreTemperatureService implements FibreTemperatureDao {
         }
         return result;
 
+    }
+
+    @Override
+    public int insertAlertData(FibreTemperatureAlert fibreTemperatureAlert) {
+        return fibreTemperatureDao.insertAlertData(fibreTemperatureAlert);
     }
 
     // 将字符串数组转换成double数组

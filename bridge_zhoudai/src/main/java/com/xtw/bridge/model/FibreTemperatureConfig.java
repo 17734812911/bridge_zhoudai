@@ -16,4 +16,5 @@ public class FibreTemperatureConfig {
     private Integer endPosition;
     private String deviceIp;
     private Double offsetValue;
+    private Double alarmValue;
 }

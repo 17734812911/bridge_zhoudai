@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtw.bridge.mapper.OutPartialDao">
+
+    <!--  查询所有设备的最大放电量和最大放电频次  -->
+    <!--  使用resultType="map"，将只返回查询的字段  -->
+    <select id="queryOutPartialMaxValue" resultType="map">
+        select id,terminal_id,MAX(a_max_electric) a_max_electric,MAX(a_max_frequency) a_max_frequency,MAX(b_max_electric) b_max_electric,MAX(b_max_frequency) b_max_frequency,MAX(c_max_electric) c_max_electric,MAX(c_max_frequency) c_max_frequency
+        from outpartial
+        group by terminal_id
+    </select>
+</mapper>

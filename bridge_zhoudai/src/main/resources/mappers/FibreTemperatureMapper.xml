@@ -12,4 +12,8 @@
         select id,channel,partition_id,start_position,end_position,device_ip,offset_value from fibre_temperature_config where device_ip=#{deviceIp} and channel=#{channel}
     </select>
 
+    <insert id="insertAlertData" parameterType="FibreTemperatureAlert">
+        insert into alert(line_id,terminal_id,content,alert_data,alert_date) values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
+    </insert>
+
 </mapper>

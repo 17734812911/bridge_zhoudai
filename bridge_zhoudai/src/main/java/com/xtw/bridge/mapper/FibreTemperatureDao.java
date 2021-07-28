@@ -1,6 +1,7 @@
 package com.xtw.bridge.mapper;
 
 import com.xtw.bridge.model.FibreTemperature;
+import com.xtw.bridge.model.FibreTemperatureAlert;
 import com.xtw.bridge.model.FibreTemperatureConfig;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public interface FibreTemperatureDao {
     // 根据配备IP和通道ID 查询光纤测温配置
     public List<FibreTemperatureConfig> queryFibreTemperatureConfig(String deviceIp, String channel);
 
-
+    // 插入告警数据
+    public int insertAlertData(FibreTemperatureAlert fibreTemperatureAlert);
 }
