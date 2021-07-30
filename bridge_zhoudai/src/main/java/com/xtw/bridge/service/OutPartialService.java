@@ -17,7 +17,8 @@ public class OutPartialService {
     @Resource
     OutPartialDao outPartialDao;
 
-    public List<OutPartial> queryOutPartialMaxValue(){
-        return outPartialDao.queryOutPartialMaxValue();
+    // 根据分区ID查询该分区所有外置局放设备的数据
+    public List<OutPartial> queryOutPartialMaxValue(int partitionId){
+        return outPartialDao.queryOutPartialMaxValue(partitionId);
     }
 }

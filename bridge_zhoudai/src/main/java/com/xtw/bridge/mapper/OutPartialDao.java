@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface OutPartialDao {
 
-    // 查询所有设备的最大放电量和最大放电频次
-    public List<OutPartial> queryOutPartialMaxValue();
+    // 根据分区ID查询该分区所有外置局放设备的数据
+    public List<OutPartial> queryOutPartialMaxValue(int partitionId);
 }

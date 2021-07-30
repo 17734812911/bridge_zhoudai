@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.OutPartialDao">
 
-    <!--  查询所有设备的最大放电量和最大放电频次  -->
+    <!--  查询外置局放的所有数据及设备表的部分数据(最新数据)  -->
     <!--  使用resultType="map"，将只返回查询的字段  -->
     <select id="queryOutPartialMaxValue" resultType="map">
-        select id,terminal_id,MAX(a_max_electric) a_max_electric,MAX(a_max_frequency) a_max_frequency,MAX(b_max_electric) b_max_electric,MAX(b_max_frequency) b_max_frequency,MAX(c_max_electric) c_max_electric,MAX(c_max_frequency) c_max_frequency
-        from outpartial
-        group by terminal_id
+        select o.*,d.name,l.line_name,d.joint
+        from outpartial o,device_config dc,device d,line l
+        where o.id in (select max(id) from outpartial group by terminal_id) and dc.partition_id = #{partitionId} and o.terminal_id = d.terminal_id and d.line_id = l.line_id
+        group by o.terminal_id
     </select>
 </mapper>

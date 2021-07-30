@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Schema(name = "Device", description = "设备数据实体类")
 @Data
-public class DeviceData {
+public class EnvironmentDevice {
     @Schema(name = "ID", description = "ID")
     private Integer id;
     @Schema(name = "terminalId", description = "设备ID")

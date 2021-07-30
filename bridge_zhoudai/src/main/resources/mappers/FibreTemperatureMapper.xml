@@ -4,16 +4,20 @@
 
     <!-- 插入光纤测温数据 -->
     <insert id="insertData" parameterType="FibreTemperature">
-        insert into fibre_temperature(device_ip,channel,partition_id,create_time,step,datas,max_value,max_value_points,offset_value) values(#{deviceIp},#{channel},#{partitionId},#{createTime},#{step},#{datas},#{maxValue},#{maxValuePoints},#{offsetValue})
+        insert into fibre_temperature(device_ip,channel,partition_id,create_time,step,datas,max_value,max_value_points,offset_value)
+        values(#{deviceIp},#{channel},#{partitionId},#{createTime},#{step},#{datas},#{maxValue},#{maxValuePoints},#{offsetValue})
     </insert>
 
     <!-- 查询光纤测温配置 -->
     <select id="queryFibreTemperatureConfig" resultType="FibreTemperatureConfig" >
-        select id,channel,partition_id,start_position,end_position,device_ip,offset_value from fibre_temperature_config where device_ip=#{deviceIp} and channel=#{channel}
+        select id,channel,partition_id,start_position,end_position,device_ip,offset_value,alarm_value
+        from fibre_temperature_config
+        where device_ip=#{deviceIp} and channel=#{channel}
     </select>
 
     <insert id="insertAlertData" parameterType="FibreTemperatureAlert">
-        insert into alert(line_id,terminal_id,content,alert_data,alert_date) values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
+        insert into alert(line_id,terminal_id,content,alert_data,alert_date)
+        values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
     </insert>
 
 </mapper>

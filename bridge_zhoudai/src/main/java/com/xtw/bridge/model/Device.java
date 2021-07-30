@@ -3,8 +3,6 @@ package com.xtw.bridge.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * User: Mr.Chen
  * Date: 2021/6/25
@@ -25,8 +23,8 @@ public class Device {
     private Integer lineId;
     @Schema(name = "joint", description = "接头")
     private String joint;
-    @Schema(name = "deviceData", description = "设备数据实体类")
-    private DeviceData deviceData;
+    @Schema(name = "environmentDevice", description = "设备数据实体类")
+    private EnvironmentDevice environmentDevice;
     @Schema(name = "isOnline", description = "是否在线")
     private Boolean isOnline;
 
