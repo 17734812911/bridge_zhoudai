@@ -1,5 +1,6 @@
 package com.xtw.bridge.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,15 +11,22 @@ import java.util.Collection;
  * Date: 2021/6/24
  * Description: No Description
  */
+@Schema(name = "MyUserDetails", description = "用户信息实体类")
 public class MyUserDetails implements UserDetails {
-
+    @Schema(name = "username", description = "用户名")
     private String username;
+    @Schema(name = "password", description = "密码")
     private String password;
-    private boolean accountNonExpired;          // 是否没过期
-    private boolean accountNonLocked;           // 是否没被锁定
-    private boolean credentialsNonExpired;      // 凭证(密码)是否没过期
-    private boolean enabled;                    // 账号是否可用
-    private Collection<? extends GrantedAuthority> authorities;     // 用户的权限集合
+    @Schema(name = "accountNonExpired", description = "是否没过期")
+    private boolean accountNonExpired;
+    @Schema(name = "accountNonLocked", description = "是否没被锁定")
+    private boolean accountNonLocked;
+    @Schema(name = "credentialsNonExpired", description = "凭证(密码)是否没过期")
+    private boolean credentialsNonExpired;
+    @Schema(name = "enabled", description = "账号是否可用")
+    private boolean enabled;
+    @Schema(name = "authorities", description = "用户的权限集合")
+    private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

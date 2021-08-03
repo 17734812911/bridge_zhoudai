@@ -7,9 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * User: Mr.Chen
@@ -19,11 +18,14 @@ import java.util.List;
 @Slf4j
 @Service
 public class FibreTemperatureService implements FibreTemperatureDao {
-
+    private static boolean readOrder;   // 光纤测温通道读取顺序
+    private static DecimalFormat df = new DecimalFormat("#0.00");   // 用于将double类型的值保留两位小数
+    private static int num = 0;
+    private static List configList = new ArrayList();
     @Resource
     FibreTemperatureDao fibreTemperatureDao;
     // 光纤测温配置
-    List<FibreTemperatureConfig> fibreTemperatureConfigs = new ArrayList<FibreTemperatureConfig>();
+    public static List<FibreTemperatureConfig> fibreTemperatureConfigs = new ArrayList<FibreTemperatureConfig>();
 
     @Override
     public List<FibreTemperatureConfig> queryFibreTemperatureConfig(String deviceIp, String channel) {
@@ -39,21 +41,23 @@ public class FibreTemperatureService implements FibreTemperatureDao {
             FibreTemperature fibreTemperaturePojo = new FibreTemperature();
             String[] strArray = fibreTemperature.getDatas().split(",");
             List<String> strList = Arrays.asList(strArray);     // 将数组转换为集合，用于截取数据
-            // StringUtils.join(list,",")   // 将集合转换为字符串
             // 先根据配备IP和通道ID,查询光纤测温配置
             fibreTemperatureConfigs = queryFibreTemperatureConfig(fibreTemperature.getDeviceIp(), fibreTemperature.getChannel());
+            if(num == 0){
+                readOrder = fibreTemperatureConfigs.get(0).getReadOrder();
+                num++;
+            }
+
             // 根据配置处理数据
-            log.info("配置长度：" + fibreTemperatureConfigs.size());
             for(FibreTemperatureConfig config : fibreTemperatureConfigs){
                 if(config.getDeviceIp().equals(fibreTemperature.getDeviceIp()) && config.getChannel().equals(fibreTemperature.getChannel())){
                     int start = config.getStartPosition();  // 起始位置
-                    System.out.println("开始：" + start);
+                    // System.out.println("开始：" + start);
                     int end = config.getEndPosition();      // 结束位置
-                    System.out.println("结束：" + end);
-                    List<String> list = strList.subList(start, end + 1);       // 根据起止点位截取的集合
+                    // System.out.println("结束：" + end);
+                    List<String> list = strList.subList(start, end);       // 根据起止点位截取的集合
                     String subDatas = StringUtils.join(list,",");   // 根据起止点位截取的字符串
-                    log.info("list长度：" + list.size());
-                    System.out.println("list长度：" + list.size());
+                    // System.out.println("list长度：" + list.size());
                     String[] subListArr = new String[list.size()];
                     list.toArray(subListArr);   // 将截取的list转换为数组
 
@@ -64,7 +68,7 @@ public class FibreTemperatureService implements FibreTemperatureDao {
                     // 获取最大值
                     for(int i=doubleArr.length-1;i>=0;){    // 只执行一次,取最后一个值
                         maxValue = doubleArr[i];
-                        System.out.println("最大值：" + maxValue);
+                        // System.out.println("最大值：" + maxValue);
                         if(maxValue >= config.getAlarmValue()){     // 如果最大值达到预设报警值,向报警表插入信息
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
                             fibreTemperatureAlert.setContent("光纤测温告警");
@@ -77,7 +81,8 @@ public class FibreTemperatureService implements FibreTemperatureDao {
                         }
                         break;
                     }
-                    maxValueIndex = list.indexOf(maxValue+"");     // 获取最大值的下标(即最大值点位)
+
+                    maxValueIndex = list.indexOf(df.format(maxValue) + "");     // 获取最大值的下标(即最大值点位)
 
                     // 填充光纤测温实体类
                     fibreTemperaturePojo.setDeviceIp(fibreTemperature.getDeviceIp());
@@ -91,11 +96,17 @@ public class FibreTemperatureService implements FibreTemperatureDao {
                     fibreTemperaturePojo.setOffsetValue(config.getOffsetValue());
                     // 插入数据
                     result += fibreTemperatureDao.insertData(fibreTemperaturePojo);
+
+                    if(result>0){
+                        System.out.println("数据保存成功");
+                    } else{
+                        System.out.println("数据保存失败");
+                    }
                 }
             }
-            log.info("result:" + result);
+            // log.info("result:" + result);
         } catch(Exception e){
-            log.info("数据处理异常");
+            // log.info("数据处理异常");
             System.out.println("数据处理异常");
         }
         return result;
@@ -105,6 +116,34 @@ public class FibreTemperatureService implements FibreTemperatureDao {
     public int insertAlertData(FibreTemperatureAlert fibreTemperatureAlert) {
         return fibreTemperatureDao.insertAlertData(fibreTemperatureAlert);
     }
+
+    // 根据分区ID查询光纤测温三相数据
+    @Override
+    public List<FibreTemperature> queryDatasById(int partitionId) {
+        List list = new ArrayList();
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasById(partitionId);
+        for (FibreTemperature  fibreTemperature: fibreTemperatureList) {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            String[] fibreTemperatureDatas =  fibreTemperature.getDatas().split(",");
+            double[] doubleArray = toDoubleArray(fibreTemperatureDatas);
+            hashMap.put("id", fibreTemperature.getId());
+            hashMap.put("deviceIp", fibreTemperature.getDeviceIp());
+            hashMap.put("channel", fibreTemperature.getChannel());
+            hashMap.put("partitionId", fibreTemperature.getPartitionId());
+            hashMap.put("createTime", fibreTemperature.getCreateTime());
+            hashMap.put("step", fibreTemperature.getStep());
+            hashMap.put("datas", doubleArray);
+            hashMap.put("maxValue", fibreTemperature.getMaxValue());
+            hashMap.put("maxValuePoints", fibreTemperature.getMaxValuePoints());
+            list.add(hashMap);
+        }
+        return list;
+    }
+
+
+
+
+
 
     // 将字符串数组转换成double数组
     private double[] toDoubleArray(String[] strArr) {

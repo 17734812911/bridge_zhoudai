@@ -5,6 +5,8 @@ import com.xtw.bridge.myexception.CustomException;
 import com.xtw.bridge.myexception.CustomExceptionType;
 import com.xtw.bridge.myexception.ResponseFormat;
 import com.xtw.bridge.service.EnvironmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,12 @@ public class EnvironmentController {
 
     // 根据分区ID查询环境量数据
     @GetMapping("/environmentdevice")
+    @Operation(
+            summary = "根据分区ID查询环境量数据",
+            parameters = {
+                    @Parameter(name = "partitionId", description = "分区ID")
+            }
+    )
     public ResponseFormat queryAllDataByPartitionId(int partitionId){
         List<EnvironmentDevice> environmentDeviceList = environmentService.queryAllDataByPartitionId(partitionId);
         if(environmentDeviceList != null){

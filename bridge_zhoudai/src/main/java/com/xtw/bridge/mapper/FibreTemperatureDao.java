@@ -22,4 +22,7 @@ public interface FibreTemperatureDao {
 
     // 插入告警数据
     public int insertAlertData(FibreTemperatureAlert fibreTemperatureAlert);
+
+    // 根据分区ID查询三相光纤测温数据
+    public List<FibreTemperature> queryDatasById(int partitionId);
 }

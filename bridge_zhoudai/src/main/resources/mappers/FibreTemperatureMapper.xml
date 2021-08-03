@@ -8,16 +8,24 @@
         values(#{deviceIp},#{channel},#{partitionId},#{createTime},#{step},#{datas},#{maxValue},#{maxValuePoints},#{offsetValue})
     </insert>
 
-    <!-- 查询光纤测温配置 -->
+    <!--  查询光纤测温配置  -->
     <select id="queryFibreTemperatureConfig" resultType="FibreTemperatureConfig" >
-        select id,channel,partition_id,start_position,end_position,device_ip,offset_value,alarm_value
+        select id,channel,partition_id,start_position,end_position,device_ip,offset_value,alarm_value,read_order
         from fibre_temperature_config
         where device_ip=#{deviceIp} and channel=#{channel}
     </select>
 
+    <!--  插入报警数据  -->
     <insert id="insertAlertData" parameterType="FibreTemperatureAlert">
         insert into alert(line_id,terminal_id,content,alert_data,alert_date)
         values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
     </insert>
 
+    <!--  查询光纤测温数据  FibreTemperature-->
+    <select id="queryDatasById" resultType="FibreTemperature">
+        select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
+        from fibre_temperature ft
+        where ft.id in (select MAX(id) from fibre_temperature group by channel,partition_id)
+              and ft.partition_id = #{partitionId}
+    </select>
 </mapper>

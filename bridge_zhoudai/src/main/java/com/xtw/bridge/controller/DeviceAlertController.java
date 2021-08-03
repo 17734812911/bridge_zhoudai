@@ -30,6 +30,9 @@ public class DeviceAlertController {
 
     // 查询报警设备
     @GetMapping("/devices")
+    @Operation(
+            summary = "查询报警设备"
+    )
     public ResponseFormat queryAllAlertDevice(){
         List<AlertDevice> alertDevices = alertDeviceService.queryAllAlertDevice();
         if(alertDevices != null){

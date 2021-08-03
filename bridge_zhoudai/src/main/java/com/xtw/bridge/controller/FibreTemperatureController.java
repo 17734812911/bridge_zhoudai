@@ -5,11 +5,10 @@ import com.xtw.bridge.myexception.CustomException;
 import com.xtw.bridge.myexception.CustomExceptionType;
 import com.xtw.bridge.myexception.ResponseFormat;
 import com.xtw.bridge.service.FibreTemperatureService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -27,19 +26,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/device")
 public class FibreTemperatureController {
+
     @Resource
     FibreTemperatureService fibreTemperatureService;
 
     // 接收光纤测温参数并保存
     @PostMapping("/fibretemperatures")
+    @Operation(
+            summary = "接收光纤测温数据并保存",
+            parameters = {
+                    @Parameter(name = "map", description = "光纤测温设备采集到的数据")
+            }
+    )
     public ResponseFormat insertFibreTemperatureDatas(@RequestBody Map<String,String> map){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         FibreTemperature fibreTemperature = new FibreTemperature();
-        log.info(map.size()+"");
         if(!map.isEmpty()){
             try {
                 String deviceIp = map.get("DeviceIp");
-                log.info("IP====" + deviceIp);
                 String channel = map.get("Channel");
                 Date createTime = simpleDateFormat.parse((String)map.get("CreateAt"));
                 String step = map.get("Step");
@@ -49,7 +53,6 @@ public class FibreTemperatureController {
                 fibreTemperature.setCreateTime(createTime);
                 fibreTemperature.setStep(step);
                 fibreTemperature.setDatas(datas);
-                log.info("fibreTemperature：" + fibreTemperature.toString());
                 int result = fibreTemperatureService.insertData(fibreTemperature);
                 if(result >0){
                     return ResponseFormat.success("数据插入成功");
@@ -63,49 +66,22 @@ public class FibreTemperatureController {
         return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "数据不能为空"));
     }
 
-    // @PostMapping("/test")
-    // public ResponseFormat testMethod(String channel){
-    //     try{
-    //         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    //         String deviceIp = "192.168.100.3";
-    //         // String channel = "4";
-    //         Date createTime = simpleDateFormat.parse("2021-07-21 15:45:44");
-    //         String step = "0.5";
-    //         String datas = "";
-    //         for(int i=1;i<=18000;i++){
-    //             if(i==2451 || i==7612 || i==12695){
-    //                 datas += i+10000 + ".0,";
-    //             }else{
-    //                 if(i != 18000){
-    //                     datas += i + ".0,";
-    //                 }else{
-    //                     datas += i + ".0";
-    //                 }
-    //             }
-    //         }
-    //         FibreTemperature fibreTemperature = new FibreTemperature();
-    //         fibreTemperature.setDeviceIp(deviceIp);
-    //         fibreTemperature.setChannel(channel);
-    //         fibreTemperature.setCreateTime(createTime);
-    //         fibreTemperature.setStep(step);
-    //         fibreTemperature.setDatas(datas);
-    //         int result = fibreTemperatureService.insertData(fibreTemperature);
-    //         if(result >0){
-    //             return ResponseFormat.success("数据插入成功");
-    //         } else{
-    //             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "数据插入异常"));
-    //         }
-    //     } catch (Exception e){
-    //         e.printStackTrace();
-    //     }
-    //     return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "数据不能为空"));
-    // }
-
 
     // 查询光纤测温数据
-    public ResponseFormat queryAllDatasByPartitionId(int partitionId){
-        
-        return null;
+    @GetMapping("/gxcwdatas")
+    @Operation(
+            summary = "根据分区ID查询光纤测温数据",
+            parameters = {
+                    @Parameter(name = "partitionId", description = "分区ID")
+            }
+    )
+    public ResponseFormat queryAllDatasById(int partitionId){
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureService.queryDatasById(partitionId);
+        if(fibreTemperatureList != null){
+            return ResponseFormat.success("查询成功", fibreTemperatureList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
+        }
     }
 
 }

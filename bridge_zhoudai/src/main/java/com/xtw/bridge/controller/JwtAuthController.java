@@ -4,6 +4,8 @@ import com.xtw.bridge.myexception.CustomException;
 import com.xtw.bridge.myexception.CustomExceptionType;
 import com.xtw.bridge.myexception.ResponseFormat;
 import com.xtw.bridge.service.authentication.JwtAuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Resource;
@@ -21,6 +23,12 @@ public class JwtAuthController {
     JwtAuthService jwtAuthService;
 
     @PostMapping("/login")
+    @Operation(
+            summary = "登录接口",
+            parameters = {
+                    @Parameter(name = "map", description = "username和password")
+            }
+    )
     public ResponseFormat login(@RequestBody Map<String,String> map){// @RequestParam String username, @RequestParam String password
         String username = map.get("username");
         String password = map.get("password");
@@ -39,6 +47,12 @@ public class JwtAuthController {
 
     // 刷新令牌
     @PostMapping("/refreshtoken")
+    @Operation(
+            summary = "刷新令牌",
+            parameters = {
+                    @Parameter(name = "oldToken", description = "旧的Token")
+            }
+    )
     public ResponseFormat refresh(@RequestHeader("${jwt.header}") String oldToken) { //${jwt.header}
         return ResponseFormat.success("刷新成功", jwtAuthService.refreshToken(oldToken));
     }

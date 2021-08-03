@@ -2,18 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.AlertDeviceDao">
 
-    <!--  查询报警设备  -->
-    <!--<select id="queryAllAlertDevice" resultType="AlertDevice">-->
-    <!--    select id,line_id,terminal_id,content,alert_data,alert_date,isconfirm-->
-    <!--    from alert-->
-    <!--    where isconfirm = 0-->
-    <!--</select>-->
-    <select id="queryAllAlertDevice" resultMap="AlertDeviceMap">
+    <!--  查询报警设备  resultMap="AlertDeviceMap"-->
+    <select id="queryAllAlertDevice" resultType="map">
         select a.id aid,a.line_id,a.terminal_id,a.content,a.alert_data,a.alert_date,isconfirm,l.line_name,d.id did,d.`name`
         from alert a,device d,line l
         where a.terminal_id=d.terminal_id and a.line_id = l.line_id and isconfirm = 0
         group by a.id
     </select>
+
     <resultMap id="AlertDeviceMap" type="AlertDevice">
         <id column="aid" property="id" />
         <result column="content" property="content" />
@@ -31,8 +27,8 @@
         </association>
     </resultMap>
 
-
-    <select id="queryAlertDeviceByCriteria" resultMap="AlertDeviceMap">
+    <!--  按条件查询报警设备  resultMap="AlertDeviceMap"-->
+    <select id="queryAlertDeviceByCriteria" resultType="map">
         select a.id aid,a.line_id,l.line_name,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm
         from alert a, line l, device d
         <where>

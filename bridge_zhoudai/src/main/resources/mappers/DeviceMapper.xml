@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.DeviceDao">
 
-    <!--  查询所有设备  -->
-    <select id="queryAllDevice" resultMap="result">
+    <!--  查询所有设备  resultMap="result"-->
+    <select id="queryAllDevice" resultType="map">
         select line.line_id,line_name,id,name,terminal_id
         from line,device
         where device.line_id = line.line_id
@@ -18,8 +18,8 @@
         </collection>
     </resultMap>
 
-    <!--  查询在线设备  -->
-    <select id="queryOnlineDevice" resultMap="onlineDeviceMap">
+    <!--  查询在线设备  resultMap="onlineDeviceMap"-->
+    <select id="queryOnlineDevice" resultType="map">
         select l.line_id,l.line_name,d.id,d.`name`
         from line l,device d,device_data dd
         where l.line_id = d.line_id and TO_DAYS(NOW()) - TO_DAYS(dd.insert_time) &lt;= 1
