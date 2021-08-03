@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class FibreTemperatureController {
     }
 
 
-    // 查询光纤测温数据
+    // 按分区查询光纤测温数据
     @GetMapping("/gxcwdatas")
     @Operation(
             summary = "根据分区ID查询光纤测温数据",
@@ -79,6 +80,19 @@ public class FibreTemperatureController {
         List<FibreTemperature> fibreTemperatureList = fibreTemperatureService.queryDatasById(partitionId);
         if(fibreTemperatureList != null){
             return ResponseFormat.success("查询成功", fibreTemperatureList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
+        }
+    }
+
+    @GetMapping("/gxcwallmaxvalues")
+    @Operation(
+            summary = "查询光纤测温所有数据(所有分区三相最大值)"
+    )
+    public ResponseFormat queryAllPartitionMaxValue(){
+        HashMap<String, Object> map = fibreTemperatureService.parseData();
+        if(! map.isEmpty()){
+            return ResponseFormat.success("查询成功", map);
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
         }

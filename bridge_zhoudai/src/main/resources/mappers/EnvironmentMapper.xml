@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.EnvironmentDao">
 
-    <!--  根据分区ID查询该分区所有外置局放设备的数据(最新数据)  -->
+    <!--  根据分区ID查询该分区所有环境设备的数据(最新数据)  -->
     <select id="queryAllDataByPartitionId" resultType="map">
         select dd.*,dc.partition_id
-        from device_data dd,device_config dc
-        where dd.id in (select max(id) from device_data group by terminal_id)
-              and dd.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId}
+        from device_data dd,device_config dc,(select max(id) id from device_data group by terminal_id) a
+        where dd.id = a.id and dd.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId}
     </select>
 </mapper>

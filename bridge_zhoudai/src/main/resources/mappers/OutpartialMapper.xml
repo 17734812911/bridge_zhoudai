@@ -6,8 +6,8 @@
     <!--  使用resultType="map"，将只返回查询的字段  -->
     <select id="queryOutPartialMaxValue" resultType="map">
         select o.*,d.name,l.line_name,d.joint
-        from outpartial o,device_config dc,device d,line l
-        where o.id in (select max(id) from outpartial group by terminal_id) and dc.partition_id = #{partitionId} and o.terminal_id = d.terminal_id and d.line_id = l.line_id
+        from outpartial o,device_config dc,device d,line l, (select max(id) id from outpartial group by terminal_id) a
+        where o.id = a.id and dc.partition_id = #{partitionId} and o.terminal_id = d.terminal_id and d.line_id = l.line_id
         group by o.terminal_id
     </select>
 </mapper>

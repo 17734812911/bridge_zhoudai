@@ -21,11 +21,22 @@
         values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
     </insert>
 
-    <!--  查询光纤测温数据  FibreTemperature-->
+    <!--  按分区查询光纤测温数据  -->
     <select id="queryDatasById" resultType="FibreTemperature">
         select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
-        from fibre_temperature ft
-        where ft.id in (select MAX(id) from fibre_temperature group by channel,partition_id)
-              and ft.partition_id = #{partitionId}
+        from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
+        where ft.id = a.id and ft.partition_id = #{partitionId}
+    </select>
+
+    <!--  查询光纤测温所有数据(所有分区三相最大值)  -->
+    <select id="queryAllPartitionMaxValue" resultType="FibreTemperature">
+        select channel,max_value
+        from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
+        where ft.id = a.id
+    </select>
+
+    <!--  查询光纤测温通道的读取顺序  -->
+    <select id="queryReadOrder" resultType="boolean">
+        select read_order from fibre_temperature_config where id = 1
     </select>
 </mapper>

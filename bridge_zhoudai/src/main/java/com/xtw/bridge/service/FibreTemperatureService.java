@@ -21,7 +21,9 @@ public class FibreTemperatureService implements FibreTemperatureDao {
     private static boolean readOrder;   // 光纤测温通道读取顺序
     private static DecimalFormat df = new DecimalFormat("#0.00");   // 用于将double类型的值保留两位小数
     private static int num = 0;
-    private static List configList = new ArrayList();
+    private ArrayList<FibreTemperature> fibreTemperatureArrayList = new ArrayList<>();
+
+
     @Resource
     FibreTemperatureDao fibreTemperatureDao;
     // 光纤测温配置
@@ -43,10 +45,6 @@ public class FibreTemperatureService implements FibreTemperatureDao {
             List<String> strList = Arrays.asList(strArray);     // 将数组转换为集合，用于截取数据
             // 先根据配备IP和通道ID,查询光纤测温配置
             fibreTemperatureConfigs = queryFibreTemperatureConfig(fibreTemperature.getDeviceIp(), fibreTemperature.getChannel());
-            if(num == 0){
-                readOrder = fibreTemperatureConfigs.get(0).getReadOrder();
-                num++;
-            }
 
             // 根据配置处理数据
             for(FibreTemperatureConfig config : fibreTemperatureConfigs){
@@ -140,9 +138,80 @@ public class FibreTemperatureService implements FibreTemperatureDao {
         return list;
     }
 
+    @Override
+    public List<FibreTemperature> queryAllPartitionMaxValue() {
+        // 获取所有分区三相的最新值
+        List<FibreTemperature> fibreTemperatureList =  fibreTemperatureDao.queryAllPartitionMaxValue();
+        return fibreTemperatureList;
+    }
 
+    // 解析数据
+    public HashMap<String, Object> parseData(){
+        HashMap<String,Object> map = new HashMap<>();
+        ArrayList<String> aPhaseList = new ArrayList<>();   // A相最大值数组
+        ArrayList<String> bPhaseList = new ArrayList<>();   // B相最大值数组
+        ArrayList<String> cPhaseList = new ArrayList<>();   // C相最大值数组
+        List<String> onePhaseList = new ArrayList<>();
+        List<String> twoPhaseList = new ArrayList<>();
+        List<String> threePhaseList = new ArrayList<>();
+        List<String> fourPhaseList = new ArrayList<>();
+        List<String> fivePhaseList = new ArrayList<>();
+        List<String> sixPhaseList = new ArrayList<>();
+        if(num == 0){   // 如果没有读取顺序
+            readOrder = queryReadOrder();
+            num ++;
+        }
 
+        // 获取所有分区三相的最新值
+        List<FibreTemperature> fibreTemperatureList = queryAllPartitionMaxValue();
 
+        for(int i=0;i<fibreTemperatureList.size();i++){
+            String channelId = fibreTemperatureList.get(i).getChannel();
+            switch(channelId){
+                case "1":
+                    onePhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+                case "2":
+                    twoPhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+                case "3":
+                    threePhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+                case "4":
+                    fourPhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+                case "5":
+                    fivePhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+                case "6":
+                    sixPhaseList.add(String.valueOf(fibreTemperatureList.get(i).getMaxValue()));
+                    break;
+            }
+        }
+
+        if(readOrder){      // 默认读取是[1-->4][2-->5][3-->6]
+            // 合并数组,按参数传递顺序合并
+            aPhaseList = mergeArray(onePhaseList,fourPhaseList);
+            bPhaseList = mergeArray(twoPhaseList,fivePhaseList);
+            cPhaseList = mergeArray(threePhaseList,sixPhaseList);
+        } else{     // 否则[4-->1][5-->2][6-->3]
+            // 合并数组,按参数传递顺序合并
+            aPhaseList = mergeArray(fourPhaseList, onePhaseList);
+            bPhaseList = mergeArray(fivePhaseList, twoPhaseList);
+            cPhaseList = mergeArray(sixPhaseList, threePhaseList);
+        }
+        map.put("aPhase", aPhaseList);
+        map.put("bPhase", bPhaseList);
+        map.put("cPhase", bPhaseList);
+
+        return map;
+    }
+
+    // 查询光纤测温通道读取顺序
+    @Override
+    public boolean queryReadOrder() {
+        return fibreTemperatureDao.queryReadOrder();
+    }
 
 
     // 将字符串数组转换成double数组
@@ -156,7 +225,16 @@ public class FibreTemperatureService implements FibreTemperatureDao {
         }
         return arr;
     }
+    // 数组排序
     private void arraySort(double[] doubleArr){
         Arrays.sort(doubleArr);
     }
+    // 合并数组
+    private ArrayList<String> mergeArray(List<String> firstArr, List<String> secondArr){
+        ArrayList<String> mergeArr = new ArrayList<>();
+        mergeArr.addAll(firstArr);
+        mergeArr.addAll(secondArr);
+        return mergeArr;
+    }
+
 }
