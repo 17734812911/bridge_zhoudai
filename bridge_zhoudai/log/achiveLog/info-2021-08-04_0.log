@@ -1,0 +1,36 @@
+2021-08-04 15:51:45.880 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-08-04 15:51:45.882 INFO  com.xtw.bridge.TestClass - Starting TestClass using Java 1.8.0_261 on DESKTOP-KUQ8M65 with PID 19096 (started by Mr.Chen in E:\IDEAAllProj\Spring\bridge_zhoudai)
+2021-08-04 15:51:45.886 INFO  com.xtw.bridge.TestClass - The following profiles are active: dev
+2021-08-04 15:51:49.036 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-08-04 15:51:49.182 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-08-04 15:51:49.528 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1142d377, org.springframework.security.web.context.SecurityContextPersistenceFilter@11ede87f, org.springframework.security.web.header.HeaderWriterFilter@256a0d95, org.springframework.web.filter.CorsFilter@5c48b72c, org.springframework.security.web.authentication.logout.LogoutFilter@5234b61a, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@6e1ae763, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@44e4cb76, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@15e1f8fe, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@634ca3e7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@62d40e31, org.springframework.security.web.session.SessionManagementFilter@9cfc77, org.springframework.security.web.access.ExceptionTranslationFilter@3a1b36a1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7fd4e815]
+2021-08-04 15:51:49.641 INFO  o.s.b.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2021-08-04 15:51:49.641 INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2021-08-04 15:51:49.642 INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 1 ms
+2021-08-04 15:51:49.663 INFO  com.xtw.bridge.TestClass - Started TestClass in 4.171 seconds (JVM running for 5.815)
+2021-08-04 15:51:50.103 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-08-04 15:51:50.113 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-08-04 15:52:34.764 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-08-04 15:52:34.775 INFO  com.xtw.bridge.TestClass - Starting TestClass using Java 1.8.0_261 on DESKTOP-KUQ8M65 with PID 13176 (started by Mr.Chen in E:\IDEAAllProj\Spring\bridge_zhoudai)
+2021-08-04 15:52:34.775 INFO  com.xtw.bridge.TestClass - The following profiles are active: dev
+2021-08-04 15:52:37.759 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-08-04 15:52:37.894 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-08-04 15:52:38.196 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1625789b, org.springframework.security.web.context.SecurityContextPersistenceFilter@256a0d95, org.springframework.security.web.header.HeaderWriterFilter@6f731759, org.springframework.web.filter.CorsFilter@5a1dddba, org.springframework.security.web.authentication.logout.LogoutFilter@79957f11, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@c4d2c44, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4bf03fee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@68af87ad, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@697a0948, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13866329, org.springframework.security.web.session.SessionManagementFilter@5e1a986c, org.springframework.security.web.access.ExceptionTranslationFilter@26582ca, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@59018eed]
+2021-08-04 15:52:38.311 INFO  o.s.b.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2021-08-04 15:52:38.311 INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2021-08-04 15:52:38.312 INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 1 ms
+2021-08-04 15:52:38.336 INFO  com.xtw.bridge.TestClass - Started TestClass in 4.064 seconds (JVM running for 5.494)
+2021-08-04 15:52:38.771 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-08-04 15:52:38.780 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-08-04 15:53:50.057 INFO  com.xtw.bridge.TestClass - Starting TestClass using Java 1.8.0_261 on DESKTOP-KUQ8M65 with PID 12540 (started by Mr.Chen in E:\IDEAAllProj\Spring\bridge_zhoudai)
+2021-08-04 15:53:50.058 INFO  com.xtw.bridge.TestClass - The following profiles are active: dev
+2021-08-04 15:53:50.058 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-08-04 15:53:52.986 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-08-04 15:53:53.152 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-08-04 15:53:53.472 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1625789b, org.springframework.security.web.context.SecurityContextPersistenceFilter@256a0d95, org.springframework.security.web.header.HeaderWriterFilter@6f731759, org.springframework.web.filter.CorsFilter@5a1dddba, org.springframework.security.web.authentication.logout.LogoutFilter@79957f11, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@c4d2c44, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4bf03fee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@68af87ad, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@697a0948, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13866329, org.springframework.security.web.session.SessionManagementFilter@5e1a986c, org.springframework.security.web.access.ExceptionTranslationFilter@26582ca, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@59018eed]
+2021-08-04 15:53:53.581 INFO  o.s.b.test.mock.web.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2021-08-04 15:53:53.581 INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2021-08-04 15:53:53.582 INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 1 ms
+2021-08-04 15:53:53.604 INFO  com.xtw.bridge.TestClass - Started TestClass in 4.286 seconds (JVM running for 5.672)
+2021-08-04 15:53:53.997 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-08-04 15:53:54.006 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

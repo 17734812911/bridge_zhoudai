@@ -4,6 +4,7 @@ import com.xtw.bridge.model.FibreTemperature;
 import com.xtw.bridge.model.FibreTemperatureAlert;
 import com.xtw.bridge.model.FibreTemperatureConfig;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,4 +32,7 @@ public interface FibreTemperatureDao {
 
     // 查询光纤测温通道的读取顺序
     public boolean queryReadOrder();
+
+    // 根据分区id和数据点位查询该点历史数据
+    public List<FibreTemperature> queryHistoricalDatas(Date beginTime, Date endTime, int partitionId);
 }

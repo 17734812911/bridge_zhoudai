@@ -31,7 +31,7 @@ public class DeviceAlertController {
     // 查询报警设备
     @GetMapping("/devices")
     @Operation(
-            summary = "查询报警设备"
+            summary = "查询报警设备信息及报警信息"
     )
     public ResponseFormat queryAllAlertDevice(){
         List<AlertDevice> alertDevices = alertDeviceService.queryAllAlertDevice();
@@ -47,7 +47,11 @@ public class DeviceAlertController {
     @Operation(
             summary = "按条件查询告警设备",
             parameters = {
-                    @Parameter(name = "map", description = "请求条件的map集合,集合中Key为linename,devicename,joint,begintime,endtime")
+                    @Parameter(name = "linename", description = "线路名称"),
+                    @Parameter(name = "devicename", description = "设备名称"),
+                    @Parameter(name = "joint", description = "接头名称"),
+                    @Parameter(name = "begintime", description = "开始时间"),
+                    @Parameter(name = "endtime", description = "结束时间")
             }
     )
     public ResponseFormat queryAlertDeviceByCriteria(@RequestBody Map<String,String> map) throws ParseException {
@@ -65,7 +69,7 @@ public class DeviceAlertController {
         if(alertDeviceList != null){
             return ResponseFormat.success("查询成功", alertDeviceList);
         } else{
-            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询异常"));
+            return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询异常"));
         }
 
     }

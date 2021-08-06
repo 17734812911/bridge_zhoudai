@@ -2,6 +2,7 @@ package com.xtw.bridge.service;
 
 import com.xtw.bridge.mapper.FibreTemperatureDao;
 import com.xtw.bridge.model.*;
+import com.xtw.bridge.utils.MyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -60,8 +61,8 @@ public class FibreTemperatureService implements FibreTemperatureDao {
                     list.toArray(subListArr);   // 将截取的list转换为数组
 
                     // 排序
-                    double[] doubleArr = toDoubleArray(subListArr);
-                    arraySort(doubleArr);
+                    double[] doubleArr = MyUtils.toDoubleArray(subListArr);
+                    MyUtils.arraySort(doubleArr);
                     double maxValue = 0.00;     // 分区中的最大值
                     // 获取最大值
                     for(int i=doubleArr.length-1;i>=0;){    // 只执行一次,取最后一个值
@@ -121,19 +122,19 @@ public class FibreTemperatureService implements FibreTemperatureDao {
         List list = new ArrayList();
         List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasById(partitionId);
         for (FibreTemperature  fibreTemperature: fibreTemperatureList) {
-            HashMap<String, Object> hashMap = new HashMap<>();
+            LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
             String[] fibreTemperatureDatas =  fibreTemperature.getDatas().split(",");
-            double[] doubleArray = toDoubleArray(fibreTemperatureDatas);
-            hashMap.put("id", fibreTemperature.getId());
-            hashMap.put("deviceIp", fibreTemperature.getDeviceIp());
-            hashMap.put("channel", fibreTemperature.getChannel());
-            hashMap.put("partitionId", fibreTemperature.getPartitionId());
-            hashMap.put("createTime", fibreTemperature.getCreateTime());
-            hashMap.put("step", fibreTemperature.getStep());
-            hashMap.put("datas", doubleArray);
-            hashMap.put("maxValue", fibreTemperature.getMaxValue());
-            hashMap.put("maxValuePoints", fibreTemperature.getMaxValuePoints());
-            list.add(hashMap);
+            double[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
+            linkedHashMap.put("id", fibreTemperature.getId());
+            linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());
+            linkedHashMap.put("channel", fibreTemperature.getChannel());
+            linkedHashMap.put("partitionId", fibreTemperature.getPartitionId());
+            linkedHashMap.put("createTime", fibreTemperature.getCreateTime());
+            linkedHashMap.put("step", fibreTemperature.getStep());
+            linkedHashMap.put("datas", doubleArray);
+            linkedHashMap.put("maxValue", fibreTemperature.getMaxValue());
+            linkedHashMap.put("maxValuePoints", fibreTemperature.getMaxValuePoints());
+            list.add(linkedHashMap);
         }
         return list;
     }
@@ -146,8 +147,8 @@ public class FibreTemperatureService implements FibreTemperatureDao {
     }
 
     // 解析数据
-    public HashMap<String, Object> parseData(){
-        HashMap<String,Object> map = new HashMap<>();
+    public LinkedHashMap<String, Object> parseData(){
+        LinkedHashMap<String,Object> map = new LinkedHashMap<>();
         ArrayList<String> aPhaseList = new ArrayList<>();   // A相最大值数组
         ArrayList<String> bPhaseList = new ArrayList<>();   // B相最大值数组
         ArrayList<String> cPhaseList = new ArrayList<>();   // C相最大值数组
@@ -191,21 +192,22 @@ public class FibreTemperatureService implements FibreTemperatureDao {
 
         if(readOrder){      // 默认读取是[1-->4][2-->5][3-->6]
             // 合并数组,按参数传递顺序合并
-            aPhaseList = mergeArray(onePhaseList,fourPhaseList);
-            bPhaseList = mergeArray(twoPhaseList,fivePhaseList);
-            cPhaseList = mergeArray(threePhaseList,sixPhaseList);
+            aPhaseList = MyUtils.mergeArray(onePhaseList,fourPhaseList);
+            bPhaseList = MyUtils.mergeArray(twoPhaseList,fivePhaseList);
+            cPhaseList = MyUtils.mergeArray(threePhaseList,sixPhaseList);
         } else{     // 否则[4-->1][5-->2][6-->3]
             // 合并数组,按参数传递顺序合并
-            aPhaseList = mergeArray(fourPhaseList, onePhaseList);
-            bPhaseList = mergeArray(fivePhaseList, twoPhaseList);
-            cPhaseList = mergeArray(sixPhaseList, threePhaseList);
+            aPhaseList = MyUtils.mergeArray(fourPhaseList, onePhaseList);
+            bPhaseList = MyUtils.mergeArray(fivePhaseList, twoPhaseList);
+            cPhaseList = MyUtils.mergeArray(sixPhaseList, threePhaseList);
         }
         map.put("aPhase", aPhaseList);
         map.put("bPhase", bPhaseList);
-        map.put("cPhase", bPhaseList);
+        map.put("cPhase", cPhaseList);
 
         return map;
     }
+
 
     // 查询光纤测温通道读取顺序
     @Override
@@ -214,27 +216,31 @@ public class FibreTemperatureService implements FibreTemperatureDao {
     }
 
 
-    // 将字符串数组转换成double数组
-    private double[] toDoubleArray(String[] strArr) {
-        // 定义一个int数组
-        double[] arr=new double[strArr.length];
-        // 对字符串数组进行遍历
-        for (int i = 0; i < arr.length; i++) {
-            // 将数组格式的字符串转成双精度数，存储到arr数组中
-            arr[i]=Double.parseDouble(strArr[i]);
+    // 根据分区id和数据点位查询该点历史数据
+    public List<LinkedHashMap> queryHistoricalDatasByCondition(Date beginTime, Date endTime, int partitionId, int point){
+        String pointValue = "";     // point点位的数据
+        List<LinkedHashMap> resultList = new ArrayList<>();
+
+        List<FibreTemperature> fibreTemperatureList = queryHistoricalDatas(beginTime, endTime, partitionId);
+        for(FibreTemperature fibreTemperature : fibreTemperatureList){
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("createTime", fibreTemperature.getCreateTime());
+            pointValue = MyUtils.getPointValue(fibreTemperature.getDatas(), point);
+            linkedHashMap.put("value", pointValue);   // 获取fibreTemperature中下标为point的数据
+            resultList.add(linkedHashMap);
         }
-        return arr;
+        // System.out.println(resultList.size()+"============");
+        // System.out.println(resultList.subList(0,resultList.size()));
+        return resultList;
     }
-    // 数组排序
-    private void arraySort(double[] doubleArr){
-        Arrays.sort(doubleArr);
+    @Override
+    public List<FibreTemperature> queryHistoricalDatas(Date beginTime, Date endTime, int partitionId) {
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryHistoricalDatas(beginTime, endTime, partitionId);
+        return fibreTemperatureList;
     }
-    // 合并数组
-    private ArrayList<String> mergeArray(List<String> firstArr, List<String> secondArr){
-        ArrayList<String> mergeArr = new ArrayList<>();
-        mergeArr.addAll(firstArr);
-        mergeArr.addAll(secondArr);
-        return mergeArr;
-    }
+
+
+
+
 
 }

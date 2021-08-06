@@ -18,7 +18,7 @@ public class AlertDeviceService {
     @Resource
     AlertDeviceDao alertDeviceDao;
 
-    // 查询报警设备
+    // 查询报警设备信息及报警信息
     public List<AlertDevice> queryAllAlertDevice(){
         return alertDeviceDao.queryAllAlertDevice();
     }

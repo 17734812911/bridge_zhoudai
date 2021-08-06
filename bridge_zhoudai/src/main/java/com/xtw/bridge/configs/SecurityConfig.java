@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
             .and()
                 .authorizeRequests()
-                .antMatchers("/users/login", "/users/refreshtoken", "/druid/**", "/swagger-ui.html","/swagger-ui/**"
+                .antMatchers("/users/login", "/users/refreshtoken", "/swagger-ui.html","/swagger-ui/**"
                     ,"/swagger-resources/**","/v3/**", "/device/test","/device/fibretemperatures"
                 ).permitAll()    //表示访问这里的资源不用经过认证
                 // 所有请求都要通过使用这个access方法里面传递的表达式的规则进行校验，如果返回true允许访问

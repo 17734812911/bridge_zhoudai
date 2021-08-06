@@ -39,4 +39,25 @@
     <select id="queryReadOrder" resultType="boolean">
         select read_order from fibre_temperature_config where id = 1
     </select>
+
+    <!--  根据分区id和数据点位查询该点历史数据  &lt;= 是小于等于  &gt;= 是大于等于-->
+    <select id="queryHistoricalDatas" resultType="FibreTemperature">
+        select ft.channel,ft.create_time,ft.datas
+        from fibre_temperature ft
+        <where>
+            <if test="beginTime == null and endTime == null">
+                AND date_sub(curdate(), interval 7 day) &lt;= date(create_time)
+            </if>
+            <if test="beginTime != null">
+                AND ft.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                AND ft.create_time &lt;= #{endTime}
+            </if>
+            <if test="partitionId != null and partitionId != ''">
+                AND ft.partition_id = #{partitionId}
+            </if>
+
+        </where>
+    </select>
 </mapper>

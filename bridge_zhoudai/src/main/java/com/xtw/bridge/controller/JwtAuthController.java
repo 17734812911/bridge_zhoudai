@@ -26,7 +26,8 @@ public class JwtAuthController {
     @Operation(
             summary = "登录接口",
             parameters = {
-                    @Parameter(name = "map", description = "username和password")
+                    @Parameter(name = "username", description = "用户名"),
+                    @Parameter(name = "password", description = "密码")
             }
     )
     public ResponseFormat login(@RequestBody Map<String,String> map){// @RequestParam String username, @RequestParam String password

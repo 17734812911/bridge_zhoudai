@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface AlertDeviceDao {
 
-    // 查询所有报警设备
+    // 查询报警设备信息及报警信息
     public List<AlertDevice> queryAllAlertDevice();
 
     // 告警查询（有条件）

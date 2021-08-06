@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.AlertDeviceDao">
 
-    <!--  查询报警设备  resultMap="AlertDeviceMap"-->
-    <select id="queryAllAlertDevice" resultType="map">
+    <!--  查询报警设备信息及报警信息  -->
+    <select id="queryAllAlertDevice" resultType="java.util.LinkedHashMap">
         select a.id aid,a.line_id,a.terminal_id,a.content,a.alert_data,a.alert_date,isconfirm,l.line_name,d.id did,d.`name`
         from alert a,device d,line l
         where a.terminal_id=d.terminal_id and a.line_id = l.line_id and isconfirm = 0
@@ -28,7 +28,7 @@
     </resultMap>
 
     <!--  按条件查询报警设备  resultMap="AlertDeviceMap"-->
-    <select id="queryAlertDeviceByCriteria" resultType="map">
+    <select id="queryAlertDeviceByCriteria" resultType="java.util.LinkedHashMap">
         select a.id aid,a.line_id,l.line_name,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm
         from alert a, line l, device d
         <where>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtw.bridge.mapper.ConfigDao">
+
+    <!--  查询外置局放所有配置  -->
+    <select id="queryOutPartialConfig" resultType="java.util.LinkedHashMap">
+        select oc.id,dt.name,dt.communication_mode,d.terminal_id,d.joint,l.line_name,oc.partition_id,oc.alarm_value,oc.alarm_frequency_value,oc.offset_value,dc.device_ip,dc.port,dc.interval_slave,dc.retry_count,dc.retry_interval,dc.polling_interval
+        from device_type dt, device d, line l, outpartial_config oc, device_config dc
+        where dt.device_type_id = d.device_type_id and d.line_id = l.line_id and d.terminal_id = oc.terminal_id and oc.terminal_id = dc.terminal_id
+    </select>
+
+    <!--  查询光纤测温所有配置  -->
+    <select id="queryFibreTemperatureConfig" resultType="java.util.LinkedHashMap">
+        select * from fibre_temperature
+    </select>
+
+    <!--  查询环境量和表皮测温所有配置  -->
+    
+</mapper>

@@ -1,6 +1,7 @@
 package com.xtw.bridge;
 
 import com.xtw.bridge.service.FibreTemperatureService;
+import com.xtw.bridge.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +15,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.annotation.Resource;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 /**
@@ -25,16 +29,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc                   // 自动构建MockMvc对象（下面的@BeforeAll的方法就不需要了）
 @ExtendWith(SpringExtension.class)      // 表示为当前测试加上Spring的运行时的容器环境，来进行依赖注入
 public class TestClass {
+
     // mock对象
     @Resource
     private MockMvc mockMvc;
     @Resource
     FibreTemperatureService fibreTemperatureService;
+    @Resource
+    UserService userService;
 
 
     @Test
     public void testService(){
-        fibreTemperatureService.queryAllPartitionMaxValue();
+
+        // try{
+        //     userService.addUser("张三", "123456abc", sdf.parse(sdf.format(new Date())));
+        // } catch (Exception e){
+        //     e.printStackTrace();
+        // }
     }
 
 

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: Mr.Chen
@@ -95,6 +92,34 @@ public class FibreTemperatureController {
             return ResponseFormat.success("查询成功", map);
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
+        }
+    }
+
+    @GetMapping("/queryhistoricaldatas")
+    @Operation(
+            summary = "按条件查询点位的历史数据",
+            parameters = {
+                    @Parameter(name = "begintime", description = "开始时间"),
+                    @Parameter(name = "endtime", description = "结束时间"),
+                    @Parameter(name = "partitionid", description = "分区ID"),
+                    @Parameter(name = "point", description = "下标点位")
+            }
+    )
+    public ResponseFormat queryHistoricalDatasByCondition(@RequestBody Map<String,String> map) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date beginTime = null;
+        Date endTime = null;
+        int partitionId = Integer.parseInt(map.get("partitionid"));
+        int point = Integer.parseInt(map.get("point"));
+        if(map.containsKey("begintime") && map.get("begintime") != "" & map.containsKey("endtime") && map.get("endtime") != ""){
+            beginTime = sdf.parse(map.get("begintime"));
+            endTime = sdf.parse(map.get("endtime"));
+        }
+        List<LinkedHashMap> resultList = fibreTemperatureService.queryHistoricalDatasByCondition(beginTime, endTime, partitionId, point);
+        if(resultList != null){
+            return ResponseFormat.success("查询成功", resultList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询异常"));
         }
     }
 

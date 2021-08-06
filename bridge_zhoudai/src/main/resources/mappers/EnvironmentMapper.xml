@@ -3,7 +3,7 @@
 <mapper namespace="com.xtw.bridge.mapper.EnvironmentDao">
 
     <!--  根据分区ID查询该分区所有环境设备的数据(最新数据)  -->
-    <select id="queryAllDataByPartitionId" resultType="map">
+    <select id="queryAllDataByPartitionId" resultType="java.util.LinkedHashMap">
         select dd.*,dc.partition_id
         from device_data dd,device_config dc,(select max(id) id from device_data group by terminal_id) a
         where dd.id = a.id and dd.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId}

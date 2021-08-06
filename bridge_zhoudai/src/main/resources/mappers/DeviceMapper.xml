@@ -3,7 +3,7 @@
 <mapper namespace="com.xtw.bridge.mapper.DeviceDao">
 
     <!--  查询所有设备  resultMap="result"-->
-    <select id="queryAllDevice" resultType="map">
+    <select id="queryAllDevice" resultMap="result">
         select line.line_id,line_name,id,name,terminal_id
         from line,device
         where device.line_id = line.line_id
@@ -19,7 +19,7 @@
     </resultMap>
 
     <!--  查询在线设备  resultMap="onlineDeviceMap"-->
-    <select id="queryOnlineDevice" resultType="map">
+    <select id="queryOnlineDevice" resultMap="onlineDeviceMap">
         select l.line_id,l.line_name,d.id,d.`name`
         from line l,device d,device_data dd
         where l.line_id = d.line_id and TO_DAYS(NOW()) - TO_DAYS(dd.insert_time) &lt;= 1
