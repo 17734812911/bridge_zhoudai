@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -41,28 +42,14 @@ public class DeviceController {
     }
 
     // 查询在线设备
-    @GetMapping("/onlineDevice")
+    @GetMapping("/onlinedevice")
     @Operation(
             summary = "查询在线设备"
     )
     public ResponseFormat queryOnlineDevice(){
-        List<Line> deviceList = deviceService.queryOnlineDevice();
-        if(deviceList != null){
-            return ResponseFormat.success("查询成功",deviceList);
-        } else{
-            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
-        }
-    }
-
-    // 查询所有类型设备近7天最大值
-    @GetMapping("/maxvalues")
-    @Operation(
-            summary = "查询所有类型设备近7天最大值"
-    )
-    public ResponseFormat queryDeviceMaxValue(){
-        List<Device> maxValueList = deviceService.queryDeviceMaxValue();
-        if(maxValueList != null){
-            return ResponseFormat.success("查询成功", maxValueList);
+        LinkedHashMap<String, Integer> deviceMap = deviceService.queryOnlineDevice();
+        if(deviceMap != null){
+            return ResponseFormat.success("查询成功",deviceMap);
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
         }

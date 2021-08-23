@@ -2,7 +2,6 @@ package com.xtw.bridge.configs;
 
 import com.xtw.bridge.filter.JwtAuthenticationTokenFilter;
 import com.xtw.bridge.service.authentication.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * User: Mr.Chen
@@ -120,15 +116,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    // 配置CORS跨域访问
-    @Bean
-    CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));    // 允许哪些源访问当前域的资源（// http://192.168.100.4:8888）
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));     // 开放哪些http方法，允许跨域访问
-        configuration.applyPermitDefaultValues();   // 设置其它一些默认值
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);     // 针对哪些请求资源
-        return source;
-    }
+    // // 配置CORS跨域访问
+    // @Bean
+    // CorsConfigurationSource corsConfigurationSource(){
+    //
+    //     CorsConfiguration configuration = new CorsConfiguration();
+    //     configuration.setAllowedOriginPatterns(Collections.singletonList("*"));    // 允许哪些源访问当前域的资源（// http://192.168.100.4:8888）
+    //     configuration.addAllowedHeader(CorsConfiguration.ALL);
+    //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));     // 开放哪些http方法，允许跨域访问
+    //     configuration.applyPermitDefaultValues();   // 设置其它一些默认值
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     source.registerCorsConfiguration("/**", configuration);     // 针对哪些请求资源
+    //     return source;
+    // }
 }

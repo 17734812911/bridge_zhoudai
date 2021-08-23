@@ -1,8 +1,6 @@
 package com.xtw.bridge.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Mr.Chen
@@ -40,5 +38,26 @@ public class MyUtils {
     public static String getPointValue(String str, int point){
         String[] strArr = str.split(",");
         return strArr[point];
+    }
+
+    // 获取当前日期时间
+    public static String getDateTime(Integer addDasNumber){   // addNumber为要加上的天数
+        Calendar calendar=Calendar.getInstance();
+        String year = String.valueOf(calendar.get(GregorianCalendar.YEAR));
+        String month = format((calendar.get(GregorianCalendar.MONTH)+1));   // 约束要加1,因为生成的约束会比当前少一个月
+        String day = format((calendar.get(GregorianCalendar.DAY_OF_MONTH) + addDasNumber));     // 通过addDasNumber参数，决定获取哪一天
+        String hour = format(calendar.get(GregorianCalendar.HOUR));
+        String min = format(calendar.get(GregorianCalendar.MINUTE));
+        String second = format(calendar.get(GregorianCalendar.SECOND));
+
+        return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + second;
+
+    }
+    // 格式化时间
+    private static String format(Integer num){
+        if(num < 10){
+            return "0" + num;
+        }
+        return String.valueOf(num);
     }
 }

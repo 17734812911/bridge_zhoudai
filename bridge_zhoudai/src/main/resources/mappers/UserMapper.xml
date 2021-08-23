@@ -40,7 +40,6 @@
     <delete id="delUser" >
         delete from user where username = #{username}
     </delete>
-
     <!--  删除用户角色关联记录  -->
     <delete id="delUserRole">
         delete from user_role where user_id = #{userId}

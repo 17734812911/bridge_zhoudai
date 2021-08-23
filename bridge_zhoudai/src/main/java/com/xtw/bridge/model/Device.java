@@ -13,9 +13,11 @@ import lombok.Data;
 public class Device {
     @Schema(name = "id", description = "id")
     private Integer id;
-    @Schema(name = "name", description = "设备名称")
+    @Schema(name = "name", description = "产品名称")
     private String name;
-    @Schema(name = "name", description = "设备类型id")
+    @Schema(name = "deviceName", description = "设备名称")
+    private String deviceName;
+    @Schema(name = "deviceTypeId", description = "设备类型id")
     private Integer deviceTypeId;
     @Schema(name = "terminalId", description = "设备ID")
     private String terminalId;

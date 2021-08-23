@@ -1,5 +1,6 @@
 package com.xtw.bridge.controller;
 
+import com.xtw.bridge.model.AlertDO;
 import com.xtw.bridge.model.AlertDevice;
 import com.xtw.bridge.myexception.CustomException;
 import com.xtw.bridge.myexception.CustomExceptionType;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,11 +44,23 @@ public class DeviceAlertController {
         }
     }
 
+
+    // 查询七天中每天的告警次数
+    @Operation(
+            summary = "查询七天中每天的告警次数"
+    )
+    @GetMapping("/alarmnumber")
+    public ResponseFormat queryEveryDayAlarmNumber(){
+        List<AlertDO> linkedHashMap = alertDeviceService.queryEveryDayAlarmNumber();
+        return ResponseFormat.success("查询成功", linkedHashMap);
+    }
+
     // 条件查询告警设备
     @PostMapping("/devices/criterias")
     @Operation(
             summary = "按条件查询告警设备",
             parameters = {
+                    @Parameter(name = "id", description = "id"),
                     @Parameter(name = "linename", description = "线路名称"),
                     @Parameter(name = "devicename", description = "设备名称"),
                     @Parameter(name = "joint", description = "接头名称"),
@@ -56,8 +70,12 @@ public class DeviceAlertController {
     )
     public ResponseFormat queryAlertDeviceByCriteria(@RequestBody Map<String,String> map) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Integer id = 0;
         Date beginTime = null;
         Date endTime = null;
+        if(map.get("id") != null){
+            id = Integer.parseInt(map.get("id"));
+        }
         String lineName = map.get("linename");
         String deviceName = map.get("devicename");
         String joint = map.get("joint");
@@ -65,12 +83,29 @@ public class DeviceAlertController {
             beginTime = sdf.parse(map.get("begintime"));
             endTime = sdf.parse(map.get("endtime"));
         }
-        List<AlertDevice> alertDeviceList = alertDeviceService.queryAlertDeviceByCriteria(lineName, deviceName, joint, beginTime, endTime);
+        List<AlertDevice> alertDeviceList = alertDeviceService.queryAlertDeviceByCriteria(id,lineName, deviceName, joint, beginTime, endTime);
         if(alertDeviceList != null){
             return ResponseFormat.success("查询成功", alertDeviceList);
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询异常"));
         }
 
+    }
+
+    // 报警确认
+    @PutMapping("/confirm")
+    @Operation(
+            summary = "报警确认",
+            parameters = {
+                    @Parameter(name = "id", description = "id")
+            }
+    )
+    public ResponseFormat alarmEnter(Integer id){
+        int result = alertDeviceService.alarmEnter(id);
+        if (result > 0){
+            return ResponseFormat.success("确认成功");
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "确认失败"));
+        }
     }
 }

@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class JwtAuthController {
+
     @Resource
     JwtAuthService jwtAuthService;
 

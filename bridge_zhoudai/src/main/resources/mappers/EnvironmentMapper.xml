@@ -3,9 +3,57 @@
 <mapper namespace="com.xtw.bridge.mapper.EnvironmentDao">
 
     <!--  根据分区ID查询该分区所有环境设备的数据(最新数据)  -->
-    <select id="queryAllDataByPartitionId" resultType="java.util.LinkedHashMap">
+    <select id="queryAllDataByPartitionId" resultType="EnvironmentDevice">
         select dd.*,dc.partition_id
         from device_data dd,device_config dc,(select max(id) id from device_data group by terminal_id) a
         where dd.id = a.id and dd.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId}
+    </select>
+
+    <!--  根据分区id查询该分区下环境量设备在使用的通道  -->
+    <select id="queryUseChannels" resultType="EnvironmentDO">
+        select ca.terminal_id,ca.channel_id,ca.name
+        from channel_attribute ca,device_config dc
+        where dc.partition_id = #{partitionId} and ca.terminal_id = dc.terminal_id and ca.is_use = 1
+    </select>
+
+    <!--  根据环境量和表皮测温设备id查询该设备最新数据  -->
+    <select id="queryDatasByTerminalId" resultType="EnvironmentDevice">
+        select ca.name,dd.*,dc.partition_id
+        from device_data dd,device_config dc,(select max(id) id from device_data group by terminal_id) a,channel_attribute ca
+        <where>
+            <if test="1==1">
+                AND dd.id = a.id and dd.terminal_id = dc.terminal_id
+            </if>
+            <if test="terminalId != null and terminalId != ''">
+                AND dd.terminal_id = #{terminalId}
+            </if>
+        </where>
+        group by dd.terminal_id
+    </select>
+
+    <!--  根据环境量和表皮测温设备id查询该设备在使用的通道  -->
+    <select id="queryUseChannelsByTerminalId" resultType="EnvironmentDO">
+        select ca.terminal_id,ca.channel_id,ca.name
+        from channel_attribute ca,device_config dc
+        where ca.terminal_id = dc.terminal_id and ca.is_use = 1 and ca.terminal_id = #{terminalId}
+    </select>
+
+    <!--  根据环境量和表皮测温设备id查询该设备所有数据  -->
+    <select id="queryEnvironmentDatasPage" resultType="EnvironmentDevice">
+        select ca.name,dd.*,dc.partition_id
+        from device_data dd, device_config dc, channel_attribute ca
+        <where>
+            <if test="1==1">
+                AND dd.terminal_id = #{terminalId}
+            </if>
+            <if test="beginTime != null">
+                AND dd.insert_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                AND dd.insert_time &lt;= #{endTime}
+            </if>
+        </where>
+        group by dd.id
+        order by dd.insert_time desc
     </select>
 </mapper>

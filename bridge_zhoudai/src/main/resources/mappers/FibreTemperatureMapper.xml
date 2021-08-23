@@ -7,6 +7,10 @@
         insert into fibre_temperature(device_ip,channel,partition_id,create_time,step,datas,max_value,max_value_points,offset_value)
         values(#{deviceIp},#{channel},#{partitionId},#{createTime},#{step},#{datas},#{maxValue},#{maxValuePoints},#{offsetValue})
     </insert>
+    <!--  向device表更新光纤测温最新数据时间  -->
+    <update id="updateDataTime">
+        update device set last_data_time = #{dateTime} where device_type_id = 3
+    </update>
 
     <!--  查询光纤测温配置  -->
     <select id="queryFibreTemperatureConfig" resultType="FibreTemperatureConfig" >
@@ -21,12 +25,33 @@
         values(#{channel},#{partitionId},#{content},#{alertData},#{alertDate})
     </insert>
 
+
+
     <!--  按分区查询光纤测温数据  -->
     <select id="queryDatasById" resultType="FibreTemperature">
         select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
         from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
         where ft.id = a.id and ft.partition_id = #{partitionId}
     </select>
+
+    <!--  按分区查询光纤测温数据(分页)  -->
+    <select id="queryDatasPage" resultType="FibreTemperature">
+        select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
+        from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
+        <where>
+            <if test="1 == 1">
+                AND ft.id = a.id and ft.partition_id = #{partitionId}
+            </if>
+            <if test="beginTime != null">
+                AND ft.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                AND ft.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+
 
     <!--  查询光纤测温所有数据(所有分区三相最大值)  -->
     <select id="queryAllPartitionMaxValue" resultType="FibreTemperature">
@@ -54,10 +79,10 @@
             <if test="endTime != null">
                 AND ft.create_time &lt;= #{endTime}
             </if>
-            <if test="partitionId != null and partitionId != ''">
+            <if test="1==1">
                 AND ft.partition_id = #{partitionId}
             </if>
-
         </where>
+        order by ft.create_time asc
     </select>
 </mapper>

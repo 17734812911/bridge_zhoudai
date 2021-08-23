@@ -121,7 +121,7 @@ public class UserController {
     }
 
     // 查询所有用户
-    @GetMapping("/all-user")
+    @GetMapping("/alluser")
     @Operation(
             summary = "查询所有用户信息"
     )

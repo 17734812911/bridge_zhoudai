@@ -2,44 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtw.bridge.mapper.DeviceDao">
 
-    <!--  查询所有设备  resultMap="result"-->
+    <!--  查询所有设备  -->
     <select id="queryAllDevice" resultMap="result">
-        select line.line_id,line_name,id,name,terminal_id
-        from line,device
-        where device.line_id = line.line_id
+        select line.line_id,line_name,d.id,d.name,terminal_id,dt.name productname
+        from line,device d,device_type dt
+        where d.line_id = line.line_id and d.device_type_id = dt.device_type_id
+        group by d.id
     </select>
     <resultMap id="result" type="Line">
         <id column="line_id" property="id"/>
         <result column="line_name" property="name"/>
         <collection property="device" ofType="Device">
             <id column="id" property="id"/>
-            <result column="name" property="name"/>
+            <result column="productname" property="name"/>
             <result column="terminal_id" property="terminalId"/>
+            <result column="name" property="deviceName" />
         </collection>
     </resultMap>
 
-    <!--  查询在线设备  resultMap="onlineDeviceMap"-->
-    <select id="queryOnlineDevice" resultMap="onlineDeviceMap">
-        select l.line_id,l.line_name,d.id,d.`name`
-        from line l,device d,device_data dd
-        where l.line_id = d.line_id and TO_DAYS(NOW()) - TO_DAYS(dd.insert_time) &lt;= 1
-        group by d.id
+    <!--  查询所有种类设备对应的数量  -->
+    <select id="queryAllTypeNumber" resultType="DeviceDO">
+        select dt.name,count(dt.name) number
+        from line,device d,device_type dt
+        where d.line_id = line.line_id and d.device_type_id = dt.device_type_id
+        group by dt.name
     </select>
-    <resultMap id="onlineDeviceMap" type="Line">
-        <id column="line_id" property="id"/>
-        <result column="line_name" property="name"/>
-        <collection property="device" ofType="Device">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
-        </collection>
-    </resultMap>
 
-    <!--  查询所有类型设备近7天最大值  &lt;= 是小于等于  &gt;= 是大于等于 -->
-    <select id="queryDeviceMaxValue" resultType="Device">
-        select dt.id,d.`name`,MAX(d.device_data / dt.threshold) device_data
-        from (select * from device where date_sub(curdate(), INTERVAL 7 DAY) &lt;= date(data_time)) d,device_threshold dt
-        where d.type_id = dt.type_id
-        group by d.type_id
+    <!--  查询不在线设备种类对应的数量  -->
+    <select id="queryOutlineDevice" resultType="DeviceDO">
+        select dt.name,count(d.id) number
+        from device_type dt, device d
+        where dt.device_type_id = d.device_type_id and TO_DAYS(NOW()) - TO_DAYS(d.last_data_time) &gt;= 1
+        group by d.device_type_id
     </select>
 
     <!--  查询所有线路  -->
@@ -50,5 +44,7 @@
         <id column="line_id" property="id" />
         <result column="line_name" property="name" />
     </resultMap>
+
+
 
 </mapper>

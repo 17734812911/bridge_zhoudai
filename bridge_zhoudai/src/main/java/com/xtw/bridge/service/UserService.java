@@ -20,8 +20,8 @@ public class UserService implements UserDao {
     @Resource
     UserDao userDao;
 
-    @Override
     @Transactional
+    @Override
     public int addUser(User user) {
         User resultUser = queryUserByName(user.getUsername());     // 判断当前用户名是否已经被注册
         if(resultUser == null){
@@ -34,15 +34,15 @@ public class UserService implements UserDao {
         }
     }
     // 关联用户角色
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public int relationUserRole(int userId) {
         return userDao.relationUserRole(userId);
     }
 
     // 根据用户名查询用户是否存在
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public User queryUserByName(String username) {
         return userDao.queryUserByName(username);
     }
@@ -57,8 +57,8 @@ public class UserService implements UserDao {
         }
         return 0;
     }
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public int editUserRole(int userId, int roleId) {
         int result =  userDao.editUserRole(userId, roleId);
         return result;
@@ -79,8 +79,8 @@ public class UserService implements UserDao {
         return 0;
     }
 
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)     // 如果当前没有事务，就新建一个事务，如果已经存在在一个事务中，就加入到这个事务中
+    @Override
     public int delUserRole(int userId) {
         return userDao.delUserRole(userId);
     }

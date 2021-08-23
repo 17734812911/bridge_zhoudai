@@ -9,6 +9,7 @@ public enum CustomExceptionType {
 
     USER_INPUT_ERROR(400,"您输入的数据格式错误或您没有权限访问资源！"),
     QUERY_ERROR(500,"查询数据失败"),
+    ADD_ERROR(500,"添加数据失败"),
     ALREADY_REGISTERED(400, "用户名已经被注册"),
     SYSTEM_ERROR (500,"系统出现异常，请您稍后再试或联系管理员！");
 

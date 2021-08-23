@@ -38,6 +38,9 @@
             <if test="1==1">
                 AND a.terminal_id = d.terminal_id
             </if>
+            <if test="id != null and id != ''">
+                AND a.id = #{id}
+            </if>
             <if test="lineName != null and lineName != ''">
                 AND l.line_name = #{lineName}
             </if>
@@ -56,6 +59,33 @@
         </where>
     </select>
 
+    <!--  报警确认  -->
+    <update id="alarmEnter" parameterType="java.lang.Integer">
+        update alert set isconfirm = 1 where id = #{id}
+    </update>
 
+    <!--  查询七天中每天的告警次数  -->
+    <select id="queryEveryDayAlarmNumber" resultType="AlertDO">
+        select a.alert_date days,ifnull(b.count,0) as count
+        from (
+                 SELECT curdate() as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 1 day) as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 2 day) as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 3 day) as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 4 day) as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 5 day) as alert_date
+                 union all
+                 SELECT date_sub(curdate(), interval 6 day) as alert_date
+             ) a left join (
+            select date(alert_date) as datetime, count(*) as count
+            from alert
+            group by date(alert_date)
+        ) b on a.alert_date = b.datetime;
+    </select>
 
 </mapper>

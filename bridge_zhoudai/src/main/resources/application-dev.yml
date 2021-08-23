@@ -7,7 +7,7 @@ spring:
     time-zone: GMT+8
     default-property-inclusion: non_null    # 不像前端返回空字段
   datasource:
-    url: jdbc:mysql://localhost:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://192.168.100.3:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,3 +23,9 @@ jwt:
 
 logging:
   config: classpath:logback-dev.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

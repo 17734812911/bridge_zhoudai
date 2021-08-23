@@ -19,7 +19,7 @@ public class AlertDevice {
     @Schema(name = "alertData", description = "报警值")
     private String alertData;   // 报警值
     @Schema(name = "alert", description = "报警时间")
-    private Date alertDate;     // 报警时间
+    private String alertDate;     // 报警时间
     @Schema(name = "line", description = "线路实体类")
     private Line line;         // 线路
     @Schema(name = "device", description = "设备实体类")
