@@ -26,8 +26,11 @@ public interface EnvironmentDao {
     public List<EnvironmentDevice> queryDatasByTerminalId(String terminalId);
 
     // 根据环境量和表皮测温设备id查询该设备在使用的通道
+
     public List<EnvironmentDO> queryUseChannelsByTerminalId(String terminalId);
 
     // 根据环境量和表皮测温设备id查询该设备所有数据
-    public List<EnvironmentDevice> queryEnvironmentDatasPage(String terminalId, Date beginTime, Date endTime);
+    public List<EnvironmentDevice> queryEnvironmentDatasPage(String terminalId, String beginTime, String endTime);
+
+    //
 }

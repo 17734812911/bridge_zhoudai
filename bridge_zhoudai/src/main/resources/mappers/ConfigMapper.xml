@@ -39,7 +39,7 @@
         from device d,device_type dt,device_config dc, channel_attribute ca,line l
         where d.device_type_id = dt.device_type_id and d.terminal_id = dc.terminal_id and d.terminal_id = ca.terminal_id and d.line_id = l.line_id and d.line_id = l.line_id
         group by ca.id
-</select>
+    </select>
 
     <!--  根据产品名称查询设备的type_id  -->
     <select id="queryDeviceTypeId" resultType="java.lang.String">
@@ -162,4 +162,12 @@
             </if>
         </where>
     </select>
+
+    <!--  摄像头配置  -->
+    <!--  向camera表添加配置信息  -->
+    <insert id="addCameraConfig" parameterType="camera">
+        insert into camera(camera_id, terminal_id, partition_id, device_ip, camera_one, camera_two) values(#{cameraId},#{terminalId},#{partitionId},#{deviceIp},#{cameraOne},#{cameraTwo})
+    </insert>
+
+
 </mapper>

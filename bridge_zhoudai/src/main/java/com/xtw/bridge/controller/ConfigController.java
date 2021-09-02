@@ -1,5 +1,6 @@
 package com.xtw.bridge.controller;
 
+import com.xtw.bridge.model.Camera;
 import com.xtw.bridge.model.EnvironmentConfig;
 import com.xtw.bridge.model.FibreTemperatureConfig;
 import com.xtw.bridge.model.OutPartialConfig;
@@ -380,6 +381,34 @@ public class ConfigController {
     }
 
 
+    @PostMapping("/camera")
+    @Operation(
+            summary = "更新环境量和表皮测温配置",
+            parameters = {
+                    @Parameter(name = "cameraid", description = "摄像头ID"),
+                    @Parameter(name = "terminalid", description = "设备ID"),
+                    @Parameter(name = "partitionid", description = "分区ID"),
+                    @Parameter(name = "deviceip", description = "摄像头IP"),
+                    @Parameter(name = "cameraone", description = "一号通道(正常画面)"),
+                    @Parameter(name = "cameratwo", description = "二号通道(热成像画面)"),
+                    @Parameter(name = "devicename", description = "设备名称"),
+                    @Parameter(name = "producename", description = "产品名称"),
+                    @Parameter(name = "linename", description = "线路名称"),
+                    @Parameter(name = "joint", description = "接头名称")
+            }
+    )
+    public ResponseFormat addCameraConfigs(@RequestBody HashMap<String,String> map){
+        Camera camera = getCamera(map);
+        int result = configService.addCameraConfig(camera);
+        if(result > 0){
+            return ResponseFormat.success("添加成功");
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.ADD_ERROR, "添加失败"));
+        }
+    }
+
+
+
     // 生成外置局放配置实体类
     private OutPartialConfig getOutPartialConfig(HashMap<String,String> map){
         String name = map.get("name");
@@ -490,6 +519,35 @@ public class ConfigController {
         environmentConfig.setUse(use);
 
         return environmentConfig;
+    }
+
+    // 生成Camera实体类
+    private Camera getCamera(HashMap<String, String> map){
+        Camera camera = new Camera();
+
+        String cameraId = map.get("cameraid");
+        String terminalId = map.get("terminalid");
+        String partitionId = map.get("partitionid");
+        String deviceIp = map.get("deviceip");
+        String cameraOne = map.get("cameraone");
+        String cameraTwo = map.get("cameratwo");
+        String deviceName = map.get("devicename");
+        String produceName = map.get("producename");
+        String lineName = map.get("linename");
+        String joint = map.get("joint");
+
+        camera.setCameraId(cameraId);
+        camera.setTerminalId(terminalId);
+        camera.setPartitionId(partitionId);
+        camera.setDeviceIp(deviceIp);
+        camera.setCameraOne(cameraOne);
+        camera.setCameraTwo(cameraTwo);
+        camera.setDeviceName(deviceName);
+        camera.setProduceName(produceName);
+        camera.setLineName(lineName);
+        camera.setJoint(joint);
+
+        return camera;
     }
 
 

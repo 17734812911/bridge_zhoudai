@@ -12,4 +12,5 @@ public class EnvironmentDO {
     private String terminalId;
     private String channelId;
     private String name;    // 环境量通道名称
+    private String channelType;     // 通道类型
 }

@@ -11,5 +11,5 @@ import java.util.Date;
  * Description: No Description
  */
 public interface EnvironmentService {
-    public PageResult queryEnvironmentDatasPage(PageRequest pageRequest, String terminalId, Date beginTime, Date endTime);
+    public PageResult queryEnvironmentDatasPage(PageRequest pageRequest, String terminalId, String beginTime, String endTime);
 }

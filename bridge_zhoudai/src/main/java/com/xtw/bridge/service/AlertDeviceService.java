@@ -5,9 +5,7 @@ import com.xtw.bridge.model.AlertDO;
 import com.xtw.bridge.model.AlertDevice;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Mr.Chen
@@ -39,4 +37,21 @@ public class AlertDeviceService {
     public int alarmEnter(Integer id){
         return alertDeviceDao.alarmEnter(id);
     }
+
+    // 统计指定时长（天）的报警次数
+    public List<HashMap<String,String>> alertCount(Integer time){
+        return alertDeviceDao.alertCount(time);
+    }
+
+    // 获取所有报警设备所属分区
+    public ArrayList<Integer> alertPartition(){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        List<Integer> alertPartitionList = alertDeviceDao.alertPartition();
+        for (Integer str : alertPartitionList) {
+            arrayList.add(str - 1);     // 查询回来的数值比分区号大1（分区号从0开始的）
+        }
+
+        return arrayList;
+    }
+
 }

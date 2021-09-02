@@ -94,4 +94,12 @@ public interface ConfigDao {
     public List<HashMap<String, String>> queryGxcwByCondition(String channel, Integer partitionId);
     // 条件查询环境量和表皮测温配置
     public List<HashMap<String, String>> queryEnvironmentByCondition(String deviceName, Integer channelId, String deviceIp, Integer partitionId);
+
+    /**
+     *  摄像头配置
+     */
+    // 添加camera表配置
+    public int addCameraConfig(Camera camera);
+
+
 }

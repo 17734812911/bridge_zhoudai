@@ -20,6 +20,19 @@
         </collection>
     </resultMap>
 
+    <!--  按分类查询所有设备  -->
+    <select id="queryDeviceByCategory" resultType="java.util.LinkedHashMap">
+        select d.id,line.line_id,line_name,d.name,terminal_id,dt.name productname
+        from line,device d,device_type dt
+        where line.line_id = d.line_id and d.device_type_id = dt.device_type_id
+        group by terminal_id
+    </select>
+    
+    <!--  根据lineID查询LineName  -->
+    <select id="queryLineName" resultType="java.lang.String">
+        select line_name from line where line_id = #{lineId}
+    </select>
+
     <!--  查询所有种类设备对应的数量  -->
     <select id="queryAllTypeNumber" resultType="DeviceDO">
         select dt.name,count(dt.name) number
@@ -30,10 +43,17 @@
 
     <!--  查询不在线设备种类对应的数量  -->
     <select id="queryOutlineDevice" resultType="DeviceDO">
-        select dt.name,count(d.id) number
-        from device_type dt, device d
-        where dt.device_type_id = d.device_type_id and TO_DAYS(NOW()) - TO_DAYS(d.last_data_time) &gt;= 1
-        group by d.device_type_id
+        select a.name,ifnull(count(b.online),0) online
+        from device_type a
+                 left join
+             (
+                 select dt.name,count(d.id) online,dt.device_type_id
+                 from device_type dt, device d
+                 where dt.device_type_id = d.device_type_id and TO_DAYS(NOW()) - TO_DAYS(d.last_data_time) &gt;= 1
+                 group by d.device_type_id
+             ) b
+             on a.device_type_id = b.device_type_id
+        group by a.name
     </select>
 
     <!--  查询所有线路  -->
@@ -45,6 +65,9 @@
         <result column="line_name" property="name" />
     </resultMap>
 
-
+    <select id="queryMaxValue" resultType="MaxValue">
+        select sd,wd,yq,eyht,lhq,jw,bpwd,wzjf,gxcw
+        from maxvalues
+    </select>
 
 </mapper>

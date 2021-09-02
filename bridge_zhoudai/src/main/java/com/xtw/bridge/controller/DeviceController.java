@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -68,4 +70,35 @@ public class DeviceController {
             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
         }
     }
+
+
+    // 按分类查询所有设备
+    @GetMapping("/category")
+    @Operation(
+            summary = "按分类查询所有设备"
+    )
+    public ResponseFormat queryDeviceByCategory(){
+        List<Object> deviceList = deviceService.queryDeviceByCategory();
+        if(deviceList != null){
+            return ResponseFormat.success("查询成功", deviceList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
+        }
+    }
+
+
+    // 获取所有类型设备七天最大值
+    @GetMapping("/maxvalues")
+    @Operation(
+            summary = "获取所有类型设备七天最大值"
+    )
+    public ResponseFormat queryMaxValue(){
+        LinkedList<Object> list= deviceService.queryMaxValue();
+        if(list.size() > 0){
+            return ResponseFormat.success("查询成功", list);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
+        }
+    }
+
 }

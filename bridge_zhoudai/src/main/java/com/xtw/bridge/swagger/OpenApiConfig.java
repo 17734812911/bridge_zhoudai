@@ -43,4 +43,12 @@ public class OpenApiConfig {
                 .pathsToMatch("/config/**")      // 扫描以"/alert/"为前缀的API，分为一组
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi cameraApi(){
+        return GroupedOpenApi.builder()
+                .group("camera")					// 分组名
+                .pathsToMatch("/camera/**")      // 扫描以"/camera/"为前缀的API，分为一组
+                .build();
+    }
 }

@@ -57,6 +57,7 @@
                 AND a.alert_date &lt;= #{endTime}
             </if>
         </where>
+        group by a.id
     </select>
 
     <!--  报警确认  -->
@@ -86,6 +87,23 @@
             from alert
             group by date(alert_date)
         ) b on a.alert_date = b.datetime;
+    </select>
+
+    <!--  统计指定时长（天）的报警次数  -->
+    <select id="alertCount" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select a.name,ifnull(b.count,0) count
+        from device_type a
+             left join
+             (select d.device_type_id, ifnull(count(a.terminal_id),0) as count
+             from alert a, device d
+             where a.terminal_id = d.terminal_id and a.line_id = d.line_id and TO_DAYS(NOW()) - TO_DAYS(a.alert_date) &lt;= #{time}
+             group by d.device_type_id) b
+             on a.device_type_id=b.device_type_id
+    </select>
+
+    <!--  获取所有没确认的报警设备所属分区  -->
+    <select id="alertPartition" resultType="java.lang.Integer">
+        select line_id from alert where isconfirm = 0 group by line_id
     </select>
 
 </mapper>

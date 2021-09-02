@@ -149,6 +149,20 @@ public class FibreTemperatureController {
         }
     }
 
+    // 查询所有分区光纤测温三相中的最大值及所在点位
+    @GetMapping("/gxcwmaxvalues")
+    @Operation(
+            summary = "查询所有分区光纤测温三相中的最大值及所在点位"
+    )
+    public ResponseFormat queryAllMaxAndPoint(){
+        ArrayList<LinkedHashMap<String,Object>> arrayList = fibreTemperatureServiceImpl.queryAllMaxAndPoint();
+        if(!arrayList.isEmpty()){
+            return ResponseFormat.success("查询成功", arrayList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
+        }
+    }
+
 
     @GetMapping("/queryhistoricaldatas")
     @Operation(

@@ -121,61 +121,105 @@ public class EnvironmentServiceImpl implements EnvironmentService {
             for(int i=0;i<channelList.size();i++) {     // 遍历所有在使用的通道
                 if (environmentDevice.get(j).getTerminalId().equals(channelList.get(i).getTerminalId())) {    // 如果时同一个设备则进行解析
                     HashMap<String,Object> hashMap = new HashMap<>();   // 每种通道下用集合形式存放具体数据
-                    switch (channelList.get(i).getChannelId()){
-                        case "1":
-                            hashMap.put("channelID", "1");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageOne());
-                            break;
-                        case "2":
-                            hashMap.put("channelID", "2");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageTwo());
-                            break;
-                        case "3":
-                            hashMap.put("channelID", "3");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageThree());
-                            break;
-                        case "4":
-                            hashMap.put("channelID", "4");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageFour());
-                            break;
-                        case "5":
-                            hashMap.put("channelID", "5");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageFive());
-                            break;
-                        case "6":
-                            hashMap.put("channelID", "6");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageSix());
-                            break;
-                        case "7":
-                            hashMap.put("channelID", "7");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageSeven());
-                            break;
-                        case "8":
-                            hashMap.put("channelID", "8");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageEigth());
-                            break;
-                        case "9":
-                            hashMap.put("channelID", "9");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageNine());
-                            break;
-                        case "10":
-                            hashMap.put("channelID", "10");
-                            hashMap.put("name", channelList.get(i).getName());
-                            hashMap.put("value", environmentDevice.get(j).getPassageTen());
-                            break;
+                    if("BPWD".equals(channelList.get(i).getChannelType())){
+                        switch (channelList.get(i).getChannelId()){
+                            case "1":
+                                hashMap.put("channelID", "1");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "A1相");
+                                hashMap.put("produceName", "表皮温度");
+                                hashMap.put("value", environmentDevice.get(j).getPassageOne());
+                                break;
+                            case "2":
+                                hashMap.put("channelID", "2");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "B1相");
+                                hashMap.put("value", environmentDevice.get(j).getPassageTwo());
+                                break;
+                            case "3":
+                                hashMap.put("channelID", "3");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "C1相");
+                                hashMap.put("value", environmentDevice.get(j).getPassageThree());
+                                break;
+                            case "6":
+                                hashMap.put("channelID", "6");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "A2相");
+                                hashMap.put("value", environmentDevice.get(j).getPassageSix());
+                                break;
+                            case "7":
+                                hashMap.put("channelID", "7");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "B2相");
+                                hashMap.put("value", environmentDevice.get(j).getPassageSeven());
+                                break;
+                            case "8":
+                                hashMap.put("channelID", "8");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("phase", "C2相");
+                                hashMap.put("value", environmentDevice.get(j).getPassageEigth());
+                                break;
+                        }
+                    } else{
+                        switch (channelList.get(i).getChannelId()){
+                            case "1":
+                                hashMap.put("channelID", "1");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("produceName", "环境量");
+                                hashMap.put("value", environmentDevice.get(j).getPassageOne());
+                                break;
+                            case "2":
+                                hashMap.put("channelID", "2");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageTwo());
+                                break;
+                            case "3":
+                                hashMap.put("channelID", "3");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageThree());
+                                break;
+                            case "4":
+                                hashMap.put("channelID", "4");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageFour());
+                                break;
+                            case "5":
+                                hashMap.put("channelID", "5");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageFive());
+                                break;
+                            case "6":
+                                hashMap.put("channelID", "6");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageSix());
+                                break;
+                            case "7":
+                                hashMap.put("channelID", "7");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageSeven());
+                                break;
+                            case "8":
+                                hashMap.put("channelID", "8");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageEigth());
+                                break;
+                            case "9":
+                                hashMap.put("channelID", "9");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageNine());
+                                break;
+                            case "10":
+                                hashMap.put("channelID", "10");
+                                hashMap.put("name", channelList.get(i).getName());
+                                hashMap.put("value", environmentDevice.get(j).getPassageTen());
+                                break;
+                        }
                     }
                     hashMap.put("id", environmentDevice.get(j).getId());
                     hashMap.put("terminalID", environmentDevice.get(j).getTerminalId());
                     hashMap.put("terminalIP", environmentDevice.get(j).getTerminalIp());
+                    hashMap.put("deviceName", channelList.get(i).getChannelType());
                     hashMap.put("insertTime", environmentDevice.get(j).getInsertTime());
 
                     list.add(hashMap);
@@ -188,13 +232,13 @@ public class EnvironmentServiceImpl implements EnvironmentService {
 
     // 查询环境量数据并分页
     @Override
-    public PageResult queryEnvironmentDatasPage(PageRequest pageRequest, String terminalId, Date beginTime, Date endTime) {
+    public PageResult queryEnvironmentDatasPage(PageRequest pageRequest, String terminalId, String beginTime, String endTime) {
         return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest, terminalId, beginTime, endTime));
     }
     /**
      * 调用分页插件完成分页
      */
-    private PageInfo<EnvironmentDevice> getPageInfo(PageRequest pageRequest, String terminalId, Date beginTime, Date endTime) {
+    private PageInfo<EnvironmentDevice> getPageInfo(PageRequest pageRequest, String terminalId, String beginTime, String endTime) {
         LinkedList list = new LinkedList();
         LinkedList<Object> dateTimeList = new LinkedList<>();
 
@@ -206,77 +250,11 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         List<EnvironmentDevice> environmentDeviceList = environmentDao.queryEnvironmentDatasPage(terminalId, beginTime, endTime);
         // 根据设备ID查询所有设备在使用的通道
         List<EnvironmentDO> channelList =  environmentDao.queryUseChannelsByTerminalId(terminalId);
-        //
-        // for (EnvironmentDevice  environmentDevice: environmentDeviceList) {
-        //     for(int i=0;i<channelList.size();i++) {     // 遍历所有在使用的通道
-        //         if (environmentDevice.getTerminalId().equals(channelList.get(i).getTerminalId())) {    // 如果时同一个设备则进行解析
-        //             HashMap<String,Object> hashMap = new HashMap<>();   // 每种通道下用集合形式存放具体数据
-        //             switch (channelList.get(i).getChannelId()){
-        //                 case "1":
-        //                     hashMap.put("channelID", "1");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageOne());
-        //                     break;
-        //                 case "2":
-        //                     hashMap.put("channelID", "2");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageTwo());
-        //                     break;
-        //                 case "3":
-        //                     hashMap.put("channelID", "3");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageThree());
-        //                     break;
-        //                 case "4":
-        //                     hashMap.put("channelID", "4");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageFour());
-        //                     break;
-        //                 case "5":
-        //                     hashMap.put("channelID", "5");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageFive());
-        //                     break;
-        //                 case "6":
-        //                     hashMap.put("channelID", "6");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageSix());
-        //                     break;
-        //                 case "7":
-        //                     hashMap.put("channelID", "7");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageSeven());
-        //                     break;
-        //                 case "8":
-        //                     hashMap.put("channelID", "8");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageEigth());
-        //                     break;
-        //                 case "9":
-        //                     hashMap.put("channelID", "9");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageNine());
-        //                     break;
-        //                 case "10":
-        //                     hashMap.put("channelID", "10");
-        //                     hashMap.put("name", channelList.get(i).getName());
-        //                     hashMap.put("value", environmentDevice.getPassageTen());
-        //                     break;
-        //             }
-        //             hashMap.put("id", environmentDevice.getId());
-        //             hashMap.put("terminalID", environmentDevice.getTerminalId());
-        //             hashMap.put("terminalIP", environmentDevice.getTerminalIp());
-        //             hashMap.put("insertTime", environmentDevice.getInsertTime());
-        //
-        //             list.add(hashMap);
-        //         }
-        //
-        //     }
-        // }
 
         for(int i=0;i<channelList.size();i++){
             LinkedList<Object> linkedList = new LinkedList<>();
             for (EnvironmentDevice  environmentDevice: environmentDeviceList) {
+                HashMap<String,Object> hashMap = new HashMap<>();   // 每种通道下用集合形式存放具体数据
                 switch(channelList.get(i).getChannelId()){
                     case "1":
                         linkedList.add(environmentDevice.getPassageOne());
@@ -310,6 +288,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                         break;
                 }
             }
+
             list.add(linkedList);
         }
 

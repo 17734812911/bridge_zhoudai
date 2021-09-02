@@ -37,6 +37,9 @@ public interface FibreTemperatureDao {
     // 查询光纤测温所有数据(所有分区三相最大值)
     public List<FibreTemperature> queryAllPartitionMaxValue();
 
+    // 查询所有分区光纤测温三相中的最大值及所在点位
+    public List<FibreTemperature> queryAllMaxAndPoint();
+
     // 查询光纤测温通道的读取顺序
     public boolean queryReadOrder();
 

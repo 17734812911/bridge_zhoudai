@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: Mr.Chen
@@ -107,5 +104,25 @@ public class DeviceAlertController {
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "确认失败"));
         }
+    }
+
+    // 统计指定时长（天）的报警次数
+    @GetMapping("/alertcount")
+    @Operation(
+            summary = "统计指定时长（天）的报警次数"
+    )
+    public ResponseFormat todayAlertCount(Integer time){
+        List<HashMap<String,String>> hashMapList = alertDeviceService.alertCount(time);
+        return ResponseFormat.success("查询成功", hashMapList);
+    }
+
+    // 获取所有报警设备所属分区
+    @GetMapping("/partitions")
+    @Operation(
+            summary = "获取所有报警设备所属分区"
+    )
+    public ResponseFormat alertPartition(){
+        ArrayList<Integer> arrayList = alertDeviceService.alertPartition();
+        return ResponseFormat.success("查询成功", arrayList);
     }
 }

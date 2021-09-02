@@ -59,9 +59,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             for(FibreTemperatureConfig config : fibreTemperatureConfigs){
                 if(config.getDeviceIp().equals(fibreTemperature.getDeviceIp()) && config.getChannel().equals(fibreTemperature.getChannel())){
                     int start = config.getStartPosition();  // 起始位置
-                    // System.out.println("开始：" + start);
                     int end = config.getEndPosition();      // 结束位置
-                    // System.out.println("结束：" + end);
                     List<String> list = strList.subList(start, end);       // 根据起止点位截取的集合
                     String subDatas = StringUtils.join(list,",");   // 根据起止点位截取的字符串
                     // System.out.println("list长度：" + list.size());
@@ -75,10 +73,12 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                     // 获取最大值
                     for(int i=doubleArr.length-1;i>=0;){    // 只执行一次,取最后一个值
                         maxValue = doubleArr[i];
-                        // System.out.println("最大值：" + maxValue);
+
+                        maxValueIndex = list.indexOf(df.format(maxValue) + "");     // 获取最大值的下标(即最大值点位)
+
                         if(maxValue >= config.getAlarmValue()){     // 如果最大值达到预设报警值,向报警表插入信息
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
-                            fibreTemperatureAlert.setContent("光纤测温告警");
+                            fibreTemperatureAlert.setContent(fibreTemperature.getPartitionId() + "号接头光纤测温" + (maxValueIndex * 0.5) + "米处告警");
                             fibreTemperatureAlert.setAlertData((maxValue + config.getOffsetValue())+"");
                             fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
                             fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
@@ -88,8 +88,6 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                         }
                         break;
                     }
-
-                    maxValueIndex = list.indexOf(df.format(maxValue) + "");     // 获取最大值的下标(即最大值点位)
 
                     // 填充光纤测温实体类
                     fibreTemperaturePojo.setDeviceIp(fibreTemperature.getDeviceIp());
@@ -264,13 +262,29 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
         return map;
     }
 
-
     // 查询光纤测温通道读取顺序
     @Override
     public boolean queryReadOrder() {
         return fibreTemperatureDao.queryReadOrder();
     }
 
+
+    // 查询所有分区光纤测温三相中的最大值及所在点位
+    public ArrayList<LinkedHashMap<String,Object>> queryAllMaxAndPoint(){
+        ArrayList<LinkedHashMap<String,Object>> arrayList = new ArrayList<>();
+
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryAllMaxAndPoint();
+        for(int i=0;i<fibreTemperatureList.size();i++){
+            FibreTemperature fibreTemperature = fibreTemperatureList.get(i);
+            LinkedHashMap<String,Object> linkedHashMap = new LinkedHashMap<>();
+            linkedHashMap.put("partitionId", fibreTemperature.getPartitionId());
+            linkedHashMap.put("maxValue", fibreTemperature.getMaxValue());
+            linkedHashMap.put("maxValuePoint", fibreTemperature.getMaxValuePoints());
+
+            arrayList.add(linkedHashMap);
+        }
+        return arrayList;
+    }
 
     // 根据分区id和数据点位查询该点历史数据
     @Override

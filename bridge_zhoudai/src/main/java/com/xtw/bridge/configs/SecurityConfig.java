@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -46,14 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 在引入SpringSecurity核心包时就默认集成到项目中了，只需要针对它进行配置即可
          */
         http
+                .cors()     // 开启CORS跨域访问配置
+                .configurationSource(corsConfigurationSource())
+             .and()
                 .csrf().disable()       // 开启csrf跨站攻击防御,关闭的话在后面加上 .disable()
              //    // 用Cookie存储CSRF令牌
              //    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
              //    // 忽略一些请求不防御，比如登录认证请求
              //    .ignoringAntMatchers("/users/login")
              // .and()
-                .cors()     // 开启CORS跨域访问配置
-             .and()
                 // 让自定义的jwtAuthenticationTokenFilter在UsernamePasswordAuthenticationFilter前面执行
                 // 如果jwtAuthenticationTokenFilter认证通过，UsernamePasswordAuthenticationFilter就不会再执行了
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
@@ -64,14 +68,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeParameter("remember-me-new")
                 // 设置保存在浏览器端的cookie的名称
                 .rememberMeCookieName("remember-me-cookie")
-                // 设置cookie的有效期。默认是2周(这里设置成2天)
-                .tokenValiditySeconds(2*24*6*60)
+                // 设置cookie的有效期。默认是2周(这里设置成4小时)
+                .tokenValiditySeconds(4*60*60)
                 // 将Token中的相关信息存到数据库中
                 .tokenRepository(persistentTokenRepository())
             .and()
                 .authorizeRequests()
                 .antMatchers("/users/login", "/users/refreshtoken", "/swagger-ui.html","/swagger-ui/**"
-                    ,"/swagger-resources/**","/v3/**", "/device/test","/device/fibretemperatures"
+                    ,"/swagger-resources/**","/v3/**", "/device/test","/device/fibretemperatures", "/camera/attributes"
                 ).permitAll()    //表示访问这里的资源不用经过认证
                 // 所有请求都要通过使用这个access方法里面传递的表达式的规则进行校验，如果返回true允许访问
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")
@@ -116,17 +120,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    // // 配置CORS跨域访问
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource(){
-    //
-    //     CorsConfiguration configuration = new CorsConfiguration();
-    //     configuration.setAllowedOriginPatterns(Collections.singletonList("*"));    // 允许哪些源访问当前域的资源（// http://192.168.100.4:8888）
-    //     configuration.addAllowedHeader(CorsConfiguration.ALL);
-    //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));     // 开放哪些http方法，允许跨域访问
-    //     configuration.applyPermitDefaultValues();   // 设置其它一些默认值
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     source.registerCorsConfiguration("/**", configuration);     // 针对哪些请求资源
-    //     return source;
-    // }
+    // 配置CORS跨域访问
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));    // 允许哪些源访问当前域的资源（// http://192.168.100.4:8888）
+        configuration.addAllowedHeader(CorsConfiguration.ALL);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "Origin"));     // 开放哪些http方法，允许跨域访问
+        configuration.applyPermitDefaultValues();   // 设置其它一些默认值
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);     // 针对哪些请求资源
+        return source;
+    }
 }

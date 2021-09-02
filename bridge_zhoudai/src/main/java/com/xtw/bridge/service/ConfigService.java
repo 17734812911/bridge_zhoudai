@@ -1,10 +1,7 @@
 package com.xtw.bridge.service;
 
 import com.xtw.bridge.mapper.ConfigDao;
-import com.xtw.bridge.model.Device;
-import com.xtw.bridge.model.EnvironmentConfig;
-import com.xtw.bridge.model.FibreTemperatureConfig;
-import com.xtw.bridge.model.OutPartialConfig;
+import com.xtw.bridge.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +66,7 @@ public class ConfigService implements ConfigDao{
     public int addOutPartialConfig(OutPartialConfig outPartialConfig){
         // 构造device对象
         Device device = structureDevice(outPartialConfig);
+        // 查询设备类型ID
         String deviceTypeId = queryDeviceTypeId(outPartialConfig.getName());
         // 判断设备是否已经添加过
         if(queryIsExistDevice(device.getTerminalId()) > 0){
@@ -343,6 +341,27 @@ public class ConfigService implements ConfigDao{
         return configDao.queryEnvironmentByCondition(deviceName, channelId, deviceIp, partitionId);
     }
 
+    /**
+     *  摄像头配置
+     * @param camera
+     * @return
+     */
+    @Override
+    public int addCameraConfig(Camera camera) {
+        // 查看是否有该设备的配置
+        if(queryIsExistDevice(camera.getTerminalId()) > 0){
+            return 0;
+        }
+        // 构造device对象
+        Device device = structureDevice(camera);
+        // 添加device表配置数据
+        int result = addDevice(device);
+        // 添加camera表配置
+        configDao.addCameraConfig(camera);
+
+        return result;
+    }
+
 
     // 构建device类
     private Device structureDevice(OutPartialConfig outPartialConfig){
@@ -368,6 +387,20 @@ public class ConfigService implements ConfigDao{
         device.setLineId(Integer.parseInt(lineId));
         device.setJoint(environmentConfig.getJoint());
         return device;
+    }
+
+    // 构建device类
+    private Device structureDevice(Camera camera){
+        String lineId = queryLineId(camera.getLineName());
+        String deviceTypeId = queryDeviceTypeId(camera.getProduceName());
+        Device device = new Device();
+        device.setDeviceName(camera.getDeviceName());
+        device.setDeviceTypeId(Integer.parseInt(deviceTypeId));
+        device.setTerminalId(camera.getTerminalId());
+        device.setLineId(Integer.parseInt(lineId));
+        device.setJoint(camera.getJoint());
+        return device;
+
     }
 
     // 构造OutPartialConfig的map对象

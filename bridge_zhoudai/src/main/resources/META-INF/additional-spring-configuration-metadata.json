@@ -14,5 +14,10 @@
       "name": "jwt.header",
       "type": "java.lang.String",
       "description": "Description for jwt.header."
+    },
+    {
+      "name": "spring.datasource.type.initialSize",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.type.initialSize."
     }
   ] }

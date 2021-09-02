@@ -83,15 +83,14 @@ public class EnvironmentController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Integer pagenum = 1;    // 默认页码
         Integer pagesize = 5;   // 默认每页数量
+        String beginTimeStr = "";
+        String endTimeStr = "";
         Date beginTime = sdf.parse(MyUtils.getDateTime(-1));
         Date endTime = sdf.parse(MyUtils.getDateTime(0));
 
-        if(begintime != null){
-            beginTime = sdf.parse(begintime);
-        }
-        if(endtime  != null){
-            endTime = sdf.parse(endtime);
-        }
+        beginTimeStr = sdf.format(beginTime);
+        endTimeStr = sdf.format(endTime);
+
         if(pageNum != null && pageSize != null){
             pagenum = pageNum;
             pagesize = pageSize;
@@ -100,7 +99,7 @@ public class EnvironmentController {
         pageRequest.setPageNum(pagenum);
         pageRequest.setPageSize(pagesize);
 
-        PageResult environmentList = environmentServiceImpl.queryEnvironmentDatasPage(pageRequest, terminalId, beginTime, endTime);
+        PageResult environmentList = environmentServiceImpl.queryEnvironmentDatasPage(pageRequest, terminalId, beginTimeStr, endTimeStr);
         if(environmentList != null){
             return ResponseFormat.success("查询成功", environmentList);
         } else{

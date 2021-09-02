@@ -33,7 +33,7 @@
 
     <!--  根据环境量和表皮测温设备id查询该设备在使用的通道  -->
     <select id="queryUseChannelsByTerminalId" resultType="EnvironmentDO">
-        select ca.terminal_id,ca.channel_id,ca.name
+        select ca.terminal_id,ca.channel_id,ca.name,ca.channel_type
         from channel_attribute ca,device_config dc
         where ca.terminal_id = dc.terminal_id and ca.is_use = 1 and ca.terminal_id = #{terminalId}
     </select>
@@ -46,10 +46,10 @@
             <if test="1==1">
                 AND dd.terminal_id = #{terminalId}
             </if>
-            <if test="beginTime != null">
+            <if test="1==1">
                 AND dd.insert_time &gt;= #{beginTime}
             </if>
-            <if test="endTime != null">
+            <if test="1==1">
                 AND dd.insert_time &lt;= #{endTime}
             </if>
         </where>

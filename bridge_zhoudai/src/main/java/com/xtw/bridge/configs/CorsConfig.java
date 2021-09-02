@@ -21,33 +21,7 @@ import java.util.Collections;
  * Date: 2021/8/9
  * Description: No Description
  */
-@Configuration
-public class CorsConfig {
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        //是否允许请求带有验证信息
-        corsConfiguration.setAllowCredentials(true);
-        /*允许服务端访问的客户端请求头*/
-        corsConfiguration.addAllowedHeader("*");
-        //1,允许任何来源
-        corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
-        //2,允许任何请求头
-        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
-        //3,允许任何方法
-        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
-        //4,允许凭证
-        corsConfiguration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-
-        return new CorsFilter(source);
-    }
-}
-
-
-// @Component
+// @Configuration
 // public class CorsConfig implements Filter {
 //
 //     @Override
@@ -82,4 +56,4 @@ public class CorsConfig {
 //
 //         chain.doFilter(request, resp);
 //     }
-//}
+// }

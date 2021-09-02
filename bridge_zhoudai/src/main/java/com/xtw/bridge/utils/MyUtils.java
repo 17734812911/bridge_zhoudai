@@ -1,5 +1,6 @@
 package com.xtw.bridge.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -8,6 +9,8 @@ import java.util.*;
  * Description: 数据处理的工具类
  */
 public class MyUtils {
+
+    private static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     // 将字符串数组转换成double数组
     public static double[] toDoubleArray(String[] strArr) {
@@ -43,10 +46,11 @@ public class MyUtils {
     // 获取当前日期时间
     public static String getDateTime(Integer addDasNumber){   // addNumber为要加上的天数
         Calendar calendar=Calendar.getInstance();
+
         String year = String.valueOf(calendar.get(GregorianCalendar.YEAR));
         String month = format((calendar.get(GregorianCalendar.MONTH)+1));   // 约束要加1,因为生成的约束会比当前少一个月
         String day = format((calendar.get(GregorianCalendar.DAY_OF_MONTH) + addDasNumber));     // 通过addDasNumber参数，决定获取哪一天
-        String hour = format(calendar.get(GregorianCalendar.HOUR));
+        String hour = format(calendar.get(GregorianCalendar.HOUR) + 12);
         String min = format(calendar.get(GregorianCalendar.MINUTE));
         String second = format(calendar.get(GregorianCalendar.SECOND));
 
