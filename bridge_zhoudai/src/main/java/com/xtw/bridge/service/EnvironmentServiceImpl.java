@@ -299,4 +299,49 @@ public class EnvironmentServiceImpl implements EnvironmentService {
 
         return new PageInfo<EnvironmentDevice>(list);
     }
+
+    // 查询环境量某个通道的历史曲线
+    public ArrayList<Object> queryChannelDatas(String terminalId, String channelId, String begintime, String endtime){
+        ArrayList<Object> arrayList = new ArrayList<>();
+        List<EnvironmentDevice> environmentDeviceList = environmentDao.queryChannelDatas(terminalId, begintime, endtime);
+        for(int i=0;i<environmentDeviceList.size();i++){
+            HashMap<String,Object> hashMap = new HashMap<>();
+            switch (channelId){
+                case "1":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageOne());
+                    break;
+                case "2":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageTwo());
+                    break;
+                case "3":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageThree());
+                    break;
+                case "4":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageFour());
+                    break;
+                case "5":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageFive());
+                    break;
+                case "6":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageSix());
+                    break;
+                case "7":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageSeven());
+                    break;
+                case "8":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageEigth());
+                    break;
+                case "9":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageNine());
+                    break;
+                case "10":
+                    hashMap.put("value", environmentDeviceList.get(i).getPassageTen());
+                    break;
+            }
+            hashMap.put("time", environmentDeviceList.get(i).getInsertTime());
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+
+    }
 }

@@ -32,5 +32,6 @@ public interface EnvironmentDao {
     // 根据环境量和表皮测温设备id查询该设备所有数据
     public List<EnvironmentDevice> queryEnvironmentDatasPage(String terminalId, String beginTime, String endTime);
 
-    //
+    // 查询环境量某个通道的历史曲线
+    public List<EnvironmentDevice> queryChannelDatas(String terminalId, String begintime, String endtime);
 }

@@ -4,11 +4,6 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * User: Mr.Chen
- * Date: 2021/8/31
- * Description: No Description
- */
 @Data
 public class Thermometry {
     private TargetAttrs targetAttrs;

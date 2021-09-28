@@ -29,5 +29,8 @@ public class Device {
     private EnvironmentDevice environmentDevice;
     @Schema(name = "isOnline", description = "是否在线")
     private Boolean isOnline;
+    @Schema(name = "lastDataTime", description = "最新数据时间")
+    private String lastDataTime;
+
 
 }

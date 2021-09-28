@@ -19,7 +19,7 @@
 
     <!--  向告警表插入数据  -->
     <insert id="saveAlarmData" parameterType="cameraAlert">
-        insert into alert(line_id, terminal_id, content, alert_data, alert_date, isconfirm) values(#{lineId}, #{terminalId}, #{content}, #{alertData}, #{alertDate}, #{isConfirm})
+        insert into alert(line_id, terminal_id, content, alert_data, alert_date, isconfirm, alert_type) values(#{lineId}, #{terminalId}, #{content}, #{alertData}, #{alertDate}, #{isConfirm}, #{alertType})
     </insert>
 
     <!--  更新设备表的最后数据的时间  -->

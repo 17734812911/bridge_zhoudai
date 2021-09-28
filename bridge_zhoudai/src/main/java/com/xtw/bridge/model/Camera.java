@@ -17,7 +17,8 @@ public class Camera {
     private String deviceIp;        // 摄像头IP
     private String cameraOne;       // 一号通道(正常画面)
     private String cameraTwo;       // 二号通道(热成像画面)
-    private String typeName;        // 摄像头类型名称
+    private String name;            // 摄像头类型名
+    private String typeName;        // 摄像头画面类型名称
     private double alarmValue;      // 告警值
     private double offsetValue;     // 偏移量
 

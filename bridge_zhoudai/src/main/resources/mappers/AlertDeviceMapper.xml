@@ -4,9 +4,9 @@
 
     <!--  查询报警设备信息及报警信息  -->
     <select id="queryAllAlertDevice" resultType="java.util.LinkedHashMap">
-        select a.id aid,a.line_id,a.terminal_id,a.content,a.alert_data,a.alert_date,isconfirm,l.line_name,d.id did,d.`name`
+        select a.id aid,a.line_id,a.terminal_id,a.content,a.alert_data,a.alert_date,isconfirm,a.enter_time,a.alert_type,l.line_name,d.id did,d.`name`
         from alert a,device d,line l
-        where a.terminal_id=d.terminal_id and a.line_id = l.line_id and isconfirm = 0
+        where a.line_id = l.line_id and isconfirm = 0
         group by a.id
     </select>
 
@@ -16,6 +16,8 @@
         <result column="alert_data" property="alertData" />
         <result column="alert_date" property="alertDate" />
         <result column="isconfirm" property="isConfirm" />
+        <result column="enter_time" property="enterTime" />
+        <result column="alert_type" property="alertType" />
 
         <association column="line_id" property="line" javaType="Line">
             <id column="line_id" property="id" />
@@ -29,14 +31,11 @@
 
     <!--  按条件查询报警设备  resultMap="AlertDeviceMap"-->
     <select id="queryAlertDeviceByCriteria" resultType="java.util.LinkedHashMap">
-        select a.id aid,a.line_id,l.line_name,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm
-        from alert a, line l, device d
+        select a.id aid,a.line_id,l.line_name,dt.name productName,a.terminal_id,d.name,a.content,a.alert_data,a.alert_date,a.isconfirm,a.enter_time,a.alert_type
+        from alert a, line l, device d,device_type dt
         <where>
             <if test="1==1">
-                AND a.line_id = l.line_id
-            </if>
-            <if test="1==1">
-                AND a.terminal_id = d.terminal_id
+                AND a.line_id = l.line_id and d.device_type_id = dt.device_type_id and a.terminal_id = d.terminal_id
             </if>
             <if test="id != null and id != ''">
                 AND a.id = #{id}
@@ -47,22 +46,25 @@
             <if test="deviceName != null and deviceName != ''">
                 AND d.name = #{deviceName}
             </if>
-            <if test="joint != null and joint != ''">
-                AND d.joint = #{joint}
-            </if>
-            <if test="beginTime != null">
+            <if test="beginTime != null and beginTime != ''">
                 AND a.alert_date &gt;= #{beginTime}
             </if>
-            <if test="endTime != null">
+            <if test="endTime != null and endTime != ''">
                 AND a.alert_date &lt;= #{endTime}
+            </if>
+            <if test="alertType != null and alertType != ''">
+                AND a.alert_type = #{alertType}
+            </if>
+            <if test="isEnter != null and isEnter != ''">
+                AND a.isconfirm = #{isEnter}
             </if>
         </where>
         group by a.id
     </select>
 
     <!--  报警确认  -->
-    <update id="alarmEnter" parameterType="java.lang.Integer">
-        update alert set isconfirm = 1 where id = #{id}
+    <update id="alarmEnter" parameterType="java.lang.String">
+        update alert set isconfirm = 1, enter_time=#{enterTime} where id = #{id}
     </update>
 
     <!--  查询七天中每天的告警次数  -->
@@ -101,9 +103,32 @@
              on a.device_type_id=b.device_type_id
     </select>
 
-    <!--  获取所有没确认的报警设备所属分区  -->
+    <!--  获取所有没确认的报警设备所属分区(用于页面闪烁)  -->
     <select id="alertPartition" resultType="java.lang.Integer">
         select line_id from alert where isconfirm = 0 group by line_id
+    </select>
+
+    <!--  按条件查询告警设备  -->
+    <select id="getTodayAlarm" parameterType="java.lang.String">
+        select dt.name,a.content,a.alert_data,a.alert_date,a.alert_type
+        from alert a,device d, device_type dt
+        <where>
+            <if test="1==1">
+                AND a.terminal_id = d.terminal_id and d.device_type_id = dt.device_type_id
+            </if>
+            <if test="alertType != null and alertType != ''">
+                a.alert_type= #{alertType}
+            </if>
+            <if test="deviceName != null and deviceName != ''">
+                AND dt.device_type_id in (select device_type_id from device_type where dt.name = #{deviceName})
+            </if>
+            <if test="beginTime != null and beginTime !=''">
+                AND a.alert_date &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND a.alert_date &lt;= #{endTime}
+            </if>
+        </where>
     </select>
 
 </mapper>

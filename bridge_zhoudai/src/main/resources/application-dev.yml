@@ -5,9 +5,10 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss  # 告诉Spring,如果接收到一个这种类型的json数据，自动转换为Date类型
     time-zone: GMT+8
-    default-property-inclusion: non_null    # 不像前端返回空字段
+    default-property-inclusion: non_null    # 不像前端返回空字段  183.247.176.143
   datasource:
-    url: jdbc:mysql://192.168.100.177:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&serverTimezone=GMT
+    url: jdbc:mysql://localhost:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&serverTimezone=GMT
+#    url: jdbc:mysql://localhost:3306/zhoudai_bridge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&serverTimezone=GMT
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver

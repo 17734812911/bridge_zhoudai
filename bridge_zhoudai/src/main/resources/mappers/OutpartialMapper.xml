@@ -6,22 +6,42 @@
     <select id="queryOutPartialMaxValue" resultType="map">
         select o.*,d.name,l.line_name,d.joint
         from outpartial o,device_config dc,device d,line l, (select max(id) id from outpartial group by terminal_id) a
-        where o.id = a.id and dc.partition_id = #{partitionId} and o.terminal_id = d.terminal_id and d.line_id = l.line_id
+        where o.id = a.id  and o.terminal_id = d.terminal_id and d.line_id= #{partitionId}
         group by o.terminal_id
     </select>
 
-    <!--  根据分区ID和设备ID查询该分区的外置局放设备的历史趋势(最大放电量、对应时间)  -->
+    <!--  根据分区ID和设备ID查询该分区的外置局放设备的历史趋势(最大放电量、最大放电频次、对应时间)  -->
     <select id="queryOutPartitionTrend" resultType="java.util.LinkedHashMap">
-        select o.a_max_electric,o.b_max_electric,o.c_max_electric,o.createtime
+        select o.a_max_electric,o.b_max_electric,o.c_max_electric
         from outpartial o, device_config dc
-        where o.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId} and dc.terminal_id = #{terminalId}
+        <where>
+            <if test="1==1">
+                AND o.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId} and dc.terminal_id = #{terminalId}
+            </if>
+            <if test="begintime != null and begintime != ''">
+                AND o.createtime &gt;= #{begintime}
+            </if>
+            <if test="endtime != null and endtime != ''">
+                AND o.createtime &lt;= #{endtime}
+            </if>
+        </where>
     </select>
 
     <!--  外置局放历史分析(最大放电量、最大放电频次、时间)  -->
     <select id="historicalAnalysis" resultType="java.util.LinkedHashMap">
         select o.a_max_electric,o.a_max_frequency,o.b_max_electric,o.b_max_frequency,o.c_max_electric,o.c_max_frequency,o.createtime
         from outpartial o, device_config dc
-        where o.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId} and dc.terminal_id = #{terminalId}
+        <where>
+            <if test="1==1">
+                AND o.terminal_id = dc.terminal_id and dc.partition_id = #{partitionId} and dc.terminal_id = #{terminalId}
+            </if>
+            <if test="begintime != null and begintime != ''">
+                AND o.createtime &gt;= #{begintime}
+            </if>
+            <if test="endtime != null and endtime != ''">
+                AND o.createtime &lt;= #{endtime}
+            </if>
+        </where>
     </select>
 
     <!--  根据外置局放设备id查询该设备最新数据  -->

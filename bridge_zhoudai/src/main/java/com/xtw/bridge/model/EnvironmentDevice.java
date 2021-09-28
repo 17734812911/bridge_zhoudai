@@ -3,8 +3,6 @@ package com.xtw.bridge.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * User: Mr.Chen
  * Date: 2021/7/13
@@ -40,6 +38,6 @@ public class EnvironmentDevice {
     @Schema(name = "passageTen", description = "10号通道值")
     private String passageTen;
     @Schema(name = "insertTime", description = "最新数据时间")
-    private Date insertTime;
+    private String insertTime;
 
 }

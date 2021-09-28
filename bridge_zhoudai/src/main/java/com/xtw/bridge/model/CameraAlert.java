@@ -24,4 +24,7 @@ public class CameraAlert {
     private Date alertDate;
     @Schema(name = "isConfirm", description = "报警是否已确认")
     private Boolean isConfirm;
+    @Schema(name = "alertType", description = "告警类型")
+    private String alertType;
+
 }

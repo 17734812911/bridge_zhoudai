@@ -6,12 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * User: Mr.Chen
- * Date: 2021/8/31
- * Description: No Description
+ *  摄像头温度实体类
  */
 @Data
-public class CameraModel {
+public class CameraTemperatureModel {
     private String dataType;
     private Date recvTime;
     private Date sendTime;

@@ -3,12 +3,14 @@
 <mapper namespace="com.xtw.bridge.mapper.DeviceDao">
 
     <!--  查询所有设备  -->
-    <select id="queryAllDevice" resultMap="result">
-        select line.line_id,line_name,d.id,d.name,terminal_id,dt.name productname
+    <select id="queryAllDevice" resultType="java.util.LinkedHashMap">
+        select line.line_id,line_name,d.id,d.name,terminal_id,dt.name productname,last_data_time
         from line,device d,device_type dt
-        where d.line_id = line.line_id and d.device_type_id = dt.device_type_id
-        group by d.id
+        where d.line_id = line.line_id and d.device_type_id = dt.device_type_id and dt.device_type_id != 4
+        group by d.terminal_id
     </select>
+
+
     <resultMap id="result" type="Line">
         <id column="line_id" property="id"/>
         <result column="line_name" property="name"/>
@@ -17,8 +19,15 @@
             <result column="productname" property="name"/>
             <result column="terminal_id" property="terminalId"/>
             <result column="name" property="deviceName" />
+            <result column="last_data_time" property="lastDataTime" />
         </collection>
     </resultMap>
+    <select id="queryAllDevices" resultMap="result">
+        select line.line_id,line_name,d.id,d.name,terminal_id,dt.name productname
+        from line,device d,device_type dt
+        where d.line_id = line.line_id and d.device_type_id = dt.device_type_id
+        group by d.id
+    </select>
 
     <!--  按分类查询所有设备  -->
     <select id="queryDeviceByCategory" resultType="java.util.LinkedHashMap">
@@ -65,9 +74,35 @@
         <result column="line_name" property="name" />
     </resultMap>
 
+
+    <!--  查询所有设备七日最大值  -->
     <select id="queryMaxValue" resultType="MaxValue">
         select sd,wd,yq,eyht,lhq,jw,bpwd,wzjf,gxcw
         from maxvalues
     </select>
 
+    <!--  根据设备id和分区id查询线路名+设备名  -->
+    <select id="queryName" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
+        select l.line_name,d.`name`
+        from line l,device d
+        where l.line_id=#{partitionId} and d.terminal_id=#{terminalId}
+    </select>
+
+
+    <!--  查询当前无故障运行天数  -->
+    <select id="safeDuration" resultType="java.lang.String">
+        select safe_duration from safe_time
+    </select>
+
+    <!--  查询当天告警次数  -->
+    <select id="alertNumber" resultType="java.lang.Integer">
+        select count(a.id) count
+        from alert a
+        where TO_DAYS(NOW()) - TO_DAYS(a.alert_date) &lt;= 0
+    </select>
+
+
+    <update id="updateSafe">
+        update safe_time set safe_duration = #{number}
+    </update>
 </mapper>

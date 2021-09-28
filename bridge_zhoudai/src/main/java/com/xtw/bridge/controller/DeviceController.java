@@ -30,12 +30,25 @@ public class DeviceController {
     @Resource
     DeviceService deviceService;
 
+    @GetMapping("/alldevices")
+    @Operation(
+            summary = "查询所有设备(不含摄像头)"
+    )
+    public ResponseFormat queryAllDevices(){
+        List<LinkedHashMap<String,String>> deviceList = deviceService.queryAllDevice();
+        if(deviceList != null){
+            return ResponseFormat.success("查询成功",deviceList);
+        } else{
+            return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
+        }
+    }
+
     @GetMapping("/devices")
     @Operation(
             summary = "查询所有设备"
     )
     public ResponseFormat queryAllDevice(){
-        List<Device> deviceList = deviceService.queryAllDevice();
+        List<Device> deviceList = deviceService.queryAllDevices();
         if(deviceList != null){
             return ResponseFormat.success("查询成功",deviceList);
         } else{
@@ -99,6 +112,31 @@ public class DeviceController {
         } else{
             return ResponseFormat.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR, "查询失败"));
         }
+    }
+
+
+    // 查询分区+设备名称
+    @GetMapping("/queryname")
+    @Operation(
+            summary = "查询分区+设备名称",
+            parameters = {
+                    @Parameter(name = "partitionId", description = "分区ID"),
+                    @Parameter(name = "terminalId", description = "设备ID")
+            }
+    )
+    public ResponseFormat queryName(String partitionId, String terminalId){
+        String result = deviceService.queryName(partitionId, terminalId);
+        return ResponseFormat.success("查询成功", result);
+    }
+
+    // 网站无故障运行天数
+    @GetMapping("/safe")
+    @Operation(
+            summary = "网站无故障运行天数"
+    )
+    public ResponseFormat querySafeNumber(){
+        String result = deviceService.safeDuration();
+        return ResponseFormat.success("查询成功", result);
     }
 
 }

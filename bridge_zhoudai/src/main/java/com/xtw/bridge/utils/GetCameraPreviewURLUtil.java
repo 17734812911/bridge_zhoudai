@@ -18,8 +18,8 @@ public class GetCameraPreviewURLUtil {
     public static String GetCameraPreviewURL(String indexCode) {
 
         ArtemisConfig.host = "192.168.100.191:443"; // artemis网关服务器ip端口
-        ArtemisConfig.appKey = "22341657";  // 秘钥appkey
-        ArtemisConfig.appSecret = "HcCxpYbQV4jLrlPYfQLR";// 秘钥appSecret
+        ArtemisConfig.appKey = "22341657";  // 秘钥appkey     公司：22341657    舟山：25558888
+        ArtemisConfig.appSecret = "HcCxpYbQV4jLrlPYfQLR";// 秘钥appSecret     公司：HcCxpYbQV4jLrlPYfQLR   舟山：3a29JzEbpHosx960XrFt
 
         /**
          * STEP2：设置OpenAPI接口的上下文

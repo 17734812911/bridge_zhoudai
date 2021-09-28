@@ -1,11 +1,11 @@
 package com.xtw.bridge.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtw.bridge.model.Camera;
 import com.xtw.bridge.model.CameraAlert;
-import com.xtw.bridge.model.CameraModel;
+import com.xtw.bridge.model.CameraTemperatureModel;
+import com.xtw.bridge.model.Thermometry;
 import com.xtw.bridge.myexception.CustomException;
 import com.xtw.bridge.myexception.CustomExceptionType;
 import com.xtw.bridge.myexception.ResponseFormat;
@@ -13,10 +13,10 @@ import com.xtw.bridge.service.CameraService;
 import com.xtw.bridge.utils.GetCameraPreviewURLUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,58 +29,54 @@ import java.util.*;
 @RequestMapping("/camera")
 public class CameraController {
 
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     ObjectMapper mapper = new ObjectMapper();
     @Resource
     CameraService cameraService;
 
 
     // 获取摄像头传递过来的参数
-    @GetMapping("/attributes")
+    @PostMapping("/attributes")
     @Operation(
             summary = "获取摄像头传递过来的参数"
     )
-    public void getAttributes(String body){
+    public void getAttributes(@RequestBody CameraTemperatureModel cameraTemperatureModel){
+        List<Map<String,String>> list = new LinkedList<>();
 
-        try{
-            Date recvTime = null;               // 时间
-            String cameraIndexCode = null;      // 摄像头编码
-            String curTemperature = "0.0";      // 温度值
-            // 转换为实体类
-            CameraModel cameraModel = mapper.readValue(body, CameraModel.class);
+        List<Thermometry> thermometryList = cameraTemperatureModel.getThermometry();
+        for(int i=0;i<thermometryList.size();i++){
+            Map<String,String> map = new HashMap<>();
+            map.put("indexCode", thermometryList.get(i).getTargetAttrs().getCameraIndexCode());     // 设备编码
+            map.put("level", String.valueOf(thermometryList.get(i).getAlarmLevel() +1 ));               // 告警等级  1-预警，2-报警
+            map.put("temperature", thermometryList.get(i).getCurTemperature());                     // 温度值
+            map.put("dateTime", sdf.format(cameraTemperatureModel.getDateTime()));
+            list.add(map);
+        }
 
-            if(cameraModel.getRecvTime() != null){
-                recvTime = cameraModel.getRecvTime();   // 时间
-            }
-            if(cameraModel.getThermometry().get(0).getTargetAttrs().getCameraIndexCode() != null && !("".equals(cameraModel.getThermometry().get(0).getTargetAttrs().getCameraIndexCode()))){
-                cameraIndexCode = cameraModel.getThermometry().get(0).getTargetAttrs().getCameraIndexCode();    // 摄像头编码
-            }
-            if(cameraModel.getThermometry().get(0).getCurTemperature() != null && !("".equals(cameraModel.getThermometry().get(0).getCurTemperature()))){
-                curTemperature = cameraModel.getThermometry().get(0).getCurTemperature();   // 温度值
-            }
-            // 根据摄像头编码查询该摄像头信息
-            Camera camera = cameraService.queryTerminalIdByCode(cameraIndexCode);
+        // 根据摄像头编码查询该摄像头信息
+        for(int i=0;i<list.size();i++){
+            Camera camera = cameraService.queryTerminalIdByCode(list.get(i).get("indexCode"));
             // 判断是否告警
-            if(Double.parseDouble(curTemperature) >= camera.getAlarmValue()){
+            if(Double.parseDouble(list.get(i).get("temperature")) >= camera.getAlarmValue()){
                 // 向告警表插入数据
                 CameraAlert cameraAlert = new CameraAlert();
                 cameraAlert.setLineId(camera.getPartitionId());
                 cameraAlert.setTerminalId(camera.getTerminalId());
-                cameraAlert.setContent(camera.getPartitionId() + "号接头的摄像头" + camera.getTerminalId() + "的温度告警");
-                cameraAlert.setAlertData(curTemperature);
-                cameraAlert.setAlertDate(recvTime);
+                cameraAlert.setContent(camera.getPartitionId() + "号接头的摄像头" + camera.getTerminalId() + "的温度告警,值为：" + list.get(i).get("temperature"));
+                cameraAlert.setAlertData(list.get(i).get("temperature"));
+                try {
+                    cameraAlert.setAlertDate(sdf.parse(list.get(i).get("dateTime")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 cameraAlert.setIsConfirm(false);
+                cameraAlert.setAlertType(list.get(i).get("level"));
                 // 插入告警数据
                 cameraService.saveAlarmData(cameraAlert);
             }
             // 更新设备表的最后数据的时间
-            cameraService.updateDeviceDate(camera.getTerminalId(), String.valueOf(recvTime));
-
-        } catch (JsonMappingException e) {
-            System.out.println("JSON转换实体类异常");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            cameraService.updateDeviceDate(camera.getTerminalId(), list.get(i).get("dateTime"));
         }
-
 
     }
 
@@ -105,21 +101,24 @@ public class CameraController {
             }
             // 根据设备IP获取摄像头的视频URL
             if(null != camera.getCameraOne()){
-                String resultOne = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraOne());
+                String resultOne = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraOne()).replace("192.168.1.201", "192.168.4.179");
                 linkedHashMap.put("channelOne", analysisUrl(resultOne));    // 一号通道视频URL
+                linkedHashMap.put("name", camera.getName());
             }
             if(null != camera.getCameraTwo()){
-                String resultTwo = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraTwo());
+                String resultTwo = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraTwo()).replace("192.168.1.201", "192.168.4.179");
                 linkedHashMap.put("channelTwo", analysisUrl(resultTwo));    // 二号通道视频URL
+                linkedHashMap.put("name", camera.getName());
             }
             linkedHashMap.put("terminalId", camera.getTerminalId());
             linkedHashMap.put("partitionId", camera.getPartitionId());
             linkedHashMap.put("typeName", camera.getTypeName());
+            linkedHashMap.put("name", camera.getName());
             linkedList.add(linkedHashMap);
 
             return ResponseFormat.success("成功", linkedList);
         } catch (Exception e){
-            System.out.println("异常：" + e.getMessage());
+            e.printStackTrace();
         }
         return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "查询失败"));
 
@@ -146,19 +145,23 @@ public class CameraController {
                 Camera camera = cameraList.get(i);
 
                 if(null == camera){
-                    continue;
+                    return ResponseFormat.error(new CustomException(CustomExceptionType.QUERY_ERROR, "没有该摄像头的配置"));
                 }
 
-                if(null != camera.getCameraOne()){
+                if(null != camera.getCameraOne() & !"".equals(camera.getCameraOne())){
                     String resultOne = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraOne());
                     linkedHashMap.put("channelOne", analysisUrl(resultOne));    // 一号通道视频URL
+                    linkedHashMap.put("name", camera.getName());
                 }
-                if(null != camera.getCameraTwo()){
+                if(null != camera.getCameraTwo()  & !"".equals(camera.getCameraTwo())){
                     String resultTwo = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraTwo());
+                    System.out.println(resultTwo);
                     linkedHashMap.put("channelTwo", analysisUrl(resultTwo));    // 二号通道视频URL
+                    linkedHashMap.put("name", camera.getName());
                 }
                 linkedHashMap.put("terminalId", camera.getTerminalId());
                 linkedHashMap.put("typeName", cameraList.get(i).getTypeName());
+                linkedHashMap.put("name", camera.getName());
                 linkedList.add(linkedHashMap);
             }
             return ResponseFormat.success("成功", linkedList);

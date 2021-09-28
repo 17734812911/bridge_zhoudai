@@ -19,9 +19,6 @@ public interface FibreTemperatureService {
     // 插入光纤测温数据
     public int insertData(FibreTemperature fibreTemperature);
 
-    // 向device表更新光纤测温最新数据时间
-    public int updateDataTime();
-
     // 根据配备IP和通道ID 查询光纤测温配置
     public List<FibreTemperatureConfig> queryFibreTemperatureConfig(String deviceIp, String channel);
 
@@ -32,20 +29,20 @@ public interface FibreTemperatureService {
     public List<FibreTemperature> queryDatasById(Integer partitionId);
 
     // 按时间查询光纤测温并分页
-    public PageResult queryDatasPage(PageRequest pageRequest, Integer partitionId, Date beginTime, Date endTime);
+    public List queryDatasPage(Integer partitionId, String beginTime, String endTime);
 
     // 查询光纤测温所有数据(所有分区三相最大值)
-    public List<FibreTemperature> queryAllPartitionMaxValue();
+    public List<FibreTemperature> queryAllPartitionMaxValue(String begintime, String endtime);
 
     // 查询光纤测温通道的读取顺序
     public boolean queryReadOrder();
 
     // 根据分区id和数据点位查询该点历史数据
-    public List<FibreTemperature> queryHistoricalDatas(Date beginTime, Date endTime, Integer partitionId);
+    public List<FibreTemperature> queryHistoricalDatas(String beginTime, String endTime, Integer partitionId);
 
     // 解析数据
-    public LinkedHashMap<String, Object> parseData();
+    public LinkedHashMap<String, Object> parseData(String begintime, String endtime);
 
     // 根据分区id和数据点位查询该点历史数据
-    public List<LinkedHashMap<String, Object>> queryHistoricalDatasByCondition(Date beginTime, Date endTime, Integer partitionId, int point);
+    public List<LinkedHashMap<String, Object>> queryHistoricalDatasByCondition(String beginTime, String endTime, Integer partitionId, int point);
 }

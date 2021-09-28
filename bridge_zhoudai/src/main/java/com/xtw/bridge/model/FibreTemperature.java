@@ -3,6 +3,7 @@ package com.xtw.bridge.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,13 +23,13 @@ public class FibreTemperature {
     @Schema(name = "partitionId", description = "分区ID")
     private Integer partitionId;
     @Schema(name = "createTime", description = "数据采集时间")
-    private Date createTime;
+    private String createTime;
     @Schema(name = "step", description = "量程")
     private String step;
     @Schema(name = "datas", description = "光纤测温数据")
     private String datas;
     @Schema(name = "maxValue", description = "最大值")
-    private Double maxValue;
+    private BigDecimal maxValue;
     @Schema(name = "maxValuePoints", description = "最大值所在点位")
     private Integer maxValuePoints;
     @Schema(name = "offsetValue", description = "偏移量")

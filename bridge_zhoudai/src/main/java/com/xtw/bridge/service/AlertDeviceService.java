@@ -5,6 +5,7 @@ import com.xtw.bridge.model.AlertDO;
 import com.xtw.bridge.model.AlertDevice;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -14,6 +15,7 @@ import java.util.*;
  */
 @Service
 public class AlertDeviceService {
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Resource
     AlertDeviceDao alertDeviceDao;
@@ -29,13 +31,13 @@ public class AlertDeviceService {
     }
 
     // 告警查询（有条件）
-    public List<AlertDevice> queryAlertDeviceByCriteria(Integer id, String lineName, String deviceName, String joint, Date beginTime, Date endTime) {
-        return alertDeviceDao.queryAlertDeviceByCriteria(id, lineName, deviceName, joint, beginTime, endTime);
+    public List<AlertDevice> queryAlertDeviceByCriteria(Integer id, String lineName, String deviceName, String beginTime, String endTime, String alertType, String isEnter) {
+        return alertDeviceDao.queryAlertDeviceByCriteria(id, lineName, deviceName, beginTime, endTime, alertType, isEnter);
     }
 
     // 报警确认
-    public int alarmEnter(Integer id){
-        return alertDeviceDao.alarmEnter(id);
+    public int alarmEnter(String id){
+        return alertDeviceDao.alarmEnter(id, sdf.format(new Date()));
     }
 
     // 统计指定时长（天）的报警次数
@@ -43,15 +45,20 @@ public class AlertDeviceService {
         return alertDeviceDao.alertCount(time);
     }
 
-    // 获取所有报警设备所属分区
+    // 获取所有报警设备所属分区(用于页面闪烁)
     public ArrayList<Integer> alertPartition(){
         ArrayList<Integer> arrayList = new ArrayList<>();
         List<Integer> alertPartitionList = alertDeviceDao.alertPartition();
         for (Integer str : alertPartitionList) {
-            arrayList.add(str - 1);     // 查询回来的数值比分区号大1（分区号从0开始的）
+            arrayList.add(str);
         }
 
         return arrayList;
+    }
+
+    // 按条件查询告警设备
+    public List<AlertDevice> getTodayAlarm(String beginTime, String endTime, String alertType, String deviceName, String isConfirm){
+        return alertDeviceDao.getTodayAlarm(beginTime, endTime, alertType, deviceName, isConfirm);
     }
 
 }

@@ -37,7 +37,7 @@ public class OutPartialController {
             }
     )
     public ResponseFormat queryOutPartialMaxValue(int partitionId){
-        List<OutPartial> outPartialList = outPartialService.queryOutPartialMaxValue(partitionId);
+        List<HashMap<String,String>> outPartialList = outPartialService.queryOutPartialMaxValue(partitionId);
         if(outPartialList != null){
             return ResponseFormat.success("查询成功",outPartialList);
         } else{
@@ -51,11 +51,13 @@ public class OutPartialController {
             summary = "查询外置局放设备的历史趋势",
             parameters = {
                     @Parameter(name = "partitionId", description = "分区ID"),
-                    @Parameter(name = "terminalId", description = "外置局放设备ID")
+                    @Parameter(name = "terminalId", description = "外置局放设备ID"),
+                    @Parameter(name = "begintime", description = "开始时间"),
+                    @Parameter(name = "endtime", description = "结束时间")
             }
     )
-    public ResponseFormat queryOutPartitionTrend(int partitionId, String terminalId) {
-        List<HashMap<String, String>> trendList = outPartialService.queryOutPartitionTrend(partitionId, terminalId);
+    public ResponseFormat queryOutPartitionTrend(int partitionId, String terminalId, String begintime, String endtime) {
+        List<HashMap<String, String>> trendList = outPartialService.queryOutPartitionTrend(partitionId, terminalId, begintime, endtime);
         if(trendList != null){
             return ResponseFormat.success("查询成功",trendList);
         } else{
@@ -70,11 +72,13 @@ public class OutPartialController {
             summary = "外置局放设备的历史分析",
             parameters = {
                     @Parameter(name = "partitionId", description = "分区ID"),
-                    @Parameter(name = "terminalId", description = "外置局放设备ID")
+                    @Parameter(name = "terminalId", description = "外置局放设备ID"),
+                    @Parameter(name = "begintime", description = "开始时间"),
+                    @Parameter(name = "endtime", description = "结束时间")
             }
     )
-    public ResponseFormat queryHistoricalAnalysis(int partitionId, String terminalId) {
-        List<HashMap<String, String>> trendList = outPartialService.historicalAnalysis(partitionId, terminalId);
+    public ResponseFormat queryHistoricalAnalysis(int partitionId, String terminalId, String begintime, String endtime) {
+        List<HashMap<String, String>> trendList = outPartialService.historicalAnalysis(partitionId, terminalId, begintime, endtime);
         if(trendList != null){
             return ResponseFormat.success("查询成功",trendList);
         } else{

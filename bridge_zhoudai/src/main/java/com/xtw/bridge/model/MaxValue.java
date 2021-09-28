@@ -10,11 +10,10 @@ import lombok.Data;
 
 @Data
 public class MaxValue {
-    private String id;
     private String sd;		// 湿度
     private String wd;		// 温度
     private String yq;		// 氧气
-    private String eyht;	// 二氧化碳
+    private String eyht;	// 一氧化碳
     private String lhq;		// 硫化氢
     private String jw;		// 甲烷
     private String bpwd;	// 表皮温度

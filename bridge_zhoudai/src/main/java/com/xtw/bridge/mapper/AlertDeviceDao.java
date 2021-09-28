@@ -22,14 +22,17 @@ public interface AlertDeviceDao {
     public List<AlertDO> queryEveryDayAlarmNumber();
 
     // 告警查询（有条件）
-    public List<AlertDevice> queryAlertDeviceByCriteria(Integer id, String lineName, String deviceName, String joint, Date beginTime, Date endTime);
+    public List<AlertDevice> queryAlertDeviceByCriteria(Integer id, String lineName, String deviceName, String beginTime, String endTime, String alertType, String isEnter);
 
     // 告警确认
-    public int alarmEnter(Integer id);
+    public int alarmEnter(String id, String enterTime);
 
     // 统计指定时长（天）的报警次数
     public List<HashMap<String,String>> alertCount(Integer time);
 
     // 获取所有报警设备所属分区
     public List<Integer> alertPartition();
+
+    // 按条件查询告警设备
+    public List<AlertDevice> getTodayAlarm(String beginTime, String endTime, String alertType, String deviceName,String isConfirm);
 }

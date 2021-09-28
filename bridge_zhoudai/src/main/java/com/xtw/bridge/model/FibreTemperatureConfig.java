@@ -25,8 +25,12 @@ public class FibreTemperatureConfig {
     private String deviceIp;
     @Schema(name = "offsetValue", description = "偏移量")
     private Double offsetValue;
+    @Schema(name = "warningValue", description = "预警阈值")
+    private double warningValue;
     @Schema(name = "alarmValue", description = "报警阈值")
     private Double alarmValue;
+    @Schema(name = "criticalAlarm", description = "严重告警阈值")
+    private double criticalAlarm;
     @Schema(name = "readOrder", description = "读取顺序")
     private Boolean readOrder;
 }

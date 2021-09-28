@@ -26,4 +26,8 @@ public class AlertDevice {
     private Device device;      // 设备
     @Schema(name = "isConfirm", description = "报警是否已确认")
     private Boolean isConfirm;      // 是否确认
+    @Schema(name = "enterTime", description = "报警确认时间")
+    private String enterTime;
+    @Schema(name = "alertType", description = "报警类型")
+    private String alertType;
 }
