@@ -1,0 +1,141 @@
+2021-09-22 15:12:48.166 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:12:48.188 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 1592 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:12:48.190 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:12:48.469 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:12:48.470 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:12:51.711 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:12:51.728 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:12:51.729 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:12:51.730 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:12:51.914 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:12:51.914 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3441 ms
+2021-09-22 15:12:55.140 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:13:02.052 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:13:02.065 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 8704 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:13:02.066 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:13:02.256 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:13:02.257 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:13:05.733 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:13:05.757 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:13:05.758 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:13:05.759 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:13:05.979 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:13:05.980 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3722 ms
+2021-09-22 15:13:10.619 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:13:10.996 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-09-22 15:13:11.400 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6a8e0832, org.springframework.security.web.context.SecurityContextPersistenceFilter@686a48f, org.springframework.security.web.header.HeaderWriterFilter@5dcf5be0, org.springframework.web.filter.CorsFilter@7fddace3, org.springframework.security.web.authentication.logout.LogoutFilter@2cd73b12, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@72a31dda, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7d764051, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6e488750, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@673079d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7198b56f, org.springframework.security.web.session.SessionManagementFilter@3e8bc6ae, org.springframework.security.web.access.ExceptionTranslationFilter@65563b8b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7a631305]
+2021-09-22 15:13:11.509 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-09-22 15:13:11.549 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:13:11.591 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+2021-09-22 15:13:11.621 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Started BridgeonzhoudaiApplication in 10.754 seconds (JVM running for 11.825)
+2021-09-22 15:14:21.556 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-22 15:14:21.556 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-09-22 15:14:21.557 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-09-22 15:14:51.971 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:14:51.980 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 1752 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:14:51.981 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:14:52.109 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:14:52.110 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:14:53.997 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:14:54.009 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:14:54.010 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:14:54.010 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:14:54.114 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:14:54.115 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2003 ms
+2021-09-22 15:14:57.010 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:14:57.264 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-09-22 15:14:57.496 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a5c9ad8, org.springframework.security.web.context.SecurityContextPersistenceFilter@7e7b0305, org.springframework.security.web.header.HeaderWriterFilter@ea9d2b5, org.springframework.web.filter.CorsFilter@3b1423db, org.springframework.security.web.authentication.logout.LogoutFilter@777ef4b, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@1be56875, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3713d13e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1fce7b22, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@216a87b5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@20da2c4b, org.springframework.security.web.session.SessionManagementFilter@2402f2af, org.springframework.security.web.access.ExceptionTranslationFilter@17a83512, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4f9aaa93]
+2021-09-22 15:14:57.584 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-09-22 15:14:57.616 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:14:57.650 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+2021-09-22 15:14:57.671 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Started BridgeonzhoudaiApplication in 6.289 seconds (JVM running for 6.946)
+2021-09-22 15:15:01.770 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-22 15:15:01.771 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-09-22 15:15:01.772 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-09-22 15:30:46.582 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:30:46.606 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 8280 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:30:46.607 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:30:46.725 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:30:46.729 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:30:49.543 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:30:49.567 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:30:49.569 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:30:49.569 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:30:49.743 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:30:49.743 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3013 ms
+2021-09-22 15:30:52.574 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:30:52.830 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-09-22 15:30:53.060 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f5d3ff3, org.springframework.security.web.context.SecurityContextPersistenceFilter@35a54450, org.springframework.security.web.header.HeaderWriterFilter@5843fb88, org.springframework.web.filter.CorsFilter@2c889951, org.springframework.security.web.authentication.logout.LogoutFilter@5b8cb840, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@58fed607, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f6bed1d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48b09956, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@7c3740e8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@53b5f584, org.springframework.security.web.session.SessionManagementFilter@79090076, org.springframework.security.web.access.ExceptionTranslationFilter@30513d2b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6300b896]
+2021-09-22 15:30:53.153 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-09-22 15:30:53.183 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:30:53.211 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+2021-09-22 15:30:53.229 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Started BridgeonzhoudaiApplication in 7.371 seconds (JVM running for 8.088)
+2021-09-22 15:31:00.701 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-22 15:31:00.701 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-09-22 15:31:00.702 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-09-22 15:31:19.718 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:31:19.731 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 9308 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:31:19.732 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:31:19.880 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:31:19.880 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:31:22.221 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:31:22.240 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:31:22.241 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:31:22.241 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:31:22.391 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:31:22.392 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2511 ms
+2021-09-22 15:31:25.119 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:31:38.617 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 15:31:38.641 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 11216 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 15:31:38.641 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 15:31:38.735 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 15:31:38.736 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 15:31:40.927 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 15:31:40.949 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:31:40.950 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 15:31:40.950 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 15:31:41.102 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 15:31:41.102 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2365 ms
+2021-09-22 15:31:43.812 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 15:31:44.097 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-09-22 15:31:44.328 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a8876a6, org.springframework.security.web.context.SecurityContextPersistenceFilter@1688f9e6, org.springframework.security.web.header.HeaderWriterFilter@7107b226, org.springframework.web.filter.CorsFilter@bda9b2d, org.springframework.security.web.authentication.logout.LogoutFilter@7173a0de, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@4297ba12, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d3a366b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@446f76e4, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@464d9b30, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ca11211, org.springframework.security.web.session.SessionManagementFilter@48126a01, org.springframework.security.web.access.ExceptionTranslationFilter@2785d7f7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@395b5101]
+2021-09-22 15:31:44.408 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-09-22 15:31:44.439 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+2021-09-22 15:31:44.472 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+2021-09-22 15:31:44.494 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Started BridgeonzhoudaiApplication in 6.494 seconds (JVM running for 7.119)
+2021-09-22 15:31:52.861 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-22 15:31:52.862 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-09-22 15:31:52.863 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-09-22 16:29:52.157 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 16:29:52.185 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 9516 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 16:29:52.186 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 16:29:52.331 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 16:29:52.332 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 16:29:55.644 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 16:29:55.667 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 16:29:55.668 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 16:29:55.668 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 16:29:55.833 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 16:29:55.833 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3499 ms
+2021-09-22 16:29:59.336 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 16:30:15.733 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.2.4.Final
+2021-09-22 16:30:15.747 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Starting BridgeonzhoudaiApplication using Java 1.8.0_261 on DESKTOP-CJ6RO9E with PID 3048 (D:\software\IDEAAllProj\Spring\bridge_zhoudai\target\classes started by admin in D:\software\IDEAAllProj\collect_zhoudai)
+2021-09-22 16:30:15.748 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - The following profiles are active: dev
+2021-09-22 16:30:15.871 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-22 16:30:15.872 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-22 16:30:18.105 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+2021-09-22 16:30:18.127 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+2021-09-22 16:30:18.128 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-09-22 16:30:18.128 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-09-22 16:30:18.312 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-09-22 16:30:18.312 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2439 ms
+2021-09-22 16:30:21.289 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-09-22 16:30:21.531 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-09-22 16:30:21.758 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14130329, org.springframework.security.web.context.SecurityContextPersistenceFilter@67632adf, org.springframework.security.web.header.HeaderWriterFilter@56242a36, org.springframework.web.filter.CorsFilter@a400e89, org.springframework.security.web.authentication.logout.LogoutFilter@65931339, com.xtw.bridge.filter.JwtAuthenticationTokenFilter@34cbfead, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@705e6217, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3041f557, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@5045d305, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@37253393, org.springframework.security.web.session.SessionManagementFilter@3a0b072f, org.springframework.security.web.access.ExceptionTranslationFilter@2502e6c2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@652b6a2f]
+2021-09-22 16:30:21.843 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-09-22 16:30:21.869 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+2021-09-22 16:30:21.898 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+2021-09-22 16:30:21.916 INFO  com.xtw.bridge.BridgeonzhoudaiApplication - Started BridgeonzhoudaiApplication in 6.804 seconds (JVM running for 7.334)
+2021-09-22 16:30:28.542 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-22 16:30:28.543 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-09-22 16:30:28.543 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms

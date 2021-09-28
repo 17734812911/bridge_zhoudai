@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.intelligt.modbus:jlibmodbus:1.2.9.7">
+    <CLASSES>
+      <root url="jar://D:/Maven/maven-repository/com/intelligt/modbus/jlibmodbus/1.2.9.7/jlibmodbus-1.2.9.7.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/Maven/maven-repository/com/intelligt/modbus/jlibmodbus/1.2.9.7/jlibmodbus-1.2.9.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/Maven/maven-repository/com/intelligt/modbus/jlibmodbus/1.2.9.7/jlibmodbus-1.2.9.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

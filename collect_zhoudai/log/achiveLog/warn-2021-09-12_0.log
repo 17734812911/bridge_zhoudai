@@ -1,0 +1,1 @@
+2021-09-12 23:29:39.384 WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
