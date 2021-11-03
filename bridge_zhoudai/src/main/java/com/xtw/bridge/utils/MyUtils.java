@@ -14,9 +14,9 @@ public class MyUtils {
     private static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     // 将字符串数组转换成double数组
-    public static BigDecimal[] toDoubleArray(String[] strArr) {
+    public static double[] toDoubleArray(String[] strArr) {
         // 定义一个double数组
-        BigDecimal[] arr=new BigDecimal[strArr.length];
+        double[] arr=new double[strArr.length];
         // 对字符串数组进行遍历
         for (int i = 0; i < arr.length; i++) {
             // 将数组格式的字符串转成双精度数，存储到arr数组中
@@ -24,14 +24,14 @@ public class MyUtils {
                 return null;
             }
 
-            arr[i] = new BigDecimal(strArr[i].trim());
-            // arr[i]=Double.parseDouble();
+            // arr[i] = new BigDecimal(strArr[i].trim());
+            arr[i]=Double.parseDouble(strArr[i].trim());
         }
         return arr;
     }
 
     // 数组排序
-    public static void arraySort(BigDecimal[] doubleArr){
+    public static void arraySort(double[] doubleArr){
         Arrays.sort(doubleArr);
     }
 

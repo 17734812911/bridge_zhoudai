@@ -29,7 +29,7 @@ public class FibreTemperature {
     @Schema(name = "datas", description = "光纤测温数据")
     private String datas;
     @Schema(name = "maxValue", description = "最大值")
-    private BigDecimal maxValue;
+    private double maxValue;
     @Schema(name = "maxValuePoints", description = "最大值所在点位")
     private Integer maxValuePoints;
     @Schema(name = "offsetValue", description = "偏移量")

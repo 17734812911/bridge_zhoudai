@@ -63,11 +63,11 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                     String[] subListArr = new String[list.size()];
                     list.toArray(subListArr);   // 将截取的list转换为数组
 
-                    BigDecimal[] doubleArr = MyUtils.toDoubleArray(subListArr);     // 将字符串数组转换成double数组
+                    double[] doubleArr = MyUtils.toDoubleArray(subListArr);     // 将字符串数组转换成double数组
 
                     // 排序
                     MyUtils.arraySort(doubleArr);
-                    BigDecimal maxValue = null;     // 分区中的最大值
+                    Double maxValue = null;     // 分区中的最大值
                     // 获取最大值
                     for(int i=doubleArr.length-1;i>=0;){    // 只执行一次,取最后一个值
                         maxValue = doubleArr[i];
@@ -75,7 +75,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
 //                        maxValueIndex = list.indexOf(df.format(maxValue) + "");     // 获取最大值的下标(即最大值点位)
                         maxValueIndex = list.indexOf(String.valueOf(maxValue));     // 获取最大值的下标(即最大值点位)
 
-                        if(maxValue.compareTo(BigDecimal.valueOf(150)) >= 0){  // 断纤告警
+                        if(maxValue >= 150){  // 断纤告警
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
                             if(partitionId == 0){
                                 fibreTemperatureAlert.setContent("马目侧光纤测温（马目侧至岱山侧方向） " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处断纤,值为：" + maxValue);
@@ -85,7 +85,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                             } else{
                                 fibreTemperatureAlert.setContent(partitionId + "号接头光纤测温(马目侧至岱山侧方向) " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处断纤,值为：" + maxValue);
                             }
-                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue.add(BigDecimal.valueOf(config.getOffsetValue()))));
+                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue + config.getOffsetValue()));
                             fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
                             fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
                             fibreTemperatureAlert.setPartitionId(config.getPartitionId()+"");   // 将光纤测温的分区号设置为告警表中的设备
@@ -94,7 +94,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
 
                             insertAlertData(fibreTemperatureAlert); // 插入报警数据
 
-                        } else if(maxValue.compareTo(BigDecimal.valueOf(config.getCriticalAlarm())) >= 0){  // 严重告警
+                        } else if(maxValue >= config.getCriticalAlarm()){  // 严重告警
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
                             if(partitionId == 0){
                                 fibreTemperatureAlert.setContent("马目侧光纤测温（马目侧至岱山侧方向） " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处严重报警,值为：" + maxValue);
@@ -103,7 +103,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                             } else{
                                 fibreTemperatureAlert.setContent(partitionId + "号接头光纤测温(马目侧至岱山侧方向) " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处严重报警,值为：" + maxValue);
                             }
-                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue.add(BigDecimal.valueOf(config.getOffsetValue()))));
+                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue + config.getOffsetValue()));
                             fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
                             fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
                             fibreTemperatureAlert.setPartitionId(config.getPartitionId()+"");   // 将光纤测温的分区号设置为告警表中的设备
@@ -112,7 +112,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
 
                             insertAlertData(fibreTemperatureAlert); // 插入报警数据
 
-                        } else if(maxValue.compareTo(BigDecimal.valueOf(config.getAlarmValue())) >= 0){     // 如果最大值达到预设报警值,向报警表插入信息
+                        } else if(maxValue >= config.getAlarmValue()){     // 如果最大值达到预设报警值,向报警表插入信息
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
                             if(partitionId == 0){
                                 fibreTemperatureAlert.setContent("马目侧光纤测温（马目侧至岱山侧方向） " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处报警,值为：" + maxValue);
@@ -122,7 +122,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                                 fibreTemperatureAlert.setContent(partitionId + "号接头光纤测温(马目侧至岱山侧方向) " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处报警,值为：" + maxValue);
                             }
 
-                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue.add(BigDecimal.valueOf(config.getOffsetValue()))));
+                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue + config.getOffsetValue()));
                             fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
                             fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
                             fibreTemperatureAlert.setPartitionId(config.getPartitionId()+"");   // 将光纤测温的分区号设置为告警表中的设备
@@ -131,7 +131,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
 
                             insertAlertData(fibreTemperatureAlert); // 插入报警数据
 
-                        } else if(maxValue.compareTo(BigDecimal.valueOf(config.getWarningValue())) >= 0){    // 预警
+                        } else if(maxValue >= config.getWarningValue()){    // 预警
                             FibreTemperatureAlert fibreTemperatureAlert = new FibreTemperatureAlert();
                             if(partitionId == 0){
                                 fibreTemperatureAlert.setContent("马目侧光纤测温（马目侧至岱山侧方向） " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处预警,值为：" + maxValue);
@@ -140,7 +140,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                             } else{
                                 fibreTemperatureAlert.setContent(partitionId + "号接头光纤测温(马目侧至岱山侧方向) " + (maxValueIndex * Double.parseDouble(fibreTemperature.getStep())) + "米处预警,值为：" + maxValue);
                             }
-                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue.add(BigDecimal.valueOf(config.getOffsetValue()))));
+                            fibreTemperatureAlert.setAlertData(String.valueOf(maxValue + config.getOffsetValue()));
                             fibreTemperatureAlert.setAlertDate(fibreTemperature.getCreateTime());
                             fibreTemperatureAlert.setChannel(config.getChannel());  // 将光纤测温的通道号设置为告警表中的线路ID
                             fibreTemperatureAlert.setPartitionId(config.getPartitionId()+"");   // 将光纤测温的分区号设置为告警表中的设备
@@ -160,7 +160,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
                     fibreTemperaturePojo.setStep(fibreTemperature.getStep());
                     fibreTemperaturePojo.setDatas(subDatas);
                     if (maxValue != null) {
-                        fibreTemperaturePojo.setMaxValue(maxValue.add(BigDecimal.valueOf(config.getOffsetValue())));   // 加上偏移量(调整最大值)
+                        fibreTemperaturePojo.setMaxValue(maxValue + config.getOffsetValue());   // 加上偏移量(调整最大值)
                     }
                     fibreTemperaturePojo.setMaxValuePoints(maxValueIndex);
                     fibreTemperaturePojo.setOffsetValue(config.getOffsetValue());
@@ -213,7 +213,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             ArrayList<Object> arrayList = new ArrayList<>();
             LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
             String[] fibreTemperatureDatas =  fibreTemperature.getDatas().split(",");
-            BigDecimal[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
+            double[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
             linkedHashMap.put("id", fibreTemperature.getId());
             linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());
             linkedHashMap.put("channel", fibreTemperature.getChannel());
@@ -258,7 +258,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             if(fibreTemperatureDatas.length==0){
                 return null;
             }
-            BigDecimal[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
+            double[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
             linkedHashMap.put("id", fibreTemperature.getId());
             linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());
             linkedHashMap.put("channel", fibreTemperature.getChannel());
@@ -307,7 +307,7 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             if(fibreTemperatureDatas.length==0){
                 return null;
             }
-            BigDecimal[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
+            double[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
             linkedHashMap.put("id", fibreTemperature.getId());
             linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());
             linkedHashMap.put("channel", fibreTemperature.getChannel());
