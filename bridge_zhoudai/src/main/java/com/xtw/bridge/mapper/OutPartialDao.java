@@ -23,4 +23,7 @@ public interface OutPartialDao {
 
     // 根据外置局放设备id查询该设备最新数据
     public List<OutPartial> queryOutPartialData(String terminalId);
+
+    // 获取所有外置局放最新数据
+    public List<OutPartial> queryAllOutPartialData();
 }

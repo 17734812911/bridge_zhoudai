@@ -14,7 +14,7 @@ public class SaticScheduleTask {
     @Resource
     DeviceService deviceService;
 
-    //3.添加定时任务（每天0点执行一次）
+    //3.添加定时任务（每天23点执行一次）
     @Scheduled(cron = "0 0 23 * * ?")
     private void configureTasks() {
         // 查询当前无故障天数
@@ -22,5 +22,7 @@ public class SaticScheduleTask {
         // 计算更新无故障天数
         deviceService.calculation(number);
     }
+
+
 
 }

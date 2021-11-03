@@ -20,7 +20,11 @@ public class MyUtils {
         // 对字符串数组进行遍历
         for (int i = 0; i < arr.length; i++) {
             // 将数组格式的字符串转成双精度数，存储到arr数组中
-            arr[i] = new BigDecimal(strArr[i]);
+            if(strArr[i].equals("") || strArr[i]==null){
+                return null;
+            }
+
+            arr[i] = new BigDecimal(strArr[i].trim());
             // arr[i]=Double.parseDouble();
         }
         return arr;
@@ -46,18 +50,19 @@ public class MyUtils {
     }
 
     // 获取当前日期时间
-    public static String getDateTime(Integer addDasNumber){   // addNumber为要加上的天数
+    public static String getDateTime(Integer monthNumber, Integer addDasNumber, Integer addHNumber){   // addNumber为要加上的天数
         Calendar calendar=Calendar.getInstance();
 
         String year = String.valueOf(calendar.get(GregorianCalendar.YEAR));
-        String month = format((calendar.get(GregorianCalendar.MONTH)+1));   // 约束要加1,因为生成的约束会比当前少一个月
+        String month = format((calendar.get(GregorianCalendar.MONTH) + monthNumber));   // 约束要加1,因为生成的约束会比当前少一个月
         String day = format((calendar.get(GregorianCalendar.DAY_OF_MONTH) + addDasNumber));     // 通过addDasNumber参数，决定获取哪一天
-        int h = calendar.get(GregorianCalendar.HOUR);
+        int h = (calendar.get(GregorianCalendar.HOUR) + addHNumber);
+
         // 判断是否需要加12小时
         if(ifAfternoonByDate()){
             h = h + 12;
         }
-        String hour = format(h);
+        String hour = String.valueOf(h);
         String min = format(calendar.get(GregorianCalendar.MINUTE));
         String second = format(calendar.get(GregorianCalendar.SECOND));
 

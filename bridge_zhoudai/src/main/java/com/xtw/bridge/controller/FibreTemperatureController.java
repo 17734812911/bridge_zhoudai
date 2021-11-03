@@ -117,8 +117,8 @@ public class FibreTemperatureController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Integer pagenum = 1;    // 默认页码
         Integer pagesize = 3;   // 默认每页数量
-        String beginTime = MyUtils.getDateTime(-1);
-        String endTime = MyUtils.getDateTime(0);
+        String beginTime = MyUtils.getDateTime(1, -1, 0);
+        String endTime = MyUtils.getDateTime(1, 0, 0);
 
         if("".equals(begintime)){
             flag = false;
@@ -129,42 +129,34 @@ public class FibreTemperatureController {
         if(!"".equals(endtime) & null != endtime){
             endTime = endtime;
         }
-
         if(null != pageNum){
             pagenum = pageNum;
         }
-        PageRequest pageRequest = new PageRequest();
-        pageRequest.setPageNum(pagenum);
-        pageRequest.setPageSize(pagesize);
 
         List<FibreTemperature> fibreTemperatureList = null;
         PageResult pageResult = new PageResult();
 
         if(flag){
-            fibreTemperatureList = fibreTemperatureServiceImpl.queryDatasPage(partitionId, beginTime, endTime);
+            // 一页几条数据，就查几条
+            fibreTemperatureList = fibreTemperatureServiceImpl.queryDatasPage(partitionId, beginTime, endTime, (pagenum-1)*pagesize, pagesize);
+            // 查询符合条件的数据的总数
+            Integer number = fibreTemperatureServiceImpl.queryDataCount(partitionId, beginTime, endTime);
 
-            List<FibreTemperature> list1 = new LinkedList<>();
+            pageResult.setPageNum(pagenum);
+            pageResult.setPageSize(pagesize);
+            pageResult.setTotalSize(number);
+            pageResult.setTotalPages(number/pagesize);
+            pageResult.setContent(fibreTemperatureList);
+        }else{
+            fibreTemperatureList = fibreTemperatureServiceImpl.queryDatasPageDesc(partitionId, beginTime, endTime, (pagenum-1)*pagesize, pagesize);
+            // 查询符合条件的数据的总数
+            Integer number = fibreTemperatureServiceImpl.queryDataCount(partitionId, beginTime, endTime);
 
-            for(int i=((pagenum-1)*pagesize);i<(pagenum*pagesize);i++){
-                list1.add(fibreTemperatureList.get(i));
-            }
             pageResult.setPageNum(pagenum);
             pageResult.setPageSize(pagesize);
             pageResult.setTotalSize(fibreTemperatureList.size());
-            pageResult.setTotalPages((fibreTemperatureList.size()/pagesize));
-            pageResult.setContent(list1);
-        }else{
-            fibreTemperatureList = fibreTemperatureServiceImpl.queryDatasPageDesc(partitionId, beginTime, endTime);
-            List<FibreTemperature> list1 = new LinkedList<>();
-
-            for(int i=((pagenum-1)*pagesize);i<(pagenum*pagesize);i++){
-                list1.add(fibreTemperatureList.get(i));
-            }
-            pageResult.setPageNum(pagenum);
-            pageResult.setPageSize(pagesize);
-            pageResult.setTotalSize(3);
-            pageResult.setTotalPages(1);
-            pageResult.setContent(list1);
+            pageResult.setTotalPages(number/pagesize);
+            pageResult.setContent(fibreTemperatureList);
         }
 
         if(fibreTemperatureList != null){
@@ -187,8 +179,8 @@ public class FibreTemperatureController {
     )
     public ResponseFormat queryAllPartitionMaxValue(String begintime, String endtime) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String beginTime = MyUtils.getDateTime(-1);
-        String endTime = MyUtils.getDateTime(0);
+        String beginTime = MyUtils.getDateTime(1, -1, 0);
+        String endTime = MyUtils.getDateTime(1, 0, 0);
 
         if(!"".equals(begintime) & null != begintime){
             beginTime = begintime;

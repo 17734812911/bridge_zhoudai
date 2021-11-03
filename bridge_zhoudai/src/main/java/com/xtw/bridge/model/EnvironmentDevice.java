@@ -37,7 +37,10 @@ public class EnvironmentDevice {
     private String passageNine;
     @Schema(name = "passageTen", description = "10号通道值")
     private String passageTen;
+    @Schema(name = "partitionId", description = "分区ID")
+    private String partitionId;
     @Schema(name = "insertTime", description = "最新数据时间")
     private String insertTime;
+
 
 }

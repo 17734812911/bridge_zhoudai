@@ -33,10 +33,13 @@ public interface FibreTemperatureDao {
     public List<FibreTemperature> queryDatasById(Integer partitionId);
 
     // 按时间查询光纤测温并分页
-    public List<FibreTemperature> queryDatasPage(Integer partitionId, String beginTime, String endTime);
+    public List<FibreTemperature> queryDatasPage(Integer partitionId, String beginTime, String endTime, Integer limitStart, Integer LimitLength);
+
+    // 查询符合条件的数据的总数
+    public Integer queryDataCount(Integer partitionId, String beginTime, String endTime);
 
     // 按时间查询光纤测温最新数据
-    public List<FibreTemperature> queryDatasPageDesc(Integer partitionId, String beginTime, String endTime);
+    public List<FibreTemperature> queryDatasPageDesc(Integer partitionId, String beginTime, String endTime, Integer limitStart, Integer LimitLength);
 
     // 查询光纤测温所有数据(所有分区三相最大值)
     public List<FibreTemperature> queryAllPartitionMaxValue(String begintime, String endtime);

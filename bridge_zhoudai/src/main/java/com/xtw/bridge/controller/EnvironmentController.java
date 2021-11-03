@@ -86,12 +86,12 @@ public class EnvironmentController {
         String beginTimeStr = begintime;
         String endTimeStr = endtime;
         if("".equals(begintime)){
-            Date beginTime = sdf.parse(MyUtils.getDateTime(-1));
+            Date beginTime = sdf.parse(MyUtils.getDateTime(1, -1, 0));
             beginTimeStr = sdf.format(beginTime);
             System.out.println(beginTimeStr);
         }
         if("".equals(endtime)){
-            Date endTime = sdf.parse(MyUtils.getDateTime(0));
+            Date endTime = sdf.parse(MyUtils.getDateTime(1, 0, 0));
             endTimeStr = sdf.format(endTime);
             System.out.println(endTimeStr);
         }
@@ -129,8 +129,8 @@ public class EnvironmentController {
     public ResponseFormat getChannelTrend(@RequestBody Map<String,String> map){
         String terminalId = map.get("terminalId");
         String channelId = map.get("channelId");
-        String beginTime = MyUtils.getDateTime(-1);
-        String endTime = MyUtils.getDateTime(0);
+        String beginTime = MyUtils.getDateTime(1, -1, 0);
+        String endTime = MyUtils.getDateTime(1, 0, 0);
 
         if(!"".equals(map.get("begintime")) & null != map.get("begintime")){
             beginTime = map.get("begintime");

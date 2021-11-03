@@ -49,4 +49,6 @@ public class OutPartial {
     private Integer bStatus;
     @Schema(name = "cStatus", description = "C相状态")
     private Integer cStatus;
+    @Schema(name = "partitionId", description = "分区ID")
+    private String partitionId;
 }

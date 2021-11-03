@@ -27,54 +27,53 @@
 
 
 
-    <!--  按分区查询光纤测温数据  -->
+    <!--  按分区查询光纤测温数据(最新一条)  -->
     <select id="queryDatasById" resultType="FibreTemperature">
         select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
-        from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
-        where ft.id = a.id and ft.partition_id = #{partitionId}
+        from  (select id from fibre_temperature order by id desc limit 78) a right join fibre_temperature ft on ft.id = a.id
+        where ft.partition_id = #{partitionId}
+        order by id desc
+        limit 3
     </select>
 
     <!--  按分区查询光纤测温数据(分页)  -->
     <select id="queryDatasPage" resultType="FibreTemperature">
         select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
-        from fibre_temperature ft, (select id from fibre_temperature ft
-                                    <where>
-                                        <if test="1==1">
-                                            AND ft.create_time &gt;= #{beginTime}
-                                        </if>
-                                        <if test="1==1">
-                                            AND ft.create_time &lt;= #{endTime}
-                                        </if>
-                                    </where>
-                                    ) a
-        <where>
-            <if test="1 == 1">
-                AND ft.id = a.id and ft.partition_id = #{partitionId}
-            </if>
-        </where>
-        group by create_time
+        from (select id from fibre_temperature ft
+                <where>
+                    <if test="1==1">
+                        AND ft.create_time BETWEEN #{beginTime} and #{endTime}
+                    </if>
+                    <if test="1==1">
+                        AND ft.partition_id = #{partitionId} limit #{limitStart}, #{LimitLength}
+                    </if>
+                </where>
+            ) a left join fibre_temperature ft
+        on ft.id = a.id
+        group by ft.create_time
+    </select>
+
+    <select id="queryDataCount" resultType="java.lang.Integer">
+        select count(ft.id)
+        from fibre_temperature ft USE INDEX(`create_time`)
+        where ft.create_time between #{beginTime} and #{endTime} and ft.partition_id = #{partitionId}
     </select>
 
     <!--  按分区查询光纤测温数据(分页)  -->
     <select id="queryDatasPageDesc" resultType="FibreTemperature">
         select ft.id,ft.device_ip,ft.channel,ft.partition_id,ft.create_time,ft.step,ft.datas,ft.max_value,ft.max_value_points
-        from fibre_temperature ft, (select id from fibre_temperature ft
-        <where>
-            <if test="1==1">
-                AND ft.create_time &gt;= #{beginTime}
-            </if>
-            <if test="1==1">
-                AND ft.create_time &lt;= #{endTime}
-            </if>
-        </where>
-        group by channel,partition_id) a
-        <where>
-            <if test="1 == 1">
-                AND ft.id = a.id and ft.partition_id = #{partitionId}
-            </if>
-        </where>
-        group by create_time
-        order by create_time desc
+        from (select id from fibre_temperature ft
+                <where>
+                    <if test="1==1">
+                        AND ft.create_time BETWEEN #{beginTime} AND #{endTime}
+                    </if>
+                    <if test="1==1">
+                        AND ft.partition_id = #{partitionId} limit #{limitStart}, #{LimitLength}
+                    </if>
+                </where>
+            ) a left join fibre_temperature ft on a.id = ft.id
+        group by ft.create_time
+        order by ft.create_time desc
     </select>
 
 
@@ -82,32 +81,23 @@
     <!--  查询光纤测温所有数据(所有分区三相最大值)  -->
     <select id="queryAllPartitionMaxValue" resultType="FibreTemperature">
         select a.id,device_ip,ft.channel,ft.partition_id,create_time,max_value,max_value_points
-        from fibre_temperature ft, (select id from fibre_temperature ft
-                                    <where>
-                                        <if test="1==1">
-                                            AND ft.create_time &gt;= #{begintime}
-                                        </if>
-                                        <if test="1==1">
-                                            AND ft.create_time &lt;= #{endtime}
-                                        </if>
-                                    </where> ) a
-        <where>
-            <if test="1 == 1">
-                AND ft.id = a.id
-            </if>
-        </where>
-        group by partition_id,channel
+        from (select id from fibre_temperature ft
+                <where>
+                    <if test="1==1">
+                        AND ft.create_time BETWEEN #{begintime} AND #{endtime} limit 78
+                    </if>
+                </where>
+            ) a left join fibre_temperature ft
+        on ft.id = a.id
     </select>
 
     <!--  查询所有分区光纤测温三相中的最大值及所在点位  -->
     <select id="queryAllMaxAndPoint" resultType="FibreTemperature">
         select a.partition_id,a.max_value,a.max_value_points
         from(
-            select partition_id,channel,max_value,max_value_points
-            from fibre_temperature ft, (select MAX(id) id from fibre_temperature group by channel,partition_id) a
-            where ft.id = a.id
-            ) a,fibre_temperature ft
-        where a.partition_id = ft.partition_id
+                select partition_id,channel,max_value,max_value_points from fibre_temperature ft left join (select id from fibre_temperature order by id desc limit 78) a on ft.id = a.id limit 78
+            ) a left join fibre_temperature ft
+                          on a.partition_id = ft.partition_id
         group by a.partition_id
     </select>
 

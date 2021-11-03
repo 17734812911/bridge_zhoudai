@@ -344,4 +344,41 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         return arrayList;
 
     }
+
+    // 获取所有环境量最新数据
+    public ArrayList<HashMap<String,String>> queryDatasHJL(){
+        List<EnvironmentDevice> environmentDataList = environmentDao.queryDatasHJL();
+        ArrayList<HashMap<String,String>> arrayList = new ArrayList<>();
+        for(int i=0;i<environmentDataList.size();i++){
+            HashMap<String,String> map = new HashMap<>();
+            map.put("partitionID", environmentDataList.get(i).getPartitionId());
+            map.put("sd", environmentDataList.get(i).getPassageOne());
+            map.put("wd", environmentDataList.get(i).getPassageTwo());
+            map.put("yq", environmentDataList.get(i).getPassageSix());
+            map.put("yyht", environmentDataList.get(i).getPassageSeven());
+            map.put("lhq", environmentDataList.get(i).getPassageEigth());
+            map.put("jw", environmentDataList.get(i).getPassageNine());
+            map.put("time", environmentDataList.get(i).getInsertTime());
+
+            arrayList.add(map);
+        }
+        return arrayList;
+    }
+
+    // 获取所有表皮温度最新数据
+    public ArrayList<HashMap<String,String>> queryDatasBPWD(){
+        List<EnvironmentDevice> environmentDataList = environmentDao.queryDatasBPWD();
+        ArrayList<HashMap<String,String>> arrayList = new ArrayList<>();
+        for(int i=0;i<environmentDataList.size();i++){
+            HashMap<String,String> map = new HashMap<>();
+            map.put("partitionID", environmentDataList.get(i).getPartitionId());
+            map.put("aPhase", environmentDataList.get(i).getPassageOne());
+            map.put("bPhase", environmentDataList.get(i).getPassageTwo());
+            map.put("cPhase", environmentDataList.get(i).getPassageThree());
+            map.put("time", environmentDataList.get(i).getInsertTime());
+
+            arrayList.add(map);
+        }
+        return arrayList;
+    }
 }

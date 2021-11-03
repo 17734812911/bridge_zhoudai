@@ -240,16 +240,11 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
 
 
     // 按分区ID、时间查询光纤测温数据并分页
-//    @Override
-//    public PageResult queryDatasPage(PageRequest pageRequest, Integer partitionId, String beginTime, String endTime) {
-//        return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest, partitionId, beginTime, endTime));
-//    }
-
     @Override
-    public List<FibreTemperature> queryDatasPage( Integer partitionId, String beginTime, String endTime) {
+    public List<FibreTemperature> queryDatasPage( Integer partitionId, String beginTime, String endTime, Integer limitStart, Integer LimitLength) {
         List list = new ArrayList();
 
-        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasPage( partitionId, beginTime, endTime);
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasPage( partitionId, beginTime, endTime, limitStart, LimitLength);
 
         // 获取分区起止点位
         HashMap<String,Integer> hashMap = fibreTemperatureDao.queryStartEndPoint(partitionId);
@@ -260,12 +255,15 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             ArrayList<Object> arrayList = new ArrayList<>();
             LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
             String[] fibreTemperatureDatas =  fibreTemperature.getDatas().split(",");
+            if(fibreTemperatureDatas.length==0){
+                return null;
+            }
             BigDecimal[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
             linkedHashMap.put("id", fibreTemperature.getId());
             linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());
             linkedHashMap.put("channel", fibreTemperature.getChannel());
             linkedHashMap.put("partitionId", fibreTemperature.getPartitionId());
-            linkedHashMap.put("createTime", sdf.format(new Date()));    // fibreTemperature.getCreateTime()
+            linkedHashMap.put("createTime", fibreTemperature.getCreateTime());    // fibreTemperature.getCreateTime()   sdf.format(new Date())
             linkedHashMap.put("step", fibreTemperature.getStep());
             linkedHashMap.put("datas", doubleArray);
             linkedHashMap.put("maxValue", fibreTemperature.getMaxValue());
@@ -286,10 +284,16 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
         return list;
     }
 
-    public List<FibreTemperature> queryDatasPageDesc( Integer partitionId, String beginTime, String endTime) {
+    // 查询符合条件的数据的总数
+    @Override
+    public Integer queryDataCount(Integer partitionId, String beginTime, String endTime) {
+        return fibreTemperatureDao.queryDataCount(partitionId, beginTime, endTime);
+    }
+
+    public List<FibreTemperature> queryDatasPageDesc( Integer partitionId, String beginTime, String endTime, Integer limitStart, Integer LimitLength) {
         List list = new ArrayList();
 
-        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasPageDesc( partitionId, beginTime, endTime);
+        List<FibreTemperature> fibreTemperatureList = fibreTemperatureDao.queryDatasPageDesc( partitionId, beginTime, endTime, limitStart, LimitLength);
 
         // 获取分区起止点位
         HashMap<String,Integer> hashMap = fibreTemperatureDao.queryStartEndPoint(partitionId);
@@ -300,6 +304,9 @@ public class FibreTemperatureServiceImpl implements FibreTemperatureService {
             ArrayList<Object> arrayList = new ArrayList<>();
             LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
             String[] fibreTemperatureDatas =  fibreTemperature.getDatas().split(",");
+            if(fibreTemperatureDatas.length==0){
+                return null;
+            }
             BigDecimal[] doubleArray = MyUtils.toDoubleArray(fibreTemperatureDatas);
             linkedHashMap.put("id", fibreTemperature.getId());
             linkedHashMap.put("deviceIp", fibreTemperature.getDeviceIp());

@@ -101,12 +101,12 @@ public class CameraController {
             }
             // 根据设备IP获取摄像头的视频URL
             if(null != camera.getCameraOne()){
-                String resultOne = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraOne()).replace("192.168.1.201", "192.168.4.179");
+                String resultOne = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraOne()); // .replace("192.168.1.201", "192.168.4.179")
                 linkedHashMap.put("channelOne", analysisUrl(resultOne));    // 一号通道视频URL
                 linkedHashMap.put("name", camera.getName());
             }
             if(null != camera.getCameraTwo()){
-                String resultTwo = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraTwo()).replace("192.168.1.201", "192.168.4.179");
+                String resultTwo = GetCameraPreviewURLUtil.GetCameraPreviewURL(camera.getCameraTwo()); // .replace("192.168.1.201", "192.168.4.179")
                 linkedHashMap.put("channelTwo", analysisUrl(resultTwo));    // 二号通道视频URL
                 linkedHashMap.put("name", camera.getName());
             }

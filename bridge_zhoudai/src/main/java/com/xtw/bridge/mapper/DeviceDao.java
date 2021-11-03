@@ -56,4 +56,5 @@ public interface DeviceDao {
     // 更新无故障天数表
     public int updateSafe(int number);
 
+
 }

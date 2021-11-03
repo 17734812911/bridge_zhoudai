@@ -19,7 +19,7 @@
     <!--  根据环境量和表皮测温设备id查询该设备最新数据  -->
     <select id="queryDatasByTerminalId" resultType="EnvironmentDevice">
         select d.name,dd.*,dc.partition_id
-        from device_data dd,device_config dc,(select max(id) id from device_data group by terminal_id) a,device d
+        from device_data dd,device_config dc,(select max(id) id from device_data where device_data.id >= '' group by terminal_id) a,device d
 		where dd.id = a.id and dd.terminal_id = dc.terminal_id  AND dd.terminal_id =#{terminalId} and d.terminal_id=dd.terminal_id
 		group by terminal_id
     </select>
@@ -57,5 +57,36 @@
                 AND terminal_id = #{terminalId} and insert_time &gt;= #{begintime} and insert_time &lt;= #{endtime}
             </if>
         </where>
+    </select>
+
+    <!--  获取所有环境量(3台)最新数据  -->
+    <select id="queryDatasHJL" resultType="EnvironmentDevice">
+        select  dd.terminal_id,
+                dd.passage_one,
+                dd.passage_two,
+                dd.passage_six,
+                dd.passage_seven,
+                dd.passage_eigth,
+                dd.passage_nine,
+                dc.partition_id,
+                dd.insert_time
+        from device_config dc right join device_data dd FORCE INDEX(`insert_time`) on dd.terminal_id = dc.terminal_id
+        where dc.device_type_id = 1
+        order by dd.insert_time desc limit 3
+    </select>
+
+    <!--  获取所有表皮温度(2台)最新数据  -->
+    <select id="queryDatasBPWD" resultType="EnvironmentDevice">
+        select dd.terminal_id,
+               dd.passage_one,
+               dd.passage_two,
+               dd.passage_three,
+               dc.partition_id,
+               dd.insert_time
+        from device_config dc
+             right join device_data dd FORCE INDEX(`insert_time`)
+             on dd.terminal_id = dc.terminal_id
+        where dc.device_type_id = 5
+        order by dd.insert_time desc limit 2
     </select>
 </mapper>

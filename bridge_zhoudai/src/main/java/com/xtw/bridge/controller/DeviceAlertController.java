@@ -142,8 +142,8 @@ public class DeviceAlertController {
             }
     )
     public ResponseFormat getTodayAlarm(@RequestBody Map<String,String> map){
-        String beginTime = MyUtils.getDateTime(-1);
-        String endTime = MyUtils.getDateTime(0);
+        String beginTime = MyUtils.getDateTime(1, -1, 0);
+        String endTime = MyUtils.getDateTime(1, 0, 0);
         String alertType = null;
         String deviceName = null;
         String isConfirm = null;

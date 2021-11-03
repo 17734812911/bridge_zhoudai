@@ -50,8 +50,8 @@ public class DeviceService {
 
     // 判断给定时间是否在最近24小时之内
     private boolean belongCalendar(String datetime){
-        String beginTime = MyUtils.getDateTime(-1);
-        String endTime = MyUtils.getDateTime(0);
+        String beginTime = MyUtils.getDateTime(1, -1, 0);
+        String endTime = MyUtils.getDateTime(1, 0, 0);
 
         try {
             Calendar date = Calendar.getInstance();
